@@ -11,7 +11,7 @@ git clone https://github.com/Hu90mt990/IT-Project
 cd IT-Project
 ```
 
-Ensure that [npm](https://npmjs.com) in installed before continuing.
+Ensure that [node](https://nodejs.org/) in installed before continuing.
 
 Then, install the dependencies:
 
