@@ -1,6 +1,6 @@
 # Workout Buddy
 
-Workout Buddy is an online application designed to help people find exercises and workout plans. It is a website built on [Next.js](https://nextjs.org/) and [Firebase](https://firebase.google.com).
+[Workout Buddy](https://myworkoutbuddyapp.herokuapp.com/) is an online application designed to help people find exercises and workout plans. It is a website built on [Next.js](https://nextjs.org/) and [Firebase](https://firebase.google.com).
 
 ## Getting Started
 
@@ -11,7 +11,7 @@ git clone https://github.com/Hu90mt990/IT-Project
 cd IT-Project
 ```
 
-Ensure that [node](https://nodejs.org/) in installed before continuing.
+Ensure that [node.js](https://nodejs.org/) in installed before continuing.
 
 Then, install the dependencies:
 
@@ -23,8 +23,6 @@ Finally, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see local instance.
