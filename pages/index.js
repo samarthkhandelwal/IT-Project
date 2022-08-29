@@ -34,6 +34,12 @@ export default function Home() {
               <p>Explore our catalog of exercises</p>
             </div>
           </Link>
+
+          <Link href="/profile">
+            <div className={styles.card}>
+              <h2>Login &rarr;</h2>
+            </div>
+          </Link>
         </div>
       </main>
     </div>
