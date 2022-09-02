@@ -29,7 +29,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see loc
 
 ## Coding standards
 
-Coding standards are kept in (docs/coding_standards.md)[https://github.com/Hu90mt990/IT-Project/blob/main/docs/coding_standard.md].
+Coding standards are kept in [docs/coding_standards.md](https://github.com/Hu90mt990/IT-Project/blob/main/docs/coding_standards.md).
 
 ## Contributors
 
