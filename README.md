@@ -27,6 +27,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see local instance.
 
+## Coding standards
+
+Coding standards are kept in (docs/coding_standards.md)[https://github.com/Hu90mt990/IT-Project/blob/main/docs/coding_standard.md].
+
 ## Contributors
 
 This website was made for the subject [COMP30022 IT Project](https://handbook.unimelb.edu.au/2022/subjects/comp30022/) at The University of Melbourne.
