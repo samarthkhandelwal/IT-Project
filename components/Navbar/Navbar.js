@@ -1,3 +1,6 @@
+// Next components
+import Link from 'next/link'
+
 // Bootstrap components
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
@@ -8,10 +11,16 @@ import styles from '../../styles/Navbar.module.css'
 function TopNavbar() {
   return (
     <Navbar className={styles.navbar} fixed="top">
-      <Nav.Link href="/" className={styles.title}>Workout Buddy</Nav.Link>
+      <Link href='/' passHref>
+        <Nav.Link className={styles.title}>Workout Buddy</Nav.Link>
+      </Link>
       <Nav fill className={styles.items}>
-        <Nav.Link href="/exercises" className={styles.item}>Exercises</Nav.Link>
-        <Nav.Link href="/workouts" className={styles.item}>Workouts</Nav.Link>
+      <Link href='/exercises' passHref>
+        <Nav.Link className={styles.item}>Exercises</Nav.Link>
+      </Link>
+      <Link href='/workouts' passHref>
+        <Nav.Link className={styles.item}>Workouts</Nav.Link>
+      </Link>
       </Nav>
     </Navbar>
   );
