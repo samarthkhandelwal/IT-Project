@@ -2,6 +2,7 @@
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row';
 
@@ -19,15 +20,11 @@ function SearchBar() {
             </Form>
           </Col>
           <Col xs="auto">
-            <Dropdown>
-              <Dropdown.Toggle variant="success">Filter</Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Filter1</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Filter2</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Filter3</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <DropdownButton title="Filter" bsPrefix={styles.filter}>
+              <Dropdown.Item href="#/action-1">Item 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Item 2</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">Item 3</Dropdown.Item>
+            </DropdownButton>
           </Col>
         </Row>
       </Container>

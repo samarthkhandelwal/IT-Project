@@ -1,3 +1,12 @@
 .container {
   padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.filter {
+  background: #fff;
+  color: black;
+  border: 2px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 10px;
 }
