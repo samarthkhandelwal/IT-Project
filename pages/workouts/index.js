@@ -1,5 +1,12 @@
-import Link from "next/link";
-import styles from "../../styles/Workouts.module.css";
+// Next.js components
+import Link from 'next/link'
+
+// Bootstrap components
+import TopNavbar from '../../components/Navbar/Navbar'
+
+// Styles
+import styles from '../../styles/Workouts.module.css'
+
 import Workout from "../../public/classes/Workout";
 import List_Component from "./list_component";
 
@@ -18,10 +25,11 @@ workout_list.push(
 
 export default function WorkoutsPage() {
   return (
+    <>
+    <TopNavbar />
     <div className={styles.container}>
       <main className={styles.main}>
         <h1>This is the workouts page!</h1>
-
         <div className={styles.grid}>
           <div className={styles.card}>
             <Link href="/" className={styles.card}>
@@ -33,5 +41,6 @@ export default function WorkoutsPage() {
         <List_Component list={workout_list}></List_Component>
       </main>
     </div>
+    </>
   );
 }

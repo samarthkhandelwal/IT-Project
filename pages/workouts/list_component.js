@@ -4,7 +4,7 @@ import styles from "../../styles/Workouts.module.css";
 export default function List_Component(props) {
   return (
     <div className={styles.container}>
-      <h1>suh dude</h1>
+      <h1>Workouts:</h1>
       {console.log(props.list)}
       <div className="list-group">
         {props.list.map((element) => (
