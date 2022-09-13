@@ -45,4 +45,6 @@ jobs:
  
       - name: Checking with Prettier
         run: npm run prettier-check
+      
+      - name: Fixing any issues
         run: npm run prettier-fix
