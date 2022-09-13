@@ -1,0 +1,28 @@
+name: Linter
+
+on:
+  push:
+  pull_request:
+
+env:
+  NODE_VERSION: 16.x
+
+jobs:
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+ 
+      - name: Code Checkout
+        uses: actions/checkout@v3
+ 
+      - name: Install Dependencies
+        run: npm ci
+ 
+      - name: Code Linting
+        run: npm run lint
