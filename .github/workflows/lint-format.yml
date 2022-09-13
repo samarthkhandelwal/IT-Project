@@ -8,7 +8,7 @@ env:
 
 jobs:
   linting:
-    name: Linting
+    name: Linting and Formatting
     runs-on: ubuntu-latest
 
     steps:
