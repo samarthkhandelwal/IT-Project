@@ -1,13 +1,11 @@
-import Link from 'next/link'
-import styles from '../../styles/Profile.module.css'
+import Link from 'next/link';
+import styles from '../../styles/Profile.module.css';
 
 export default function ProfilePage() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h1>
-          Alice Brown
-        </h1>
+        <h1>Alice Brown</h1>
 
         <div className={styles.grid}>
           <div className={styles.card}>
@@ -42,5 +40,5 @@ export default function ProfilePage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
