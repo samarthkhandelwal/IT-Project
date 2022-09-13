@@ -1,0 +1,21 @@
+/* Items in list */
+.element h1 {
+  font-size: x-large;
+}
+
+.element p {
+  font-size: large;
+  text-decoration: none;
+}
+
+/* Photo */
+.photo {
+  height: 80px;
+}
+
+/* div display */
+.element div {
+  display: inline-block;
+  padding: 3px;
+  vertical-align: middle;
+}

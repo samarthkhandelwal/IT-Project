@@ -5,11 +5,12 @@ class Workout {
   /**
    *
    * @param {String} name
-   * @param {[String]} muscle_groups
+   * @param {[String]} muscleGroups
    */
-  constructor(name, muscle_groups) {
+  constructor(name, muscleGroups) {
     this.name = name;
-    this.muscle_groups = muscle_groups;
+    this.muscleGroups = muscleGroups;
+    this.imgSrc = "https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
   }
 }
 
