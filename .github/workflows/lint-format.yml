@@ -2,7 +2,6 @@ name: Linting and Formatting
 
 on:
   push:
-  pull_request:
 
 env:
   NODE_VERSION: 16.x
