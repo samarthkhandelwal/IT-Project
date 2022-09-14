@@ -1,21 +1,27 @@
-/* Items in list */
-.element h1 {
-  font-size: x-large;
+/* div display */
+.element {
+  display: flex;
+  text-align: left;
 }
 
-.element p {
+/* text in list */
+.txt h1 {
+  font-size: x-large;
+  margin-top: 6px;
+  margin-left: 5px;
+  /* margin-bottom: 0; */
+}
+
+.txt p {
   font-size: large;
-  text-decoration: none;
+  font-style: italic;
+  font-weight: 300;
+  margin-left: 6px;
+  margin-bottom: 0;
 }
 
 /* Photo */
 .photo {
   height: 80px;
-}
-
-/* div display */
-.element div {
-  display: inline-block;
   padding: 3px;
-  vertical-align: middle;
 }

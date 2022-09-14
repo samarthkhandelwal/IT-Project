@@ -1,11 +1,11 @@
 // Next.js components
-import Link from 'next/link'
+import Link from "next/link";
 
 // Bootstrap components
-import TopNavbar from '../../components/Navbar/Navbar'
+import TopNavbar from "../../components/Navbar/Navbar";
 
 // Styles
-import styles from '../../styles/Profile.module.css'
+import styles from "../../styles/Profile.module.css";
 
 export default function ProfilePage() {
   return (
@@ -13,9 +13,7 @@ export default function ProfilePage() {
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1>
-            Alice Brown
-          </h1>
+          <h1>Alice Brown</h1>
 
           <div className={styles.grid}>
             <div className={styles.card}>
@@ -51,5 +49,5 @@ export default function ProfilePage() {
         </main>
       </div>
     </>
-  )
+  );
 }
