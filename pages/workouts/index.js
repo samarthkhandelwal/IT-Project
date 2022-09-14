@@ -20,6 +20,7 @@ export default function WorkoutsPage() {
   [selectState.selected, selectState.setSelected] = useState(
     workout_list[0].name
   );
+  console.log(selectState.selected);
   return (
     <>
       <TopNavbar />

@@ -1,4 +1,5 @@
 import styles from "../../styles/List.module.css";
+import Image from "next/image";
 
 // React Bootstrap Components
 import Form from "react-bootstrap/Form";
@@ -44,7 +45,13 @@ export default function List({ list, selected, setSelected }) {
               onChange={(e) => setSelected(e.currentTarget.value)}
             >
               <div className={styles.element}>
-                <img src={element.imgSrc} className={styles.photo} />
+                <Image
+                  src={element.imgSrc}
+                  className={styles.photo}
+                  alt={element.imgAlt}
+                  height={84}
+                  width={120}
+                />
                 <div className={styles.txt}>
                   <h1>{element.name}</h1>
                   <p>{element.muscleGroups.join(", ")}</p>
