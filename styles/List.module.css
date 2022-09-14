@@ -1,3 +1,11 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
 /* div display */
 .element {
   display: flex;
@@ -7,9 +15,8 @@
 /* text in list */
 .txt h1 {
   font-size: x-large;
-  margin-top: 6px;
+  margin-top: 10px;
   margin-left: 5px;
-  /* margin-bottom: 0; */
 }
 
 .txt p {
@@ -23,5 +30,6 @@
 /* Photo */
 .photo {
   height: 80px;
-  padding: 3px;
+  padding: 2px;
+  margin: 3px 0;
 }

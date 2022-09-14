@@ -1,48 +1,46 @@
-import Link from "next/link";
 import styles from "../../styles/List.module.css";
-import React, { useState } from "react";
 
 // React Bootstrap Components
-import ListGroup from "react-bootstrap/ListGroup";
-import ListGroupItem from "react-bootstrap/ListGroupItem";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import ToggleButton from "react-bootstrap/ToggleButton";
+import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
-export default function List({ list }) {
-  const [selected, setSelected] = useState(list[0].name);
-
+export default function List({ list, selected, setSelected }) {
   return (
-    <div className={styles.container}>
+    <div>
+      {/* The Search and Filter Form */}
       <InputGroup className="mb-3">
         <Form.Control aria-label="First name" placeholder="Search" />
         <Form.Control aria-label="Last name" placeholder="Filter" />
       </InputGroup>
 
-      <ButtonGroup vertical>
-        {list.map((element) => (
-          <ToggleButton
-            key={element.name}
-            id={`radio-${element.name}`}
-            type="radio"
-            variant="light"
-            name="radio"
-            value={element.name}
-            checked={selected === element.name}
-            onChange={(e) => setSelected(e.currentTarget.value)}
-          >
-            <div className={styles.element}>
-              <img src={element.imgSrc} className={styles.photo} />
-              <div className={styles.txt}>
-                <h1>{element.name}</h1>
-                <p>{element.muscleGroups.join(", ")}</p>
+      {/* The list. A group of toggle buttons, so that */}
+      <div className={styles.container}>
+        <ToggleButtonGroup vertical name="bob">
+          {list.map((element) => (
+            <ToggleButton
+              key={element.name}
+              id={`radio-${element.name}`}
+              type="radio"
+              variant="light"
+              name="radio"
+              value={element.name}
+              checked={selected === element.name}
+              onChange={(e) => setSelected(e.currentTarget.value)}
+            >
+              <div className={styles.element}>
+                <img src={element.imgSrc} className={styles.photo} />
+                <div className={styles.txt}>
+                  <h1>{element.name}</h1>
+                  <p>{element.muscleGroups.join(", ")}</p>
+                </div>
               </div>
-            </div>
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      </div>
     </div>
   );
 }

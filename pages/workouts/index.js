@@ -1,6 +1,9 @@
 // Next.js components
 import Link from "next/link";
 
+// React
+import React, { useState } from "react";
+
 // Bootstrap components
 import TopNavbar from "../../components/Navbar/Navbar";
 import List from "../../components/List/List";
@@ -8,22 +11,15 @@ import List from "../../components/List/List";
 // Styles
 import styles from "../../styles/Workouts.module.css";
 
-import Workout from "../../public/classes/Workout";
-
-// Manually creating workouts so that we have data to use in creating the interface
-const workout_list = [];
-workout_list.push(
-  new Workout("Push Workout", ["Chest", "Shoulder", "Triceps"])
-);
-workout_list.push(new Workout("Pull Workout", ["Back", "Biceps", "Abs"]));
-workout_list.push(
-  new Workout("Legs Workout", ["Quadriceps", "Hamstrings", "Calves"])
-);
-workout_list.push(
-  new Workout("Upper Workout", ["Chest", "Back", "Shoulder", "Triceps"])
-);
+// Import a list of manually created workouts so that we have data to work with.
+// Once the database is connected, will not be necessary
+import workout_list from "../../public/classes/Workout";
 
 export default function WorkoutsPage() {
+  const selectState = {};
+  [selectState.selected, selectState.setSelected] = useState(
+    workout_list[0].name
+  );
   return (
     <>
       <TopNavbar />
@@ -31,7 +27,7 @@ export default function WorkoutsPage() {
         <main className={styles.main}>
           <h1>This is the workouts page!</h1>
 
-          <List list={workout_list}></List>
+          <List list={workout_list} {...selectState}></List>
 
           <div className={styles.grid}>
             <div className={styles.card}>
