@@ -26,8 +26,6 @@ export default function WorkoutsPage() {
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1>This is the workouts page!</h1>
-
           <List list={workout_list} {...selectState}></List>
 
           <div className={styles.grid}>
