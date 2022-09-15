@@ -1,15 +1,27 @@
 // Import React
-import React from "react";
+import React, { useState } from "react";
 
 // Next components
 import Image from "next/image";
 
 // Styles
 import styles from "../../styles/List.module.css";
-import ToggleButton from "react-bootstrap/ToggleButton";
+
+const star = "/images/star.png";
+const starFilled = "/images/starFilled.png";
 
 // Element returns what should be displayed for each element of the list
 export default function Element({ element = element }) {
+  // State of the image that is displayed as the favorite button
+  const [imgPath, setImgPath] = useState(star);
+
+  // Event handler if the favorite button is clicked on
+  const toggleStar = (e) => {
+    e.preventDefault();
+    imgPath == star ? setImgPath(starFilled) : setImgPath(star);
+    console.log(imgPath);
+  };
+
   return (
     <div className={styles.element}>
       <Image
@@ -25,13 +37,16 @@ export default function Element({ element = element }) {
       </div>
 
       <div className={styles.star}>
-        <input
-          type="image"
-          src="/images/starFilled.png"
-          height={40}
-          width={40}
-          alt="star"
-        ></input>
+        <form>
+          <input
+            type="image"
+            src={imgPath}
+            height={40}
+            width={40}
+            alt="star"
+            onClick={toggleStar}
+          ></input>
+        </form>
       </div>
     </div>
   );
