@@ -1,9 +1,6 @@
-/**
- * A class to represent Workouts. May not be necessary once we have objects from Firebase. We shall see.
- */
 class Workout {
   /**
-   *
+   * A class to represent Workouts.
    * @param {String} name
    * @param {[String]} muscleGroups
    */
@@ -16,26 +13,4 @@ class Workout {
   }
 }
 
-const workout_list = [];
-workout_list.push(
-  new Workout("Push Workout", ["Chest", "Shoulder", "Triceps"])
-);
-workout_list.push(new Workout("Pull Workout", ["Back", "Biceps", "Abs"]));
-workout_list.push(
-  new Workout("Legs Workout", ["Quadriceps", "Hamstrings", "Calves"])
-);
-workout_list.push(
-  new Workout("Upper Workout", ["Chest", "Back", "Shoulder", "Triceps"])
-);
-workout_list.push(
-  new Workout("Push Workout 2", ["Chest", "Shoulder", "Triceps"])
-);
-workout_list.push(new Workout("Pull Workout 2", ["Back", "Biceps", "Abs"]));
-workout_list.push(
-  new Workout("Legs Workout 2", ["Quadriceps", "Hamstrings", "Calves"])
-);
-workout_list.push(
-  new Workout("Upper Workout 2", ["Chest", "Back", "Shoulder", "Triceps"])
-);
-
-export default workout_list;
+export default Workout;

@@ -11,7 +11,7 @@ const star = "/images/star.png";
 const starFilled = "/images/starFilled.png";
 
 // Element returns what should be displayed for each element of the list
-export default function Element({ element = element }) {
+export default function Element({ element }) {
   // State of the image that is displayed as the favorite button
   const [imgPath, setImgPath] = useState(star);
 
@@ -19,7 +19,6 @@ export default function Element({ element = element }) {
   const toggleStar = (e) => {
     e.preventDefault();
     imgPath == star ? setImgPath(starFilled) : setImgPath(star);
-    console.log(imgPath);
   };
 
   return (
@@ -41,8 +40,8 @@ export default function Element({ element = element }) {
           <input
             type="image"
             src={imgPath}
-            height={40}
-            width={40}
+            height={38}
+            width={38}
             alt="star"
             onClick={toggleStar}
           ></input>
