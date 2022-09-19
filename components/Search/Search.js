@@ -16,10 +16,10 @@ function SearchBar() {
         <Row>
           <Col xs>
             <Form>
-              <Form.Control type="search" placeholder="Search for exercises"/>
+              <Form.Control type="search" placeholder="Search"/>
             </Form>
           </Col>
-          <Col xs="auto">
+          <Col xs>
             <DropdownButton title="Filter" bsPrefix={styles.filter}>
               <Dropdown.Item href="#/action-1">Item 1</Dropdown.Item>
               <Dropdown.Item href="#/action-2">Item 2</Dropdown.Item>

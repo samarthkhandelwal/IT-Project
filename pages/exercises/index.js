@@ -3,29 +3,28 @@ import Link from 'next/link'
 
 // BCustom components
 import SearchBar from '../../components/Search/Search'
+import YouTube from '../../components/YouTube'
+import { Container, Row, Col } from "react-bootstrap";
 
 // Styles
 import styles from '../../styles/Exercises.module.css'
+import Instructions from '../../components/Instructions';
 
 export default function ExercisesPage() {
   return (
     <>
-      <SearchBar />
-      <div className={styles.container}>
-        <main className={styles.main}>
-          <h1>
-            This is the exercises page!
-          </h1>
-
-          <div className={styles.grid}>
-            <div className={styles.card}>
-              <Link href="/" className={styles.card}>
-                <p>Click here to go back to the home page.</p>
-              </Link>
-            </div>
-          </div>
-        </main>
-      </div>
+      <Container className={styles.container}>
+        <Row>
+          <Col>
+            <YouTube />
+            <Instructions />
+          </Col>
+          <Col>
+            <SearchBar />
+          </Col>
+        </Row>
+      </Container>
+      
     </>
   )
 }

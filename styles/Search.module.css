@@ -9,4 +9,22 @@
   border: 2px solid lightgray;
   border-radius: 3px;
   padding: 5px 10px;
+  width: 100%;
+}
+
+.container input {
+  text-align: center;
+  background-image: url(../public/search.svg);
+  background-size: 8%;
+  background-position: 6vw 7px; 
+  background-repeat: no-repeat;
+  text-indent: 20px;
+}
+
+.container ::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.container :-moz-placeholder {
+  text-align: center;
 }
