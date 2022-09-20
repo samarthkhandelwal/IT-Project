@@ -1,6 +1,6 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/globals.css";
-import { SSRProvider } from "react-aria";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/globals.css';
+import { SSRProvider } from 'react-aria';
 
 function MyApp({ Component, pageProps }) {
   return (
