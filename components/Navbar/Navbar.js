@@ -17,7 +17,7 @@ function TopNavbar() {
         <Nav.Link className={styles.title}>Workout Buddy</Nav.Link>
       </Link>
       <Nav fill className={styles.items}>
-        <ProfileView/>
+      <Nav.Link className={styles.item}><ProfileView/></Nav.Link>
       <Link href='/exercises' passHref>
         <Nav.Link className={styles.item}>Exercises</Nav.Link>
       </Link>

@@ -2,14 +2,15 @@
 import Link from 'next/link'
 
 // Bootstrap components
-import TopNavbar from '../../components/Navbar/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 // Styles
 import styles from '../../styles/Settings.module.css'
+import { FloatingLabel } from 'react-bootstrap';
 
 
 export default function SettingsView() {
@@ -20,24 +21,40 @@ export default function SettingsView() {
 
   return (
     <>
-    <Nav.Link className={styles.item} onClick={handleShow}>
+    <Nav onClick={handleShow}>
         Settings
-      </Nav.Link>
-
+      </Nav>
 
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Settings</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-        <div className={styles.container}>
-        <main className={styles.main}>
-          <h1>
-            Alice Brown
-          </h1>
+            <div className={styles.container}>
+                <h2>
+                    <Form.Label>Change Name</Form.Label>
+                </h2>
+                <FloatingLabel label="First Name" className="mb-3">
+                    <Form.Control placeholder="Alice" />
+                </FloatingLabel>
+                <FloatingLabel label="Surname" className="mb-3">
+                    <Form.Control placeholder="Brown" />
+                </FloatingLabel>
+    
+                <h2>
+                    <Form.Label>Change Password</Form.Label>
+                </h2>
+                <FloatingLabel label="Enter New Password" className="mb-3">
+                    <Form.Control type="password" />
+                </FloatingLabel>
+                <FloatingLabel label="Re-enter New Password" className="mb-3">
+                    <Form.Control type="password" />
+                </FloatingLabel>
           
-        </main>
-      </div>
+                <Button variant="primary" type="submit">
+                    Confirm
+                </Button>
+                </div>
         </Offcanvas.Body>
       </Offcanvas>
     </>

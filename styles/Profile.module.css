@@ -126,25 +126,4 @@
   .logo img {
     filter: invert(1);
   }
-  .item {
-    color: #fafafa;
-  }
-}
-
-/*----------------------------------------------------------*/
-
-.item {
-  font-size: large;
-  text-align: center;
-  color: #d5d5d5;
-}
-
-.item:hover {
-  color: #f8f8f8;
-}
-
-@media (max-width: 576px) {
-  .item {
-    font-size: x-large;
-  }
 }

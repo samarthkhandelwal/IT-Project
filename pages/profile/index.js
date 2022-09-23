@@ -21,9 +21,9 @@ export default function ProfileView() {
 
   return (
     <>
-    <Nav.Link className={styles.item} onClick={handleShow}>
+    <Nav onClick={handleShow}>
         Profile
-      </Nav.Link>
+      </Nav>
 
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
@@ -49,8 +49,10 @@ export default function ProfileView() {
               </Link>
             </div>
 
-            <div className={styles.card}>
-              <SettingsView/ >
+            <div>
+              <Nav.Link className={styles.card}>
+                <p><SettingsView/ ></p>
+              </Nav.Link>
             </div>
 
             <div className={styles.card}>
