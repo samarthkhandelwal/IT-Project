@@ -2,8 +2,10 @@
 import Link from 'next/link'
 
 // Bootstrap components
+import ProfileView from '../../pages/profile/index.js'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import Offcanvas from 'react-bootstrap/Offcanvas'
 
 // Styles
 import styles from '../../styles/Navbar.module.css'
@@ -15,9 +17,7 @@ function TopNavbar() {
         <Nav.Link className={styles.title}>Workout Buddy</Nav.Link>
       </Link>
       <Nav fill className={styles.items}>
-      <Link href='/profile' passHref>
-        <Nav.Link className={styles.item}>Profile</Nav.Link>
-      </Link>
+        <ProfileView/>
       <Link href='/exercises' passHref>
         <Nav.Link className={styles.item}>Exercises</Nav.Link>
       </Link>

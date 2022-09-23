@@ -9,11 +9,10 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 // Styles
-import styles from '../../styles/Profile.module.css'
-import SettingsView from './settings';
+import styles from '../../styles/Settings.module.css'
 
 
-export default function ProfileView() {
+export default function SettingsView() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -22,12 +21,13 @@ export default function ProfileView() {
   return (
     <>
     <Nav.Link className={styles.item} onClick={handleShow}>
-        Profile
+        Settings
       </Nav.Link>
+
 
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Profile</Offcanvas.Title>
+          <Offcanvas.Title>Settings</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
         <div className={styles.container}>
@@ -35,30 +35,7 @@ export default function ProfileView() {
           <h1>
             Alice Brown
           </h1>
-
-          <div className={styles.grid}>
-            <div className={styles.card}>
-              <Link href="/" className={styles.card}>
-                <p>Your favourites</p>
-              </Link>
-            </div>
-
-            <div className={styles.card}>
-              <Link href="/workouts" className={styles.card}>
-                <p>Your workouts</p>
-              </Link>
-            </div>
-
-            <div className={styles.card}>
-              <SettingsView/ >
-            </div>
-
-            <div className={styles.card}>
-              <Link href="/" className={styles.card}>
-                <p>Sign out</p>
-              </Link>
-            </div>
-          </div>
+          
         </main>
       </div>
         </Offcanvas.Body>
