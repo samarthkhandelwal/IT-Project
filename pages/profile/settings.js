@@ -21,42 +21,40 @@ export default function SettingsView() {
 
   return (
     <>
-    <Nav onClick={handleShow}>
-        Settings
-      </Nav>
+    <Nav onClick={handleShow}>Settings</Nav>
 
-      <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Settings</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-            <div className={styles.container}>
-                <h2>
-                    <Form.Label>Change Name</Form.Label>
-                </h2>
-                <FloatingLabel label="First Name" className="mb-3">
-                    <Form.Control placeholder="Alice" />
-                </FloatingLabel>
-                <FloatingLabel label="Surname" className="mb-3">
-                    <Form.Control placeholder="Brown" />
-                </FloatingLabel>
-    
-                <h2>
-                    <Form.Label>Change Password</Form.Label>
-                </h2>
-                <FloatingLabel label="Enter New Password" className="mb-3">
-                    <Form.Control type="password" />
-                </FloatingLabel>
-                <FloatingLabel label="Re-enter New Password" className="mb-3">
-                    <Form.Control type="password" />
-                </FloatingLabel>
-          
-                <Button variant="primary" type="submit">
-                    Confirm
-                </Button>
-                </div>
-        </Offcanvas.Body>
-      </Offcanvas>
+    <Offcanvas show={show} onHide={handleClose}>
+    <Offcanvas.Header closeButton>
+        <Offcanvas.Title>Settings</Offcanvas.Title>
+    </Offcanvas.Header>
+    <Offcanvas.Body>
+        <div className={styles.container}>
+            <h2>
+                <Form.Label>Change Name</Form.Label>
+            </h2>
+            <FloatingLabel label="First Name" className="mb-3">
+                <Form.Control placeholder="Alice" />
+            </FloatingLabel>
+            <FloatingLabel label="Surname" className="mb-3">
+                <Form.Control placeholder="Brown" />
+            </FloatingLabel>
+
+            <h2>
+                <Form.Label>Change Password</Form.Label>
+            </h2>
+            <FloatingLabel label="Enter New Password" className="mb-3">
+                <Form.Control type="password" />
+            </FloatingLabel>
+            <FloatingLabel label="Re-enter New Password" className="mb-3">
+                <Form.Control type="password" />
+            </FloatingLabel>
+        
+            <Button variant="primary" type="submit">
+                Confirm
+            </Button>
+            </div>
+    </Offcanvas.Body>
+    </Offcanvas>
     </>
   );
 }
