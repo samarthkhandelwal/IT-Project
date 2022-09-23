@@ -2,10 +2,9 @@
 import Link from 'next/link'
 
 // Bootstrap components
-import ProfileView from '../../pages/profile/index.js'
+import ProfileView from '../../pages/profile/index'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import Offcanvas from 'react-bootstrap/Offcanvas'
 
 // Styles
 import styles from '../../styles/Navbar.module.css'

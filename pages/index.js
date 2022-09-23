@@ -3,7 +3,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 // Bootstrap components
+import Nav from 'react-bootstrap/Nav'
 import TopNavbar from '../components/Navbar/Navbar'
+import SignInView from './profile/signin'
 
 // Styles
 import styles from '../styles/Home.module.css'
@@ -39,11 +41,7 @@ export default function Home() {
               </div>
             </Link>
 
-            <Link href="/profile">
-              <div className={styles.card}>
-                <h2>Login &rarr;</h2>
-              </div>
-            </Link>
+            <Nav.Link className={styles.card}><SignInView/></Nav.Link>
           </div>
         </main>
       </div>

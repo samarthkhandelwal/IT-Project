@@ -7,10 +7,10 @@ import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { FloatingLabel } from 'react-bootstrap';
 
 // Styles
 import styles from '../../styles/Settings.module.css'
-import { FloatingLabel } from 'react-bootstrap';
 
 
 export default function SettingsView() {
