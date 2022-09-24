@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 // Styles
-import styles from '../../styles/Signin.module.css'
+import styles from '../../styles/Settings.module.css'
 
 
 export default function SignInView() {
@@ -55,6 +55,7 @@ export default function SignInView() {
                     <Form.Check type="checkbox" label="Remember me" />
                     </Form.Group>
                     </div>
+              </div>
                 
               <div className={styles.item}>
                 <Button variant="primary" type="submit">
@@ -66,7 +67,6 @@ export default function SignInView() {
                 <Link href="/">Sign Up</Link>
                 </div>
                 
-              </div>
               </Form>
         </main>
       </div>

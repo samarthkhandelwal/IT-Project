@@ -31,11 +31,11 @@ export default function SettingsView() {
         <div className={styles.container}>
         <main className={styles.main}>
             <Form>
-                <div className={styles.item}>
                 <h3>
                     <Form.Label>Change Name</Form.Label>
                 </h3>
                 
+                <div className={styles.item}>
                 <FloatingLabel label="First Name" className="mb-3">
                     <Form.Control placeholder="Alice" />
                 </FloatingLabel>
@@ -44,10 +44,11 @@ export default function SettingsView() {
                 </FloatingLabel>
                 </div>
 
-                <div className={styles.item}>
                 <h3>
                     <Form.Label>Change Password</Form.Label>
                 </h3>
+                
+                <div className={styles.item}>
                 <FloatingLabel label="Enter New Password" className="mb-3">
                     <Form.Control type="password" />
                 </FloatingLabel>
@@ -57,7 +58,7 @@ export default function SettingsView() {
                 </div>
             
                 <div className={styles.item}>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={handleClose}>
                     Confirm
                 </Button>
                 </div>

@@ -30,10 +30,9 @@ export default function ProfileView() {
       <div className={styles.container}>
       <main className={styles.main}>
 
-      <h1>
+        <h1>
           Alice Brown
         </h1>
-        
         <Figure>
           <Figure.Image
           width={171}
@@ -58,7 +57,7 @@ export default function ProfileView() {
 
           <div>
             <Nav.Link className={styles.card}>
-              <p><SettingsView/ ></p>
+              <p><SettingsView/></p>
             </Nav.Link>
           </div>
 
