@@ -30,6 +30,10 @@ export default function ProfileView() {
       <div className={styles.container}>
       <main className={styles.main}>
 
+      <h1>
+          Alice Brown
+        </h1>
+        
         <Figure>
           <Figure.Image
           width={171}
@@ -38,10 +42,6 @@ export default function ProfileView() {
           src="profile-pic.jpg"
         />
         </Figure>
-
-        <h1>
-          Alice Brown
-        </h1>
 
         <div className={styles.grid}>
           <div className={styles.card}>

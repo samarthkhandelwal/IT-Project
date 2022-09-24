@@ -28,43 +28,46 @@ export default function SignInView() {
 
     <Offcanvas show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>Sign In</Offcanvas.Title>
+        <Offcanvas.Title></Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
       <div className={styles.container}>
         <main className={styles.main}>
             <Form>
-          <h1>
-            <Form.Label>Sign In</Form.Label>
-          </h1>
+              <h1>
+                <Form.Label>Sign In</Form.Label>
+                </h1>
             
-            <div>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
-      </Form.Group>
+            <div className={styles.grid}>
+              <div className={styles.item}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control type="email" placeholder="Enter email" />
+                  </Form.Group>
+                </div>
+                  
+              <div className={styles.item}>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password" />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                    <Form.Check type="checkbox" label="Remember me" />
+                    </Form.Group>
+                    </div>
+                
+              <div className={styles.item}>
+                <Button variant="primary" type="submit">
+                  Sign In
+                  </Button>
+                </div>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Remember me" />
-      </Form.Group>
-      </div>
-      <div className={styles.grid}>
-        
-      <div className={styles.item}>
-      <Button variant="primary" type="submit">
-        Sign In
-      </Button>
-      </div>
-
-      <div className={styles.item}>
-      <Link href="/">Sign Up</Link>
-      </div>
-      </div>
-    </Form>
+              <div className={styles.item}>
+                <Link href="/">Sign Up</Link>
+                </div>
+                
+              </div>
+              </Form>
         </main>
       </div>
       </Offcanvas.Body>

@@ -29,29 +29,40 @@ export default function SettingsView() {
     </Offcanvas.Header>
     <Offcanvas.Body>
         <div className={styles.container}>
-            <h2>
-                <Form.Label>Change Name</Form.Label>
-            </h2>
-            <FloatingLabel label="First Name" className="mb-3">
-                <Form.Control placeholder="Alice" />
-            </FloatingLabel>
-            <FloatingLabel label="Surname" className="mb-3">
-                <Form.Control placeholder="Brown" />
-            </FloatingLabel>
+        <main className={styles.main}>
+            <Form>
+                <div className={styles.item}>
+                <h3>
+                    <Form.Label>Change Name</Form.Label>
+                </h3>
+                
+                <FloatingLabel label="First Name" className="mb-3">
+                    <Form.Control placeholder="Alice" />
+                </FloatingLabel>
+                <FloatingLabel label="Surname" className="mb-3">
+                    <Form.Control placeholder="Brown" />
+                </FloatingLabel>
+                </div>
 
-            <h2>
-                <Form.Label>Change Password</Form.Label>
-            </h2>
-            <FloatingLabel label="Enter New Password" className="mb-3">
-                <Form.Control type="password" />
-            </FloatingLabel>
-            <FloatingLabel label="Re-enter New Password" className="mb-3">
-                <Form.Control type="password" />
-            </FloatingLabel>
-        
-            <Button variant="primary" type="submit">
-                Confirm
-            </Button>
+                <div className={styles.item}>
+                <h3>
+                    <Form.Label>Change Password</Form.Label>
+                </h3>
+                <FloatingLabel label="Enter New Password" className="mb-3">
+                    <Form.Control type="password" />
+                </FloatingLabel>
+                <FloatingLabel label="Re-enter New Password" className="mb-3">
+                    <Form.Control type="password" />
+                </FloatingLabel>
+                </div>
+            
+                <div className={styles.item}>
+                <Button variant="primary" type="submit">
+                    Confirm
+                </Button>
+                </div>
+            </Form>
+            </main>
             </div>
     </Offcanvas.Body>
     </Offcanvas>
