@@ -1,14 +1,15 @@
 // Next.js components
-import Head from 'next/head'
-import Link from 'next/link'
+import Head from 'next/head';
+import Link from 'next/link';
 
 // Bootstrap components
 import Nav from 'react-bootstrap/Nav'
 import TopNavbar from '../components/Navbar/Navbar'
 import SignInView from './profile/signin'
 
+
 // Styles
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
   return (
@@ -17,7 +18,10 @@ export default function Home() {
       <div className={styles.container}>
         <Head>
           <title>Workout Buddy</title>
-          <meta name="description" content="Workout Buddy - Helping you find and create workouts" />
+          <meta
+            name="description"
+            content="Workout Buddy - Helping you find and create workouts"
+          />
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
@@ -46,5 +50,5 @@ export default function Home() {
         </main>
       </div>
     </>
-  )
+  );
 }

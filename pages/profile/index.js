@@ -1,5 +1,5 @@
 // Next.js components
-import Link from 'next/link'
+import Link from 'next/link';
 
 // Bootstrap components
 import Nav from 'react-bootstrap/Nav'
@@ -17,6 +17,7 @@ export default function ProfileView() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
 
   return (
     <>
