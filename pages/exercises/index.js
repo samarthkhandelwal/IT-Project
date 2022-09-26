@@ -2,10 +2,9 @@
 import List from '../../components/List/List';
 import TopNavbar from '../../components/Navbar/Navbar';
 
-// import Instructions from '../../components/Instructions';
-// import SearchBar from '../../components/Search/Search';
-// import YouTube from '../../components/YouTube';
-// import { Container, Row, Col } from 'react-bootstrap';
+import Instructions from '../../components/Instructions';
+import YouTube from '../../components/YouTube';
+import { Container, Row, Col } from 'react-bootstrap';
 
 // Styles
 import styles from '../../styles/Exercises.module.css';
@@ -45,20 +44,22 @@ export default function ExercisesPage() {
   return (
     <>
       <TopNavbar />
-      <div className={styles.container}>
-        <main className={styles.main}>
-          <List list={exercise_list} {...selectState} />
-        </main>
-      </div>
-
-      {/* <Container className={styles.container}>
+      <Container className={styles.container}>
         <Row>
           <Col>
             <YouTube />
             <Instructions />
           </Col>
+
+          <Col xs="auto">
+          <div className={styles.container}>
+            <main className={styles.main}>
+              <List list={exercise_list} {...selectState} />
+            </main>
+          </div>
+          </Col>
         </Row>
-      </Container> */}
+      </Container>
     </>
   );
 }
