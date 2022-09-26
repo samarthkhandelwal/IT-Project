@@ -10,8 +10,8 @@ class Workout {
     this.muscleGroups = muscleGroups;
     this.id = id;
     this.imgSrc =
-      "https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-    this.imgAlt = "A man doing a bench press.";
+      'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+    this.imgAlt = 'A man doing a bench press.';
   }
 }
 
