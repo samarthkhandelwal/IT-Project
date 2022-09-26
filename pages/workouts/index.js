@@ -8,6 +8,10 @@ import TopNavbar from '../../components/Navbar/Navbar';
 import styles from '../../styles/Workouts.module.css';
 
 export default function WorkoutsPage() {
+  const selectState = {};
+  [selectState.selected, selectState.setSelected] = useState(
+    workout_list[0].name
+  );
   return (
     <>
       <TopNavbar />
