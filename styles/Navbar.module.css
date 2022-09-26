@@ -31,9 +31,12 @@
 
   .title {
     visibility: collapse;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
   .items {
     margin: auto;
+    gap: 5vh;
   }
 }
