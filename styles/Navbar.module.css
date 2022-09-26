@@ -1,0 +1,42 @@
+.navbar {
+  background-color: #2196f3;
+}
+
+.title {
+  font-size: x-large;
+  text-align: center;
+  color: #eeeeee;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.items {
+  margin: 0%;
+}
+
+.item {
+  font-size: large;
+  text-align: center;
+  color: #d5d5d5;
+}
+
+.item:hover {
+  color: #f8f8f8;
+}
+
+@media (max-width: 576px) {
+  .item {
+    font-size: x-large;
+  }
+
+  .title {
+    visibility: collapse;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .items {
+    margin: auto;
+    gap: 5vh;
+  }
+}
