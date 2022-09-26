@@ -14,13 +14,15 @@ function TopNavbar() {
       <Link href='/' passHref>
         <Nav.Link className={styles.title}>Workout Buddy</Nav.Link>
       </Link>
+
       <Nav fill className={styles.items}>
-      <Link href='/exercises' passHref>
-        <Nav.Link className={styles.item}>Exercises</Nav.Link>
-      </Link>
-      <Link href='/workouts' passHref>
-        <Nav.Link className={styles.item}>Workouts</Nav.Link>
-      </Link>
+        <Link href='/exercises' passHref>
+          <Nav.Link className={styles.item}>Exercises</Nav.Link>
+        </Link>
+
+        <Link href='/workouts' passHref>
+          <Nav.Link className={styles.item}>Workouts</Nav.Link>
+        </Link>
       </Nav>
     </Navbar>
   );
