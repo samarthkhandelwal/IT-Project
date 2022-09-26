@@ -6,10 +6,13 @@ import styles from "../../styles/List.module.css";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
+
 export default function List({ list, selected, setSelected }) {
   const onchange = (e) => {
     setSelected(e);
   };
+  console.log(list);
+  
 
   return (
     <div className={styles.container}>
@@ -25,8 +28,8 @@ export default function List({ list, selected, setSelected }) {
         >
           {list.map((element) => (
             <ToggleButton
-              key={element.name}
-              id={`radio-${element.name}`}
+              key={element.id}
+              id={`radio-${element.id}`}
               type="radio"
               variant="light"
               name="radio"
