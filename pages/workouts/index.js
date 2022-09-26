@@ -1,39 +1,39 @@
 // Next.js components
-import Link from "next/link";
+import Link from 'next/link';
 
 // React
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 // Bootstrap components
-import TopNavbar from "../../components/Navbar/Navbar";
-import List from "../../components/List/List";
+import TopNavbar from '../../components/Navbar/Navbar';
+import List from '../../components/List/List';
 
 // Styles
-import styles from "../../styles/Workouts.module.css";
+import styles from '../../styles/Workouts.module.css';
 
 // Import the Workout class so that we can create a dummy set of workouts to render
-import Workout from "../../public/classes/Workout";
+import Workout from '../../public/classes/Workout';
 
 // A dummy workout list so that we have data to render.
 // Once the database is implemented this will not be necessary
 const workout_list = [];
 workout_list.push(
-  new Workout("Push Workout", ["Chest", "Shoulder", "Triceps"])
+  new Workout('Push Workout', ['Chest', 'Shoulder', 'Triceps'])
 );
-workout_list.push(new Workout("Pull Workout", ["Back", "Biceps", "Abs"]));
+workout_list.push(new Workout('Pull Workout', ['Back', 'Biceps', 'Abs']));
 workout_list.push(
-  new Workout("Legs Workout", ["Quadriceps", "Hamstrings", "Calves"])
-);
-workout_list.push(
-  new Workout("Upper Workout", ["Chest", "Back", "Shoulder", "Triceps"])
-);
-workout_list.push(new Workout("Workout 1", ["Chest", "Shoulder", "Triceps"]));
-workout_list.push(new Workout("Workout 2", ["Back", "Biceps", "Abs"]));
-workout_list.push(
-  new Workout("Workout 3", ["Quadriceps", "Hamstrings", "Calves"])
+  new Workout('Legs Workout', ['Quadriceps', 'Hamstrings', 'Calves'])
 );
 workout_list.push(
-  new Workout("Workout 4", ["Chest", "Back", "Shoulder", "Triceps"])
+  new Workout('Upper Workout', ['Chest', 'Back', 'Shoulder', 'Triceps'])
+);
+workout_list.push(new Workout('Workout 1', ['Chest', 'Shoulder', 'Triceps']));
+workout_list.push(new Workout('Workout 2', ['Back', 'Biceps', 'Abs']));
+workout_list.push(
+  new Workout('Workout 3', ['Quadriceps', 'Hamstrings', 'Calves'])
+);
+workout_list.push(
+  new Workout('Workout 4', ['Chest', 'Back', 'Shoulder', 'Triceps'])
 );
 
 export default function WorkoutsPage() {

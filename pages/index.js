@@ -1,12 +1,12 @@
 // Next.js components
-import Head from "next/head";
-import Link from "next/link";
+import Head from 'next/head';
+import Link from 'next/link';
 
 // Bootstrap components
-import TopNavbar from "../components/Navbar/Navbar";
+import TopNavbar from '../components/Navbar/Navbar';
 
 // Styles
-import styles from "../styles/Home.module.css";
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
   return (

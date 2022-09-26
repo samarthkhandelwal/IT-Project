@@ -1,10 +1,10 @@
-import SearchFilterBar from "./SearchFilterBar";
-import Element from "./Element";
-import styles from "../../styles/List.module.css";
+import SearchFilterBar from './SearchFilterBar';
+import Element from './Element';
+import styles from '../../styles/List.module.css';
 
 // React Bootstrap Components
-import ToggleButton from "react-bootstrap/ToggleButton";
-import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 
 export default function List({ list, selected, setSelected }) {
   const onchange = (e) => {
