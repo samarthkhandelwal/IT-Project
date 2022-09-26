@@ -1,5 +1,4 @@
 // Next.js components
-import Link from 'next/link'
 
 // Bootstrap components
 import Nav from 'react-bootstrap/Nav'

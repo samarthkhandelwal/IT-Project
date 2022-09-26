@@ -35,9 +35,9 @@ export default function ProfileView() {
         </h1>
         <Figure>
           <Figure.Image
-          width={171}
-          height={180}
-          alt="360x360"
+          width={200}
+          height={200}
+          alt="200x200"
           src="profile-pic.jpg"
         />
         </Figure>
@@ -60,12 +60,12 @@ export default function ProfileView() {
               <p><SettingsView/></p>
             </Nav.Link>
           </div>
-
-          <div className={styles.card}>
-            <Link href="/" className={styles.card}>
+            
+            <div>
+            <Nav.Link className={styles.card} onClick={handleClose}>
               <p>Sign out</p>
-            </Link>
-          </div>
+            </Nav.Link>
+            </div>
         </div>
       </main>
     </div>
