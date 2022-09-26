@@ -47,14 +47,6 @@ export default function WorkoutsPage() {
       <div className={styles.container}>
         <main className={styles.main}>
           <List list={workout_list} {...selectState} />
-
-          <div className={styles.grid}>
-            <div className={styles.card}>
-              <Link href="/" className={styles.card}>
-                <p>Click here to go back to the home page.</p>
-              </Link>
-            </div>
-          </div>
         </main>
       </div>
     </>

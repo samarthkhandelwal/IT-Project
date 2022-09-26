@@ -39,12 +39,6 @@ export default function ProfilePage() {
                 <p>Sign out</p>
               </Link>
             </div>
-
-            <div className={styles.card}>
-              <Link href="/" className={styles.card}>
-                <p>Click here to go back to the home page.</p>
-              </Link>
-            </div>
           </div>
         </main>
       </div>
