@@ -11,9 +11,6 @@ import List from '../../components/List/List';
 // Styles
 import styles from '../../styles/Workouts.module.css';
 
-// Import the Workout class so that we can create a dummy set of workouts to render
-import Workout from '../../public/classes/Workout';
-
 // Import the database reference and functions for reading from firestore
 import { db } from '../../firebase-config';
 import { getDocs, collection, query, orderBy, limit } from 'firebase/firestore';
@@ -27,11 +24,7 @@ export default function WorkoutsPage() {
     const getWorkouts = async () => {
       const q = query(workoutsCollectionRef, orderBy('name'), limit(10));
       const data = await getDocs(q);
-      setWorkoutList(
-        data.docs.map(
-          (doc) => new Workout(doc.data().name, doc.data().muscleGroups, doc.id)
-        )
-      );
+      setWorkoutList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getWorkouts();
   }, []);
