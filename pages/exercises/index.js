@@ -1,11 +1,11 @@
 // Next.js components
-import Link from "next/link";
+import Link from 'next/link';
 
 // Bootstrap components
-import TopNavbar from "../../components/Navbar/Navbar";
+import TopNavbar from '../../components/Navbar/Navbar';
 
 // Styles
-import styles from "../../styles/Exercises.module.css";
+import styles from '../../styles/Exercises.module.css';
 
 export default function ExercisesPage() {
   return (
