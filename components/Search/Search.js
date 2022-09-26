@@ -1,13 +1,13 @@
 // Bootstrap components
-import Container from 'react-bootstrap/Container'
+import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
-import Dropdown from 'react-bootstrap/Dropdown'
+import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Form from 'react-bootstrap/Form'
+import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 // Styles
-import styles from '../../styles/Search.module.css'
+import styles from '../../styles/Search.module.css';
 
 function SearchBar() {
   return (
@@ -16,7 +16,7 @@ function SearchBar() {
         <Row>
           <Col xs>
             <Form>
-              <Form.Control type="search" placeholder="Search"/>
+              <Form.Control type="search" placeholder="Search" />
             </Form>
           </Col>
           <Col xs>

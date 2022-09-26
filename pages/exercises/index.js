@@ -2,13 +2,13 @@
 import List from '../../components/List/List';
 import TopNavbar from '../../components/Navbar/Navbar';
 
-import Instructions from '../../components/Instructions';
-import SearchBar from '../../components/Search/Search'
-import YouTube from '../../components/YouTube'
-import { Container, Row, Col } from "react-bootstrap";
+// import Instructions from '../../components/Instructions';
+// import SearchBar from '../../components/Search/Search';
+// import YouTube from '../../components/YouTube';
+// import { Container, Row, Col } from 'react-bootstrap';
 
 // Styles
-import styles from '../../styles/Exercises.module.css'
+import styles from '../../styles/Exercises.module.css';
 
 // React
 import React, { useState } from 'react';
@@ -23,7 +23,13 @@ export default function ExercisesPage() {
   exercise_list.push(
     new Exercise('Bench Press', ['Chest', 'Shoulder', 'Triceps']),
     new Exercise('Squats', ['Quadriceps', 'Hamstrings', 'Calves', 'Glutes']),
-    new Exercise('Plank', ['Quadriceps', 'Hamstrings', 'Core', 'Triceps', 'Glutes']),
+    new Exercise('Plank', [
+      'Quadriceps',
+      'Hamstrings',
+      'Core',
+      'Triceps',
+      'Glutes',
+    ]),
     new Exercise('Bench Dips ', ['Chest', 'Triceps']),
     new Exercise('Lunges', ['Hamstrings', 'Glutes', 'Quadriceps', 'Calves']),
     new Exercise('Custom exercise 1', ['Back', 'Biceps', 'Abs']),
@@ -54,5 +60,5 @@ export default function ExercisesPage() {
         </Row>
       </Container> */}
     </>
-  )
+  );
 }
