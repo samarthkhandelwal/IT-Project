@@ -1,12 +1,11 @@
-
 // Next.js components
-import Link from 'next/link'
+import Link from 'next/link';
 
 // Bootstrap components
-import TopNavbar from '../../components/Navbar/Navbar'
+import TopNavbar from '../../components/Navbar/Navbar';
 
 // Styles
-import styles from '../../styles/Workouts.module.css'
+import styles from '../../styles/Workouts.module.css';
 
 export default function WorkoutsPage() {
   return (
@@ -14,9 +13,7 @@ export default function WorkoutsPage() {
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1>
-            This is the workouts page!
-          </h1>
+          <h1>This is the workouts page!</h1>
 
           <div className={styles.grid}>
             <div className={styles.card}>
@@ -28,5 +25,5 @@ export default function WorkoutsPage() {
         </main>
       </div>
     </>
-  )
+  );
 }
