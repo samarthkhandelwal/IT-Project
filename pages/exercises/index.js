@@ -4,7 +4,7 @@ import TopNavbar from '../../components/Navbar/Navbar';
 import ExerciseCard from '../../components/ExerciseCard/ExerciseCard';
 
 // Bootstrap
-import Container from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
 // Styles
 import styles from '../../styles/Exercises.module.css';
 
