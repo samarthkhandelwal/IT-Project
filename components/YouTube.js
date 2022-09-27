@@ -5,17 +5,18 @@ function verifyURL(link) {
 }
 
 function YouTube({link}) {
-  var id = verifyURL(link)
-
-  return (
-    <>
-      <iframe 
-      width="100%"
-      height="60%"
-      src={"https://www.youtube.com/embed/" + id} 
-      ></iframe>
-    </>
-  );
+  // var id = verifyURL(link)
+  if (link) {
+    return (
+      <>
+        <iframe 
+        width="100%"
+        height="60%"
+        src={"https://www.youtube.com/embed/" + verifyURL(link)} 
+        ></iframe>
+      </>
+    );
+  }
 }
 
 export default YouTube;
