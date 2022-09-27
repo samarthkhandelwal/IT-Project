@@ -1,11 +1,10 @@
 // BCustom components
 import List from '../../components/List/List';
 import TopNavbar from '../../components/Navbar/Navbar';
+import ExerciseCard from '../../components/ExerciseCard/ExerciseCard';
 
-import Instructions from '../../components/Instructions';
-import YouTube from '../../components/YouTube';
-import { Container, Row, Col } from 'react-bootstrap';
-
+// Bootstrap
+import Container from 'react-bootstrap';
 // Styles
 import styles from '../../styles/Exercises.module.css';
 
@@ -45,21 +44,31 @@ export default function ExercisesPage() {
     <>
       <TopNavbar />
       <Container className={styles.container}>
-        <Row>
-          <Col>
-            <YouTube />
-            <Instructions />
-          </Col>
-
-          <Col xs="auto">
-          <div className={styles.container}>
-            <main className={styles.main}>
-              <List list={exercise_list} {...selectState} />
-            </main>
-          </div>
-          </Col>
-        </Row>
+        <div className={styles.container}>
+          <main className={styles.main}>
+            <ExerciseCard
+              instructions={instructions}
+              link="https://www.youtube.com/embed/TwD-YGVP4Bk"
+            />
+            <List list={exercise_list} {...selectState} />
+          </main>
+        </div>
       </Container>
     </>
   );
 }
+
+const instructions = {
+  1: 'Stand up straight with your torso upright. Hold a \
+  dumbbell in each hand at arms-length. Your elbows should be close to your \
+  torso.',
+  2: 'The palms of your hands should be facing your torso. \
+  This is the starting position for the exercise.',
+  3: 'Curl the weight forward while contracting your biceps. Your upper \
+  arm should remain stationary. Continue to lift the weight until your biceps \
+  are fully contracted and the dumbbell is at shoulder level. Hold the \
+  contraction for a moment as you squeeze your biceps.',
+  4: 'Inhale and slowly start to bring the dumbbells back to the \
+  starting position.',
+  5: 'Repeat for the desired number of reps.',
+};
