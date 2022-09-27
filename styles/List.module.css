@@ -1,28 +1,29 @@
-/* Holds the whole list and search filter bar */
-.container {
-  margin-top: 3vh;
-}
-
 /* Makes the list scrollable if it overflows */
 .scrollableContainer {
+  border: 1px solid black;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   height: 75vh;
   overflow-y: auto;
   min-height: 0;
+  padding: 1vw;
+  scrollbar-width: auto;
 }
 
 /* Contains the image and the text */
 .element {
   display: flex;
   width: 25vw + 120px + 60px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 1vw;
 }
 
 /* text in list */
 .txt h1 {
-  font-size: x-large;
-  margin-top: 10px;
-  margin-left: 5px;
+  font-size: xx-large;
+  margin: 10px 0 0 5px;
   text-align: left;
   text-overflow: ellipsis;
   width: 20vw;
