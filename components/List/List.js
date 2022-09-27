@@ -12,7 +12,7 @@ export default function List({ list, selected, setSelected }) {
   };
 
   return (
-    <div className={styles.container}>
+    <div>
       <SearchFilterBar />
 
       {/* The list. A group of toggle buttons, so that the active one can be kept track of*/}
