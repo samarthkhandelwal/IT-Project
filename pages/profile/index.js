@@ -66,7 +66,6 @@ export default function ProfileView() {
                 </div>
               </div>
             </main>
-
           </div>
         </Offcanvas.Body>
       </Offcanvas>
