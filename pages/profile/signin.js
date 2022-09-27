@@ -1,16 +1,15 @@
 // Next.js components
-import Link from 'next/link'
+import Link from 'next/link';
 
 // Bootstrap components
-import Nav from 'react-bootstrap/Nav'
+import Nav from 'react-bootstrap/Nav';
 import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 // Styles
-import styles from '../../styles/Settings.module.css'
-
+import styles from '../../styles/Settings.module.css';
 
 export default function SignInView() {
   const [show, setShow] = useState(false);
@@ -20,22 +19,22 @@ export default function SignInView() {
 
   return (
     <>
-    <Nav onClick={handleShow}>
-      <div>
-        <h2>Sign In &rarr;</h2>
+      <Nav onClick={handleShow}>
+        <div>
+          <h2>Sign In &rarr;</h2>
         </div>
-        </Nav>
+      </Nav>
 
-    <Offcanvas show={show} onHide={handleClose}>
-      <Offcanvas.Header closeButton>
-        <Offcanvas.Title></Offcanvas.Title>
-      </Offcanvas.Header>
-      <Offcanvas.Body>
-      <div className={styles.container}>
-        <main className={styles.main}>
-            <Form>
-              <h1>
-                <Form.Label>Sign In</Form.Label>
+      <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title></Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <div className={styles.container}>
+            <main className={styles.main}>
+              <Form>
+                <h1>
+                  <Form.Label>Sign In</Form.Label>
                 </h1>
             
             <div className={styles.grid}>
@@ -68,13 +67,11 @@ export default function SignInView() {
                 </div>
                 </div>
                 </div>
-                
               </Form>
-        </main>
-      </div>
-      </Offcanvas.Body>
-    </Offcanvas>
+            </main>
+          </div>
+        </Offcanvas.Body>
+      </Offcanvas>
     </>
   );
 }
-

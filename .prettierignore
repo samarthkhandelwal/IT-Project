@@ -1,0 +1,7 @@
+.next
+dist
+node_modules/
+.vscode/
+.github/
+next.config.js
+coverage
