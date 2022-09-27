@@ -47,16 +47,16 @@ export default function ExercisesPage() {
       <Container className={styles.container}>
         <Row>
           <Col>
-            <YouTube link='https://www.youtube.com/watch?v=TwD-YGVP4Bk&t=9s'/>
+            <YouTube link="https://www.youtube.com/watch?v=TwD-YGVP4Bk&t=9s" />
             <Instructions />
           </Col>
 
           <Col>
-          <div>
-            <main className={styles.main}>
-              <List list={exercise_list} {...selectState} />
-            </main>
-          </div>
+            <div>
+              <main className={styles.main}>
+                <List list={exercise_list} {...selectState} />
+              </main>
+            </div>
           </Col>
         </Row>
       </Container>

@@ -11,7 +11,10 @@ export default function SearchFilterBar() {
     <InputGroup className={styles.container}>
       <Form.Control aria-label="First name" placeholder="Search" />
 
-      <Form.Select aria-label="Default select example" className={styles.filter}>
+      <Form.Select
+        aria-label="Default select example"
+        className={styles.filter}
+      >
         <option>Filter</option>
         <option value="1">Chest</option>
         <option value="2">Back</option>
