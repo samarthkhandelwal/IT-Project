@@ -105,6 +105,19 @@
     height: 1em;
     margin-left: 0.5rem;
   }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+  }
+
+  .signup {
+    margin-left: 4rem;
+  }
+  
+  .item {
+    width: 100%;
+  }
   
   @media (max-width: 600px) {
     .grid {

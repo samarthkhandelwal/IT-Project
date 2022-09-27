@@ -10,6 +10,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 // Styles
 import styles from '../../styles/Profile.module.css'
 import SettingsView from './settings';
+import SignInView from './signin';
 
 
 export default function ProfileView() {
@@ -62,8 +63,12 @@ export default function ProfileView() {
           </div>
             
             <div>
-            <Nav.Link className={styles.card} onClick={handleClose}>
-              <p>Sign out</p>
+            <Nav.Link className={styles.card}>
+
+            <Nav onClick={handleShow}>
+              <p>Sign Out</p>
+              </Nav>
+
             </Nav.Link>
             </div>
         </div>
