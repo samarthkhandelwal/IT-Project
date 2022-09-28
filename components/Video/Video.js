@@ -1,4 +1,4 @@
-export default function YouTube({ link }) {
+export default function Video({ link }) {
   function verifyURL(link) {
     var regExp =
       /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
