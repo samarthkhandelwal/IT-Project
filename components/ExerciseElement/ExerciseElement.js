@@ -7,26 +7,30 @@ import YouTube from '../Video/Video';
 import Element from '../List/Element';
 
 // React
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ExerciseElement({ exercise, updateCard }) {
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  let toRenderModal = useRef(false);
+  /* Only render Modal if innerWidth < 576px (small breakpoint) */
+  const [toRenderModal, setRenderModal] = useState(false);
+  useEffect(() => {
+    if (window.innerWidth < 576) {
+      setRenderModal(true);
+    }
+  }, []);
+
+  /* Handles the onClick events for each exercise.
+   * The split is needed to handle both mobile/desktop views at the same time.
+   */
   const onClick = () => {
-    if (toRenderModal.current) {
+    if (toRenderModal) {
       handleOpen();
     }
     updateCard(exercise.id);
   };
-
-  useEffect(() => {
-    if (window.innerWidth <= 576) {
-      toRenderModal.current = true;
-    }
-  });
 
   return (
     <>

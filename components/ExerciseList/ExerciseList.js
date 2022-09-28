@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 
 // Custom components
 import ExerciseElement from '../ExerciseElement/ExerciseElement';
+import Video from '../Video/Video';
 
 // Import React
 import React, { useState } from 'react';
@@ -31,6 +32,7 @@ export default function ExerciseList({ list }) {
               <Card>
                 <Card.Title>{selectedExercise.name}</Card.Title>
                 <Card.Body>
+                  <Video link={selectedExercise.videoURL} />
                   {selectedExercise.instructions.map((step, index) => (
                     <p key={index}>
                       Step {index + 1}: {step}
