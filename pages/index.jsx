@@ -1,8 +1,11 @@
-// Next.js components
+// React
+import React from 'react';
+
+// Next components
 import Head from 'next/head';
 import Link from 'next/link';
 
-// Bootstrap components
+// Custom components
 import TopNavbar from '../components/Navbar/Navbar';
 
 // Styles

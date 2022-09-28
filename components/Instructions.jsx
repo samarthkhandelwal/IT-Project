@@ -1,6 +1,10 @@
+// React
+import React from 'react';
+
+// Styles
 import styles from '../styles/Instructions.module.css';
 
-function Instructions() {
+export default function Instructions() {
   return (
     <div className={styles.instructions}>
       <p>
@@ -33,5 +37,3 @@ function Instructions() {
     </div>
   );
 }
-
-export default Instructions;

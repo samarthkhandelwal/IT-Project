@@ -1,4 +1,7 @@
-// Next.js components
+// React
+import React from 'react';
+
+// Next components
 import Link from 'next/link';
 
 // Bootstrap components
