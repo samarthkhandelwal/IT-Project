@@ -1,34 +1,84 @@
+// Import React
+import React, { useState, useEffect } from 'react';
+
 // Bootstrap components
-import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 // Custom Components
-import ExerciseList from '../../components/ExerciseList/ExerciseList';
+import ExerciseElement from '../../components/ExerciseElement/ExerciseElement';
 import TopNavbar from '../../components/Navbar/Navbar';
+import Video from '../../components/Video/Video';
 
 // Styles
-import styles from '../../styles/Exercises.module.css';
+import styles from '../../styles/List.module.css';
 
 export default function ExercisesPage() {
-  const exercise_list = [];
+  const exerciseList = [];
 
-  for (let id in exercisesList) {
-    exercise_list.push(exercisesList[id]);
+  for (let id in exercises) {
+    exerciseList.push(exercises[id]);
+  }
+
+  // State of the image that is displayed as the favourite button
+  const [selectedExercise, setExercise] = useState(exerciseList[0]);
+
+  // Event handler if the exercise element is clicked on
+  const selectExercise = (id) => {
+    setExercise(exerciseList[id]);
+  };
+
+  /* Only render Card if innerWidth > 576px (small breakpoint) */
+  const [toRenderCard, setRenderCard] = useState(true);
+  useEffect(() => {
+    if (window.innerWidth < 576) {
+      setRenderCard(false);
+    }
+  }, []);
+
+  function Card() {
+    if (toRenderCard) {
+      return (
+        <Col xs={6}>
+          <div className={styles.scrollableContainer}>
+            <h2>{selectedExercise.name}</h2>
+            <Video link={selectedExercise.videoURL} />
+            {selectedExercise.instructions.map((step, index) => (
+              <p key={index}>
+                Step {index + 1}: {step}
+              </p>
+            ))}
+          </div>
+        </Col>
+      );
+    }
   }
 
   return (
     <>
       <TopNavbar />
-      <Container className={styles.container}>
-        <div className={styles.main}>
-          <ExerciseList list={exercise_list} />
-        </div>
-      </Container>
+      <div className={styles.main}>
+        <Row>
+          <Card />
+          <Col>
+            <div className={styles.scrollableContainer}>
+              {exerciseList.map((element) => (
+                <ExerciseElement
+                  exercise={element}
+                  updateCard={selectExercise}
+                  key={element.id}
+                />
+              ))}
+            </div>
+          </Col>
+        </Row>
+      </div>
     </>
   );
 }
 
 // Static content (to be replaced once database is set up)
-const exercisesList = [
+const exercises = [
   {
     id: 0,
     name: 'Hammer Curl',

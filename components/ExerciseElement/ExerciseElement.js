@@ -9,6 +9,9 @@ import Element from '../List/Element';
 // React
 import React, { useEffect, useState } from 'react';
 
+/* A small extension of the Element defined in components/List/Element.
+ * Handles a Modal popup or side card update when an element is clicked.
+ */
 export default function ExerciseElement({ exercise, updateCard }) {
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -24,12 +27,15 @@ export default function ExerciseElement({ exercise, updateCard }) {
 
   /* Handles the onClick events for each exercise.
    * The split is needed to handle both mobile/desktop views at the same time.
+   * If the window width is small, the modal is opened when the elements are
+   * clicked. Otherwise, the card is updated.
    */
   const onClick = () => {
     if (toRenderModal) {
       handleOpen();
+    } else {
+      updateCard(exercise.id);
     }
-    updateCard(exercise.id);
   };
 
   return (

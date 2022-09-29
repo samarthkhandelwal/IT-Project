@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 // Styles
-import styles from '../../styles/List.module.css';
+import styles from '../../styles/Element.module.css';
 
 // Element returns what should be displayed for each element of the list
 export default function Element({ element, onClick }) {
