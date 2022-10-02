@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 // React
 import React, { useState } from 'react';
 
@@ -14,8 +15,8 @@ import Workout from '../../public/classes/Workout';
 export default function WorkoutsPage() {
   // A dummy workout list so that we have data to render.
   // Once the database is implemented this will not be necessary
-  const workout_list = [];
-  workout_list.push(
+  const workoutList = [];
+  workoutList.push(
     new Workout('Push Workout', ['Chest', 'Shoulder', 'Triceps']),
     new Workout('Pull Workout', ['Back', 'Biceps', 'Abs']),
     new Workout('Legs Workout', ['Quadriceps', 'Hamstrings', 'Calves']),
@@ -28,7 +29,7 @@ export default function WorkoutsPage() {
 
   const selectState = {};
   [selectState.selected, selectState.setSelected] = useState(
-    workout_list[0].name
+    workoutList[0].name
   );
 
   return (
@@ -36,7 +37,7 @@ export default function WorkoutsPage() {
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <List list={workout_list} {...selectState} />
+          <List list={workoutList} {...selectState} />
         </main>
       </div>
     </>

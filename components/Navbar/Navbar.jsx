@@ -1,9 +1,12 @@
-// Next components
-import Link from 'next/link';
+// React
+import React from 'react';
 
 // Bootstrap components
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+
+// Next components
+import Link from 'next/link';
 
 // Styles
 import styles from '../../styles/Navbar.module.css';
