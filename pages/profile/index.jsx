@@ -1,13 +1,13 @@
 // React
 import React, { useState } from 'react';
 
-// Next components
-import Link from 'next/link';
-
-// Bootstrap components
+// Bootstrap Components
 import Nav from 'react-bootstrap/Nav';
 import Figure from 'react-bootstrap/Figure';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+
+// Next Components
+import Link from 'next/link';
 
 // Custom Components
 import SettingsView from './settings';

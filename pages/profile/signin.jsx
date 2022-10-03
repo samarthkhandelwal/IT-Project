@@ -1,6 +1,8 @@
-// Bootstrap components
-import Nav from 'react-bootstrap/Nav';
+// React
 import React, { useState } from 'react';
+
+// Bootstrap Components
+import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';

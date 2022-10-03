@@ -2,7 +2,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-// Custom components
+// Custom Components
 import WorkoutsPage from '../pages/workouts/index';
 
 describe('The List of buttons displaying Workouts or Exercises', () => {

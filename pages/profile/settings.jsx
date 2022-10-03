@@ -1,7 +1,7 @@
 // React
 import React, { useState } from 'react';
 
-// Bootstrap components
+// Bootstrap Components
 import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';

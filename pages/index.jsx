@@ -1,14 +1,14 @@
 // React
 import React from 'react';
 
-// Bootstrap components
+// Bootstrap Components
 import Nav from 'react-bootstrap/Nav';
 
-// Next components
+// Next Components
 import Head from 'next/head';
 import Link from 'next/link';
 
-// Custom components
+// Custom Components
 import TopNavbar from '../components/Navbar/Navbar';
 import SignInView from './profile/signin';
 
