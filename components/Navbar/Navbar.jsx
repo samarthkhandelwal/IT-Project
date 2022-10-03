@@ -1,10 +1,16 @@
+
+// React
+import React from 'react';
+
+// Bootstrap components
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
 // Next components
 import Link from 'next/link';
 
-// Bootstrap components
+// Custom Components
 import ProfileView from '../../pages/profile/index';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 
 // Styles
 import styles from '../../styles/Navbar.module.css';

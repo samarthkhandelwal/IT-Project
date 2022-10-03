@@ -1,4 +1,4 @@
-// Import React
+// React
 import React, { useState } from 'react';
 
 // Next components
@@ -10,15 +10,18 @@ import styles from '../../styles/List.module.css';
 const star = '/images/star.png';
 const starFilled = '/images/starFilled.png';
 
-// Element returns what should be displayed for each element of the list
 export default function Element({ element }) {
-  // State of the image that is displayed as the favorite button
+  // State of the image that is displayed as the favourite button
   const [imgPath, setImgPath] = useState(star);
 
-  // Event handler if the favorite button is clicked on
+  // Event handler if the favourite button is clicked on
   const toggleStar = (e) => {
     e.preventDefault();
-    imgPath == star ? setImgPath(starFilled) : setImgPath(star);
+    if (imgPath === star) {
+      setImgPath(starFilled);
+    } else {
+      setImgPath(star);
+    }
   };
 
   return (
@@ -44,7 +47,7 @@ export default function Element({ element }) {
             width={38}
             alt="star"
             onClick={toggleStar}
-          ></input>
+          />
         </form>
       </div>
     </div>

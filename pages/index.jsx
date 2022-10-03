@@ -1,9 +1,15 @@
-// Next.js components
-import Head from 'next/head';
-import Link from 'next/link';
+
+// React
+import React from 'react';
 
 // Bootstrap components
 import Nav from 'react-bootstrap/Nav';
+
+// Next components
+import Head from 'next/head';
+import Link from 'next/link';
+
+// Custom components
 import TopNavbar from '../components/Navbar/Navbar';
 import SignInView from './profile/signin';
 

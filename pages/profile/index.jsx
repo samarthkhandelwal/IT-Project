@@ -1,4 +1,7 @@
-// Next.js components
+// React
+import React from 'react';
+
+// Next components
 import Link from 'next/link';
 
 // Bootstrap components
@@ -7,9 +10,13 @@ import React, { useState } from 'react';
 import Figure from 'react-bootstrap/Figure';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
+//Custom Components
+import TopNavbar from '../../components/Navbar/Navbar';
+import SettingsView from './settings';
+
 // Styles
 import styles from '../../styles/Profile.module.css';
-import SettingsView from './settings';
+
 
 export default function ProfileView() {
   const [show, setShow] = useState(false);
