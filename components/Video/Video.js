@@ -1,3 +1,6 @@
+// Styles
+import styles from '../../styles/Video.module.css';
+
 export default function Video({ link }) {
   function verifyURL(link) {
     var regExp =
@@ -7,14 +10,14 @@ export default function Video({ link }) {
   }
 
   return (
-    <>
+    <div className={styles.video}>
       <iframe
         width="100%"
-        height="60%"
+        height="300px"
         src={
           link != null ? 'https://www.youtube.com/embed/' + verifyURL(link) : ''
         }
       ></iframe>
-    </>
+    </div>
   );
 }
