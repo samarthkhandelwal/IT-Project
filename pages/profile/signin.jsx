@@ -43,9 +43,7 @@ export default function SignInView() {
                       <Form.Label>Email address</Form.Label>
                       <Form.Control type="email" placeholder="Enter email" />
                     </Form.Group>
-                    {/* </div> */}
 
-                    {/* <div className={styles.item}> */}
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                       <Form.Label>Password</Form.Label>
                       <Form.Control type="password" placeholder="Password" />
@@ -62,11 +60,9 @@ export default function SignInView() {
                   </Button>
 
                   <div className={styles.signup}>
-                    <div className={styles.buttons}>
-                      <Button variant="primary" type="submit">
-                        Sign Up
-                      </Button>
-                    </div>
+                    <Button variant="primary" type="submit">
+                      Sign Up
+                    </Button>
                   </div>
                 </div>
               </Form>
