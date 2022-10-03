@@ -1,22 +1,19 @@
 // React
-import React from 'react';
+import React, { useState } from 'react';
 
 // Next components
 import Link from 'next/link';
 
 // Bootstrap components
 import Nav from 'react-bootstrap/Nav';
-import React, { useState } from 'react';
 import Figure from 'react-bootstrap/Figure';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-//Custom Components
-import TopNavbar from '../../components/Navbar/Navbar';
+// Custom Components
 import SettingsView from './settings';
 
 // Styles
 import styles from '../../styles/Profile.module.css';
-
 
 export default function ProfileView() {
   const [show, setShow] = useState(false);

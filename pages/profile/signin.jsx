@@ -27,7 +27,7 @@ export default function SignInView() {
 
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title></Offcanvas.Title>
+          <Offcanvas.Title />
         </Offcanvas.Header>
         <Offcanvas.Body>
           <div className={styles.container}>

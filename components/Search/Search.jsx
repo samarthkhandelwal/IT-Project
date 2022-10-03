@@ -1,4 +1,3 @@
-
 // React
 import React from 'react';
 
@@ -12,7 +11,6 @@ import Row from 'react-bootstrap/Row';
 
 // Styles
 import styles from '../../styles/Search.module.css';
-
 
 export default function SearchBar() {
   return (

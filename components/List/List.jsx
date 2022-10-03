@@ -1,4 +1,3 @@
-
 // React
 import React from 'react';
 
@@ -19,7 +18,6 @@ export default function List({ list, selected, setSelected }) {
   return (
     <div className={styles.container}>
       <SearchFilterBar />
-
 
       {/* The list. A group of toggle buttons, so that the active one can be kept track of */}
       <div className={styles.scrollableContainer}>

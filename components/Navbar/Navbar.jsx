@@ -1,4 +1,3 @@
-
 // React
 import React from 'react';
 
@@ -10,7 +9,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Link from 'next/link';
 
 // Custom Components
-import ProfileView from '../../pages/profile/index';
+// eslint-disable-next-line import/no-named-as-default
+import ProfileView from '../../pages/profile';
 
 // Styles
 import styles from '../../styles/Navbar.module.css';
