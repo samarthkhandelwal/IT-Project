@@ -1,8 +1,8 @@
-// Next.js components
+// React
+import React, { useState } from 'react';
 
 // Bootstrap components
 import Nav from 'react-bootstrap/Nav';
-import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';

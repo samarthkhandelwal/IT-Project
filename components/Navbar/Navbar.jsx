@@ -15,7 +15,7 @@ import ProfileView from '../../pages/profile';
 // Styles
 import styles from '../../styles/Navbar.module.css';
 
-function TopNavbar() {
+export default function TopNavbar() {
   return (
     <Navbar className={styles.navbar} fixed="top">
       <Link href="/" passHref>
@@ -36,5 +36,3 @@ function TopNavbar() {
     </Navbar>
   );
 }
-
-export default TopNavbar;
