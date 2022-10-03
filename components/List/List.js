@@ -1,18 +1,18 @@
-import SearchFilterBar from "./SearchFilterBar";
-import Element from "./Element";
-import styles from "../../styles/List.module.css";
+import SearchFilterBar from './SearchFilterBar';
+import Element from './Element';
+import styles from '../../styles/List.module.css';
 
 // React Bootstrap Components
-import ToggleButton from "react-bootstrap/ToggleButton";
-import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 
 /**
- * 
+ *
  * @param {*} list A list of either workouts or exercises
  * @param {*} listType Either "radio" or "checkbox".
  * @param {*} selected State of which elements are selected. if checkbox, must be an array.
  * @param {*} setSelected The function that sets the state of selected
- * @returns 
+ * @returns
  */
 export default function List({ list, listType, selected, setSelected }) {
   const handleChange = (e) => {

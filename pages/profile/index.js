@@ -1,11 +1,11 @@
 // Next.js components
-import Link from "next/link";
+import Link from 'next/link';
 
 // Bootstrap components
-import TopNavbar from "../../components/Navbar/Navbar";
+import TopNavbar from '../../components/Navbar/Navbar';
 
 // Styles
-import styles from "../../styles/Profile.module.css";
+import styles from '../../styles/Profile.module.css';
 
 export default function ProfilePage() {
   return (
