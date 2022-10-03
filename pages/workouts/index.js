@@ -46,7 +46,7 @@ export default function WorkoutsPage() {
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <List list={workout_list} {...selectState} />
+          <List list={workout_list} listType="radio" {...selectState} />
 
           <div className={styles.grid}>
             <div className={styles.card}>

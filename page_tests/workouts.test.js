@@ -3,7 +3,7 @@ import React from "react";
 import WorkoutsPage from "../pages/workouts/index";
 
 describe("The List of buttons displaying Workouts or Exercises", () => {
-  it("Updates the selected button when another is clicked", () => {
+  it("Updates the selected button when another is clicked in the Radio List", () => {
     render(<WorkoutsPage />);
 
     let btns = screen.getAllByRole("radio");
