@@ -7,17 +7,32 @@
   height: 75vh;
   overflow-y: auto;
   min-height: 0;
-  padding: 1vw;
+  padding: 1.5vw 1.5vw 0.5vw 1.5vw;
   scrollbar-width: auto;
+}
+
+.list {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-bottom: 1vw;
+  background-color: white;
+  color: black;
+}
+
+.list:hover,
+.list:active,
+.list:checked {
+  background-color: #0070f3 !important;
+  color: white !important;
 }
 
 /* Contains the image and the text */
 .element {
   display: flex;
   width: 25vw + 120px + 60px;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 1vw;
+  /* border: 1px solid black;
+  border-radius: 100px; */
+  padding: 0.5vw;
 }
 
 /* text in list */

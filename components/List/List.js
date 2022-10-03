@@ -20,15 +20,16 @@ export default function List({ list, selected, setSelected }) {
         <ToggleButtonGroup
           value={selected}
           onChange={onchange}
+          variant="primary"
           vertical
           name="button-list"
         >
           {list.map((element) => (
             <ToggleButton
+              className={styles.list}
               key={element.name}
               id={`radio-${element.name}`}
               type="radio"
-              variant="light"
               name="radio"
               value={element.name}
             >
