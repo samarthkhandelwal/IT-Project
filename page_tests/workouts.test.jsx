@@ -23,6 +23,7 @@ describe('The List of buttons displaying Workouts or Exercises', () => {
     });
   });
 });
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation((query) => ({

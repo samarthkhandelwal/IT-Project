@@ -1,7 +1,8 @@
 // React
 import React from 'react';
 
-// Bootstrap components
+// Bootstrap Components
+import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
@@ -9,30 +10,45 @@ import Navbar from 'react-bootstrap/Navbar';
 import Link from 'next/link';
 
 // Custom Components
-// eslint-disable-next-line import/no-named-as-default
-import ProfileView from '../../pages/profile';
+import ProfileView from '../Profile/ProfileView';
+import SignInView from '../Profile/SignInView';
 
 // Styles
 import styles from '../../styles/Navbar.module.css';
 
 export default function TopNavbar() {
-  return (
-    <Navbar className={styles.navbar} fixed="top">
-      <Link href="/" passHref>
-        <Nav.Link className={styles.title}>Workout Buddy</Nav.Link>
-      </Link>
+  // TODO: Authentication
+  function profileSignIn(isSignedIn) {
+    if (isSignedIn === true) {
+      return <ProfileView />;
+    }
+    return <SignInView />;
+  }
 
-      <Nav fill className={styles.items}>
-        <Nav.Link className={styles.item}>
-          <ProfileView />
-        </Nav.Link>
-        <Link href="/exercises" passHref>
-          <Nav.Link className={styles.item}>Exercises</Nav.Link>
-        </Link>
-        <Link href="/workouts" passHref>
-          <Nav.Link className={styles.item}>Workouts</Nav.Link>
-        </Link>
-      </Nav>
+  return (
+    <Navbar className={styles.navbar} fixed="top" expand="sm" collapseOnSelect>
+      <Container fluid>
+        <Navbar.Brand className={styles.title} bsPrefix="no-styling">
+          My Workout Buddy
+        </Navbar.Brand>
+
+        <Navbar.Toggle aria-controls="responsive-navbar" />
+        <Navbar.Collapse id="responsive-navbar">
+          <Nav className="me-auto">
+            <Link href="/exercises" passHref>
+              <Nav.Link className={styles.item}>Exercises</Nav.Link>
+            </Link>
+
+            <Link href="/workouts" passHref>
+              <Nav.Link className={styles.item}>Workouts</Nav.Link>
+            </Link>
+          </Nav>
+
+          <Nav>
+            <Nav.Link className={styles.item}>{profileSignIn(true)}</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
     </Navbar>
   );
 }

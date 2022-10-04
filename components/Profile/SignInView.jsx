@@ -12,17 +12,12 @@ import styles from '../../styles/Settings.module.css';
 
 export default function SignInView() {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   return (
     <>
-      <Nav onClick={handleShow}>
-        <div>
-          <h2>Sign In &rarr;</h2>
-        </div>
-      </Nav>
+      <Nav onClick={handleShow}>Sign in</Nav>
 
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>

@@ -1,16 +1,12 @@
 // React
 import React from 'react';
 
-// Bootstrap Components
-import Nav from 'react-bootstrap/Nav';
-
 // Next Components
 import Head from 'next/head';
 import Link from 'next/link';
 
 // Custom Components
 import TopNavbar from '../components/Navbar/Navbar';
-import SignInView from './profile/signin';
 
 // Styles
 import styles from '../styles/Home.module.css';
@@ -48,10 +44,6 @@ export default function Home() {
                 <p>Explore our catalog of exercises</p>
               </div>
             </Link>
-
-            <Nav.Link className={styles.card}>
-              <SignInView />
-            </Nav.Link>
           </div>
         </main>
       </div>

@@ -10,14 +10,13 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Link from 'next/link';
 
 // Custom Components
-import SettingsView from './settings';
+import SettingsView from './SettingsView';
 
 // Styles
 import styles from '../../styles/Profile.module.css';
 
 export default function ProfileView() {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -29,6 +28,7 @@ export default function ProfileView() {
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Profile</Offcanvas.Title>
         </Offcanvas.Header>
+
         <Offcanvas.Body>
           <div className={styles.container}>
             <main className={styles.main}>
