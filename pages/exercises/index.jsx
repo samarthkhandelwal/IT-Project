@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 
 // Custom components
+import CRUDButton from '../../components/CRUDButton/CRUDButton';
 import List from '../../components/List/List';
 import TopNavbar from '../../components/Navbar/Navbar';
 
@@ -38,11 +39,18 @@ export default function ExercisesPage() {
     exerciseList[0].name
   );
 
+  const test = () => {
+    console.log('test');
+  };
+
   return (
     <>
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
+          <CRUDButton text="New exercise" href="/exercises/edit" />
+          <CRUDButton text="Edit exercise" onclick={test} />
+          <CRUDButton text="Delete exercise" onclick={test} />
           <List list={exerciseList} {...selectState} />
         </main>
       </div>
