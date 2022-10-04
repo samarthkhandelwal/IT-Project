@@ -1,7 +1,7 @@
 // React
 import React from 'react';
 
-// Bootstrap components
+// Bootstrap Components
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';

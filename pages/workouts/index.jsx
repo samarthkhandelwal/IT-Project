@@ -2,7 +2,7 @@
 // React
 import React, { useState } from 'react';
 
-// Bootstrap components
+// Bootstrap Components
 import TopNavbar from '../../components/Navbar/Navbar';
 import List from '../../components/List/List';
 
