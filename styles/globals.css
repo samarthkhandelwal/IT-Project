@@ -1,4 +1,12 @@
 html,
+:root {
+  --pallete-blue: #1d93ab;
+  --pad-width: 1rem;
+  --card-radius: 10px;
+  --wave-height: 22vh;
+  --footer-padding: 1.5em;
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -20,7 +28,7 @@ a {
     color-scheme: dark;
   }
   body {
-    color: white;
-    background: black;
+    color: black;
+    background: white;
   }
 } */

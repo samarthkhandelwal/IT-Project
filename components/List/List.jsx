@@ -1,10 +1,14 @@
+// React
+import React from 'react';
+
+// Bootstrap components
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+
+// Custom components
 import SearchFilterBar from './SearchFilterBar';
 import Element from './Element';
 import styles from '../../styles/List.module.css';
-
-// React Bootstrap Components
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 
 /**
  *
@@ -23,7 +27,7 @@ export default function List({ list, listType, selected, setSelected }) {
     <div className={styles.container}>
       <SearchFilterBar />
 
-      {/* The list, A group of toggle buttons*/}
+      {/* The list. A group of toggle buttons, so that the active one can be kept track of */}
       <div className={styles.scrollableContainer}>
         <ToggleButtonGroup
           type={listType}

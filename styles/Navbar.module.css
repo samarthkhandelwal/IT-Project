@@ -4,10 +4,8 @@
 
 .title {
   font-size: x-large;
-  text-align: center;
   color: #eeeeee;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding: 0 12px;
 }
 
 .items {
@@ -29,11 +27,8 @@
     font-size: x-large;
   }
 
-  .title {
-    visibility: collapse;
-  }
-
   .items {
     margin: auto;
+    gap: 5vh;
   }
 }
