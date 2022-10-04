@@ -37,7 +37,7 @@ export default function WorkoutsPage() {
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <List list={workoutList} {...selectState} />
+          <List list={workoutList} listType="radio" {...selectState} />
         </main>
       </div>
     </>
