@@ -5,7 +5,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-export default function SearchFilterBar({ searchInput, setSearchInput }) {
+export default function SearchFilterBar({ setSearchInput }) {
   // Function to handle when the search input changes
   const handleSearchInput = (e) => {
     const lowerCase = e.target.value.toLowerCase();
