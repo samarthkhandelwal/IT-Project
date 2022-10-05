@@ -1,15 +1,11 @@
 // Import React
-import React, { useState } from 'react';
+import React from 'react';
 
 // Styles
 import styles from '../../styles/List.module.css';
 
-const star = '/images/star.png';
-const starFilled = '/images/starFilled.png';
-
 // Element returns what should be displayed for each element of the list
-export default function Element({element}) {
-
+export default function Element({ element }) {
   return (
     <div className={styles.selement}>
       <div className={styles.stxt}>

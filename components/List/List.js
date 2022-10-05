@@ -38,8 +38,7 @@ export default function List({ list, selected, setSelected }) {
                 <SelectedElement element={element} />
               ) : (
                 <Element element={element} />
-              )
-              }
+              )}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
