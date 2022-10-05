@@ -1,5 +1,6 @@
 import SearchFilterBar from './SearchFilterBar';
 import Element from './Element';
+import SelectedElement from './SelectedElement';
 import styles from '../../styles/List.module.css';
 
 // React Bootstrap Components
@@ -33,7 +34,12 @@ export default function List({ list, selected, setSelected }) {
               name="radio"
               value={element.name}
             >
-              <Element element={element} />
+              {selected == element.name ? (
+                <SelectedElement element={element} />
+              ) : (
+                <Element element={element} />
+              )
+              }
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
