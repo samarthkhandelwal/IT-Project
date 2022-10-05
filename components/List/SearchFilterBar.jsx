@@ -5,10 +5,20 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-export default function SearchFilterBar() {
+export default function SearchFilterBar({ searchInput, setSearchInput }) {
+  // Function to handle when the search input changes
+  const handleSearchInput = (e) => {
+    const lowerCase = e.target.value.toLowerCase();
+    setSearchInput(lowerCase);
+  };
+
   return (
     <InputGroup className="mb-3">
-      <Form.Control aria-label="First name" placeholder="Search" />
+      <Form.Control
+        aria-label="First name"
+        placeholder="Search"
+        onChange={handleSearchInput}
+      />
 
       <Form.Select aria-label="Default select example">
         <option>Filter Muscle Group</option>

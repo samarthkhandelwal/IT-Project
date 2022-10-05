@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 // React
 import React, { useState } from 'react';
 
@@ -27,17 +26,19 @@ export default function WorkoutsPage() {
     new Workout('Workout 4', ['Chest', 'Back', 'Shoulder', 'Triceps'])
   );
 
-  const selectState = {};
-  [selectState.selected, selectState.setSelected] = useState(
-    workoutList[0].name
-  );
+  const [selected, setSelected] = useState(workoutList[0].name);
 
   return (
     <>
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <List list={workoutList} listType="radio" {...selectState} />
+          <List
+            list={workoutList}
+            listType="radio"
+            selected={selected}
+            setSelected={setSelected}
+          />
         </main>
       </div>
     </>
