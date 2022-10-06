@@ -39,18 +39,14 @@ export default function ExercisesPage() {
     exerciseList[0].name
   );
 
-  const test = () => {
-    console.log('test');
-  };
-
   return (
     <>
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <CRUDButton text="New exercise" href="/exercises/edit" />
-          <CRUDButton text="Edit exercise" onclick={test} />
-          <CRUDButton text="Delete exercise" onclick={test} />
+          <CRUDButton type="exercise" create />
+          {/* NOTE: Just to test, will remove later */}
+          <CRUDButton type="exercise" id="0" />
           <List list={exerciseList} {...selectState} />
         </main>
       </div>
