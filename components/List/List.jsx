@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { useState } from 'react';
 
 // Bootstrap components
 import ToggleButton from 'react-bootstrap/ToggleButton';
@@ -19,13 +19,28 @@ import styles from '../../styles/List.module.css';
  * @returns
  */
 export default function List({ list, listType, selected, setSelected }) {
+  // A function to handle when a new element is selected
   const handleChange = (e) => {
     setSelected(e);
   };
 
+  // State to keep track of the search input
+  const [searchInput, setSearchInput] = useState('');
+
+  // When searchInput is changed, filteredList updates to only contain elements with names including searchInput
+  const filteredList = list.filter((item) => {
+    if (searchInput === '') {
+      return item;
+    }
+    return item.name.toLowerCase().includes(searchInput);
+  });
+
   return (
     <div className={styles.container}>
-      <SearchFilterBar />
+      <SearchFilterBar
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+      />
 
       {/* The list. A group of toggle buttons, so that the active one can be kept track of */}
       <div className={styles.scrollableContainer}>
@@ -36,7 +51,7 @@ export default function List({ list, listType, selected, setSelected }) {
           vertical
           name="button-list"
         >
-          {list.map((element) => (
+          {filteredList.map((element) => (
             <ToggleButton
               key={element.name}
               id={`${listType}-${element.name}`}
