@@ -1,10 +1,17 @@
 .main {
-  padding: 10vh;
-  margin: 50px;
+  margin-top: 10vh;
+}
+
+.form {
+  padding: 0 10vw;
 }
 
 @media (max-width: 576px) {
   .main {
+    margin-top: 0;
+  }
+
+  .form {
     padding: 10vh 2vw;
     margin: 1vh;
   }

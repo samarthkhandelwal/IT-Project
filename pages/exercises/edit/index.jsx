@@ -45,89 +45,95 @@ function ExerciseForm({ id }) {
     checkboxes.push(column);
   }
 
-  let instructions = '';
-  if (id !== undefined) {
-    for (let i = 0; i < exercises[id].instructions.length; i += 1) {
-      instructions += `${i + 1}) ${exercises[id].instructions[i]}\n`;
-    }
-  }
-
   return (
-    <Form>
-      <Form.Group controlId="formExerciseName">
-        <Form.Label>Exercise name</Form.Label>
-        {id !== undefined ? (
-          <Form.Control type="exercise" defaultValue={exercises[id].name} />
-        ) : (
-          <Form.Control type="exercise" placeholder="Enter exercise name" />
-        )}
-      </Form.Group>
+    <div className={styles.form}>
+      <h2>
+        {id !== undefined
+          ? `Editing '${exercises[id].name}'`
+          : 'Creating new exercise'}
+      </h2>
+      <Form>
+        <Form.Group controlId="formExerciseName">
+          <Form.Label>Exercise name</Form.Label>
+          {id !== undefined ? (
+            <Form.Control type="exercise" defaultValue={exercises[id].name} />
+          ) : (
+            <Form.Control type="exercise" placeholder="Enter exercise name" />
+          )}
+        </Form.Group>
 
-      <Form.Group controlId="formExerciseName">
-        <Form.Label>Select targeted areas</Form.Label>
-        <Container fluid>
-          <Row>
-            {checkboxes.map(({ group, boxes }) => (
-              <Col>
-                <b>{group}</b>
-                {boxes}
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </Form.Group>
+        <Form.Group controlId="formExerciseName">
+          <Form.Label>Select targeted areas</Form.Label>
+          <Container fluid>
+            <Row>
+              {checkboxes.map(({ group, boxes }) => (
+                <Col>
+                  <b>{group}</b>
+                  {boxes}
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        </Form.Group>
 
-      <Form.Group controlId="formVideoUrl">
-        <Form.Label>Enter video url to display</Form.Label>
-        {id !== undefined ? (
-          <Form.Control type="videoURL" defaultValue={exercises[id].videoURL} />
-        ) : (
-          <Form.Control type="videoURL" placeholder="Enter video URL" />
-        )}
-      </Form.Group>
+        <Form.Group controlId="formVideoUrl">
+          <Form.Label>Enter video url to display</Form.Label>
+          {id !== undefined ? (
+            <Form.Control
+              type="videoURL"
+              defaultValue={exercises[id].videoURL}
+            />
+          ) : (
+            <Form.Control type="videoURL" placeholder="Enter video URL" />
+          )}
+        </Form.Group>
 
-      <Form.Group controlId="formThumbnail">
-        <Form.Label>Select a thumbnail</Form.Label>
-        <Form.Control type="file" />
-      </Form.Group>
+        <Form.Group controlId="formThumbnail">
+          <Form.Label>Select a thumbnail</Form.Label>
+          <Form.Control type="file" />
+        </Form.Group>
 
-      <Form.Group controlId="formEquipment">
-        <Form.Label>Equipment needed</Form.Label>
-        {id !== undefined ? (
-          <Form.Control
-            type="equipment"
-            defaultValue={exercises[id].equipment}
-          />
-        ) : (
-          <Form.Control
-            type="equipment"
-            placeholder="Enter required equipment"
-          />
-        )}
-      </Form.Group>
+        <Form.Group controlId="formEquipment">
+          <Form.Label>Equipment needed</Form.Label>
+          {id !== undefined ? (
+            <Form.Control
+              type="equipment"
+              defaultValue={exercises[id].equipment}
+            />
+          ) : (
+            <Form.Control
+              type="equipment"
+              placeholder="Enter required equipment"
+            />
+          )}
+        </Form.Group>
 
-      <Form.Group controlId="formSteps">
-        <Form.Label>Steps to completing the exercise</Form.Label>
-        {id !== undefined ? (
-          <Form.Control type="exercise" as="textarea" rows={5}>
-            {instructions}
-          </Form.Control>
-        ) : (
-          <Form.Control
-            type="exercise"
-            as="textarea"
-            rows={5}
-            placeholder="Enter instructions"
-          />
-        )}
-      </Form.Group>
+        <Form.Group controlId="formSteps">
+          <Form.Label>Exercise instructions</Form.Label>
+          {id !== undefined ? (
+            <Form.Control
+              type="instructions"
+              as="textarea"
+              rows={5}
+              defaultValue={exercises[id].instructions}
+            />
+          ) : (
+            <Form.Control
+              type="instructions"
+              as="textarea"
+              rows={5}
+              placeholder="Enter instructions to complete the exercise. Split into steps by entering a newline."
+            />
+          )}
+        </Form.Group>
 
-      <Link href="/exercises">
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Link>
-    </Form>
+        <Link href="/exercises">
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Link>
+      </Form>
+    </div>
   );
 }
 
