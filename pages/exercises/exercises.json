@@ -2,7 +2,7 @@
   {
     "id": 0,
     "name": "Hammer Curl",
-    "muscleGroups": ["Biceps", "Forearms"],
+    "muscles": ["Biceps", "Forearms"],
     "imgSrc": "/../public/images/hammer-curls.png",
     "imgAlt": "Diagram of how to perform a hammer curl",
     "instructions": [
@@ -17,7 +17,7 @@
   {
     "id": 1,
     "name": "Plank",
-    "muscleGroups": ["Quadriceps", "Hamstrings", "Abs", "Triceps", "Glutes"],
+    "muscles": ["Quadriceps", "Hamstrings", "Abs", "Triceps", "Glutes"],
     "imgSrc": "/../public/images/hammer-curls.png",
     "imgAlt": "Performing a plank",
     "instructions": [

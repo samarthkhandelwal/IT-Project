@@ -1,77 +1,92 @@
 [
   {
-    "id": 0,
-    "name": "Abs",
-    "group": "Core"
+    "group": "Arms",
+    "musclesList": [
+      {
+        "id": 1,
+        "name": "Biceps"
+      },
+      {
+        "id": 4,
+        "name": "Forearms"
+      },
+      {
+        "id": 14,
+        "name": "Triceps"
+      }
+    ]
   },
   {
-    "id": 1,
-    "name": "Biceps",
-    "group": "Arms"
+    "group": "Back",
+    "musclesList": [
+      {
+        "id": 7,
+        "name": "Lats"
+      },
+      {
+        "id": 11,
+        "name": "Rhomboids"
+      },
+      {
+        "id": 12,
+        "name": "Spinal erectors"
+      },
+      {
+        "id": 13,
+        "name": "Traps"
+      }
+    ]
   },
   {
-    "id": 2,
-    "name": "Calves",
-    "group": "Legs"
+    "group": "Chest",
+    "musclesList": [
+      {
+        "id": 9,
+        "name": "Pecs"
+      }
+    ]
   },
   {
-    "id": 3,
-    "name": "Deltoids",
-    "group": "Shoulders"
+    "group": "Core",
+    "musclesList": [
+      {
+        "id": 0,
+        "name": "Abs"
+      },
+      {
+        "id": 8,
+        "name": "Obliques"
+      }
+    ]
   },
   {
-    "id": 4,
-    "name": "Forearms",
-    "group": "Arms"
+    "group": "Legs",
+    "musclesList": [
+      {
+        "id": 2,
+        "name": "Calves"
+      },
+      {
+        "id": 5,
+        "name": "Glutes"
+      },
+      {
+        "id": 6,
+        "name": "Hamstrings"
+      },
+      {
+        "id": 10,
+        "name": "Quadriceps"
+      }
+    ]
   },
   {
-    "id": 5,
-    "name": "Glutes",
-    "group": "Legs"
-  },
-  {
-    "id": 6,
-    "name": "Hamstrings",
-    "group": "Legs"
-  },
-  {
-    "id": 7,
-    "name": "Lats",
-    "group": "Back"
-  },
-  {
-    "id": 8,
-    "name": "Obliques",
-    "group": "Core"
-  },
-  {
-    "id": 9,
-    "name": "Pecs",
-    "group": "Chest"
-  },
-  {
-    "id": 10,
-    "name": "Quadriceps",
-    "group": "Legs"
-  },
-  {
-    "id": 11,
-    "name": "Rhomboids",
-    "group": "Back"
-  },
-  {
-    "id": 12,
-    "name": "Spinal erectors",
-    "group": "Back"
-  },
-  {
-    "id": 13,
-    "name": "Traps",
-    "group": "Back"
-  },
-  {
-    "id": 14,
-    "name": "Triceps",
-    "group": "Arms"
+    "group": "Shoulders",
+    "musclesList": [
+      {
+        "id": 3,
+        "name": "Deltoids"
+      }
+    ]
   }
 ]

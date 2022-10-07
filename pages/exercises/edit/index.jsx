@@ -21,6 +21,30 @@ import muscles from '../muscles.json' assert { type: 'json' };
 
 // A form used for both creating and editing exercises
 function ExerciseForm({ id }) {
+  // Create checkboxes for all muscles, and pre-check boxes if editing
+  const checkboxes = [];
+  const preChecked = id !== undefined ? exercises[id].muscles : [];
+  for (let i = 0; i < muscles.length; i += 1) {
+    const { group, musclesList } = muscles[i];
+    for (let j = 0; j < musclesList.length; j += 1) {
+      const { mId, name } = musclesList[j];
+      checkboxes.push(
+        <div className="mb-3">
+          {preChecked.includes(name) ? (
+            <Form.Check
+              type="checkbox"
+              id={mId}
+              label={`${group} - ${name}`}
+              defaultChecked
+            />
+          ) : (
+            <Form.Check type="checkbox" id={mId} label={`${group} - ${name}`} />
+          )}
+        </div>
+      );
+    }
+  }
+
   let instructions = '';
   if (id !== undefined) {
     instructions += exercises[id].instructions.map(
@@ -42,19 +66,7 @@ function ExerciseForm({ id }) {
 
       <Form.Group controlId="formExerciseName">
         <Form.Label>Select targeted areas</Form.Label>
-        {/* TODO: Make this grouped by muscle group. Need to adjust JSON. */}
-        {/* TODO: Make some checkboxes pre-checked if editing an exercise. */}
-        {muscles.map(({ mId, name }) =>
-          id !== undefined ? (
-            <div className="mb-3">
-              <Form.Check type="checkbox" id={mId} label={`${name}`} />
-            </div>
-          ) : (
-            <div className="mb-3">
-              <Form.Check type="checkbox" id={mId} label={`${name}`} />
-            </div>
-          )
-        )}
+        {checkboxes}
       </Form.Group>
 
       <Form.Group controlId="formVideoUrl">

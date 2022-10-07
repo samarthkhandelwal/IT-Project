@@ -35,7 +35,7 @@ export default function Element({ element }) {
 
       <div className={styles.txt}>
         <h1>{element.name}</h1>
-        <p>{element.muscleGroups.join(', ')}</p>
+        <p>{element.muscles.join(', ')}</p>
       </div>
 
       <div className={styles.star}>
