@@ -7,7 +7,9 @@ import { useRouter } from 'next/router';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 
 // Custom components
 import TopNavbar from '../../../components/Navbar/Navbar';
@@ -26,23 +28,20 @@ function ExerciseForm({ id }) {
   const preChecked = id !== undefined ? exercises[id].muscles : [];
   for (let i = 0; i < muscles.length; i += 1) {
     const { group, musclesList } = muscles[i];
+    const column = { group, boxes: [] };
     for (let j = 0; j < musclesList.length; j += 1) {
       const { mId, name } = musclesList[j];
-      checkboxes.push(
+      column.boxes.push(
         <div className="mb-3">
           {preChecked.includes(name) ? (
-            <Form.Check
-              type="checkbox"
-              id={mId}
-              label={`${group} - ${name}`}
-              defaultChecked
-            />
+            <Form.Check type="checkbox" id={mId} label={name} defaultChecked />
           ) : (
-            <Form.Check type="checkbox" id={mId} label={`${group} - ${name}`} />
+            <Form.Check type="checkbox" id={mId} label={name} />
           )}
         </div>
       );
     }
+    checkboxes.push(column);
   }
 
   let instructions = '';
@@ -66,7 +65,14 @@ function ExerciseForm({ id }) {
 
       <Form.Group controlId="formExerciseName">
         <Form.Label>Select targeted areas</Form.Label>
-        {checkboxes}
+        <Row>
+          {checkboxes.map(({ group, boxes }) => (
+            <Col>
+              <b>{group}</b>
+              {boxes}
+            </Col>
+          ))}
+        </Row>
       </Form.Group>
 
       <Form.Group controlId="formVideoUrl">
