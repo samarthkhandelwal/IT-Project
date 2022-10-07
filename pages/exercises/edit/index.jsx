@@ -135,18 +135,33 @@ function ExerciseForm({ id }) {
 export default function EditExercise() {
   // Get operation type and exercise ID from query parameters
   const router = useRouter();
-  const { type, id } = router.query;
+  const { id } = router.query;
 
-  if (type === 'create' || type === 'edit') {
-    return (
-      <>
-        <TopNavbar />
-        {/* TODO: Preview of changes on side. */}
-        <div className={styles.main}>
-          {id !== undefined ? <ExerciseForm id={id} /> : <ExerciseForm />}
-        </div>
-      </>
-    );
+  return (
+    <>
+      <TopNavbar />
+      {/* TODO: Preview of changes on side. */}
+      <div className={styles.main}>
+        {id !== undefined ? <ExerciseForm id={id} /> : <ExerciseForm />}
+      </div>
+    </>
+  );
+}
+
+export async function getServerSideProps({ query }) {
+  if (
+    (query.type !== 'create' && query.type !== 'edit') ||
+    query.id > exercises.length
+  ) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/exercises',
+      },
+    };
   }
-  // TODO: Redirect to /exercises if invalid query params
+
+  return {
+    props: {},
+  };
 }
