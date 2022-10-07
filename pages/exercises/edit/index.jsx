@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -46,41 +47,43 @@ function ExerciseForm({ id }) {
 
   let instructions = '';
   if (id !== undefined) {
-    instructions += exercises[id].instructions.map(
-      (step) => `Step 1: ${step}\n`
-    );
+    for (let i = 0; i < exercises[id].instructions.length; i += 1) {
+      instructions += `${i + 1}) ${exercises[id].instructions[i]}\n`;
+    }
   }
 
   return (
     <Form>
       <Form.Group controlId="formExerciseName">
         <Form.Label>Exercise name</Form.Label>
-        <Form.Control
-          type="exercise"
-          placeholder={
-            id !== undefined ? exercises[id].name : 'Enter exercise name'
-          }
-        />
+        {id !== undefined ? (
+          <Form.Control type="exercise" defaultValue={exercises[id].name} />
+        ) : (
+          <Form.Control type="exercise" placeholder="Enter exercise name" />
+        )}
       </Form.Group>
 
       <Form.Group controlId="formExerciseName">
         <Form.Label>Select targeted areas</Form.Label>
-        <Row>
-          {checkboxes.map(({ group, boxes }) => (
-            <Col>
-              <b>{group}</b>
-              {boxes}
-            </Col>
-          ))}
-        </Row>
+        <Container fluid>
+          <Row>
+            {checkboxes.map(({ group, boxes }) => (
+              <Col>
+                <b>{group}</b>
+                {boxes}
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </Form.Group>
 
       <Form.Group controlId="formVideoUrl">
         <Form.Label>Enter video url to display</Form.Label>
-        <Form.Control
-          type="videoURL"
-          placeholder={id !== undefined ? exercises[id].videoURL : 'URL'}
-        />
+        {id !== undefined ? (
+          <Form.Control type="videoURL" defaultValue={exercises[id].videoURL} />
+        ) : (
+          <Form.Control type="videoURL" placeholder="Enter video URL" />
+        )}
       </Form.Group>
 
       <Form.Group controlId="formThumbnail">
@@ -90,22 +93,33 @@ function ExerciseForm({ id }) {
 
       <Form.Group controlId="formEquipment">
         <Form.Label>Equipment needed</Form.Label>
-        <Form.Control
-          type="equipment"
-          placeholder={
-            id !== undefined ? exercises[id].name : 'Enter required equipment'
-          }
-        />
+        {id !== undefined ? (
+          <Form.Control
+            type="equipment"
+            defaultValue={exercises[id].equipment}
+          />
+        ) : (
+          <Form.Control
+            type="equipment"
+            placeholder="Enter required equipment"
+          />
+        )}
       </Form.Group>
 
       <Form.Group controlId="formSteps">
         <Form.Label>Steps to completing the exercise</Form.Label>
-        <Form.Control
-          type="exercise"
-          as="textarea"
-          rows={4}
-          placeholder={id !== undefined ? instructions : 'Enter instructions'}
-        />
+        {id !== undefined ? (
+          <Form.Control type="exercise" as="textarea" rows={5}>
+            {instructions}
+          </Form.Control>
+        ) : (
+          <Form.Control
+            type="exercise"
+            as="textarea"
+            rows={5}
+            placeholder="Enter instructions"
+          />
+        )}
       </Form.Group>
 
       <Link href="/exercises">

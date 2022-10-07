@@ -2,3 +2,10 @@
   padding: 10vh;
   margin: 50px;
 }
+
+@media (max-width: 576px) {
+  .main {
+    padding: 10vh 2vw;
+    margin: 1vh;
+  }
+}

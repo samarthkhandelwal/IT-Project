@@ -12,6 +12,7 @@
       "Inhale and slowly start to bring the dumbbells back to the starting position.",
       "Repeat for the desired number of reps."
     ],
+    "equipment": "Dumbbells",
     "videoURL": "https://www.youtube.com/embed/TwD-YGVP4Bk"
   },
   {
@@ -21,10 +22,11 @@
     "imgSrc": "/../public/images/hammer-curls.png",
     "imgAlt": "Performing a plank",
     "instructions": [
-      "Lie face down with your forearms on the floor, and your elbows directly underneath your shoulders. Your forearms should be parallel. Point your feet so that your toes are on the floor.",
+      "Lie face down with your forearms on the yoga mat, and your elbows directly underneath your shoulders. Your forearms should be parallel. Point your feet so that your toes are on the floor.",
       "Lift your body up by engaging your core, so that only your toes and forearms are touching the ground. Your spine and legs should be straight.",
       "Hold this position for 30 seconds. Then, release and bring your knees to the ground."
     ],
+    "equipment": "Yoga mat",
     "videoURL": "https://www.youtube.com/embed/wCBOqf-HrTI"
   }
 ]
