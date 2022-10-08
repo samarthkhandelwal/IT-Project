@@ -1,11 +1,11 @@
 // React
 import React from 'react';
 
-// Next components
+// Next Components
 import Head from 'next/head';
 import Link from 'next/link';
 
-// Custom components
+// Custom Components
 import TopNavbar from '../components/Navbar/Navbar';
 
 // Styles
@@ -42,12 +42,6 @@ export default function Home() {
               <div className={styles.card}>
                 <h2>Find exercises &rarr;</h2>
                 <p>Explore our catalog of exercises</p>
-              </div>
-            </Link>
-
-            <Link href="/profile">
-              <div className={styles.card}>
-                <h2>Login &rarr;</h2>
               </div>
             </Link>
           </div>
