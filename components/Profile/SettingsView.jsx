@@ -21,7 +21,7 @@ export default function SettingsView() {
     <>
       <Nav onClick={handleShow}>Settings</Nav>
 
-      <Offcanvas show={show} onHide={handleClose}>
+      <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Settings</Offcanvas.Title>
         </Offcanvas.Header>

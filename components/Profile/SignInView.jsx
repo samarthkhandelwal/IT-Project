@@ -19,7 +19,7 @@ export default function SignInView() {
     <>
       <Nav onClick={handleShow}>Sign in</Nav>
 
-      <Offcanvas show={show} onHide={handleClose}>
+      <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title />
         </Offcanvas.Header>

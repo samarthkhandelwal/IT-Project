@@ -24,7 +24,7 @@ export default function ProfileView() {
     <>
       <Nav onClick={handleShow}>Profile</Nav>
 
-      <Offcanvas show={show} onHide={handleClose}>
+      <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Profile</Offcanvas.Title>
         </Offcanvas.Header>
