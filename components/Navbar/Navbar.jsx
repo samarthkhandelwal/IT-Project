@@ -27,19 +27,30 @@ export default function TopNavbar() {
 
   // TODO: Authentication
   function profileSignIn(isSignedIn) {
-    if (isSignedIn === true) {
-      return <ProfileView />;
-    }
-    return <SignInView />;
-  }
-
-  function displayProfile() {
     if (useOffCanvas) {
-      return <Nav.Link className={styles.item}>{profileSignIn(true)}</Nav.Link>;
+      if (isSignedIn === true) {
+        return (
+          <Nav.Link className={styles.item}>
+            <ProfileView />
+          </Nav.Link>
+        );
+      }
+      return (
+        <Nav.Link className={styles.item}>
+          <SignInView />
+        </Nav.Link>
+      );
+    }
+    if (isSignedIn === true) {
+      return (
+        <Link href="/profile" passHref>
+          <Nav.Link className={styles.item}>Profile</Nav.Link>
+        </Link>
+      );
     }
     return (
-      <Link href="/profile" passHref>
-        <Nav.Link className={styles.item}>Profile</Nav.Link>
+      <Link href="/profile/signin" passHref>
+        <Nav.Link className={styles.item}>Sign In</Nav.Link>
       </Link>
     );
   }
@@ -63,7 +74,7 @@ export default function TopNavbar() {
             </Link>
           </Nav>
 
-          <Nav>{displayProfile()}</Nav>
+          <Nav>{profileSignIn(true)}</Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

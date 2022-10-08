@@ -11,7 +11,7 @@ import TopNavbar from '../../components/Navbar/Navbar';
 // Styles
 import styles from '../../styles/Settings.module.css';
 
-export default function SignInPage() {
+export default function SignInView() {
   return (
     <>
       <TopNavbar />
