@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 // React
 import React, { useEffect, useState } from 'react';
 
@@ -36,7 +35,12 @@ export default function WorkoutsPage() {
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
-          <List list={workoutList} listType="radio" {...selectState} />
+          <List
+            list={workoutList}
+            listType="radio"
+            selected={selected}
+            setSelected={setSelected}
+          />
         </main>
       </div>
     </>
