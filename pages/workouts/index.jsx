@@ -27,8 +27,8 @@ export default function WorkoutsPage() {
     };
     getWorkouts();
   }, []);
-  const selectState = {};
-  [selectState.selected, selectState.setSelected] = useState('');
+
+  const [selected, setSelected] = useState('');
 
   return (
     <>
