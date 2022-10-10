@@ -5,6 +5,15 @@ const nextConfig = {
   images: {
     domains: ["images.pexels.com"],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/exercises',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 module.exports = nextConfig;
