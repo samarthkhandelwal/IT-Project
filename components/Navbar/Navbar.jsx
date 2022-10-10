@@ -1,34 +1,57 @@
 // React
 import React from 'react';
 
-// Bootstrap components
+// Bootstrap Components
+import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-// Next components
+// Next Components
 import Link from 'next/link';
+
+// Custom Components
+import ProfileView from '../Profile/ProfileView';
+import SignInView from '../Profile/SignInView';
 
 // Styles
 import styles from '../../styles/Navbar.module.css';
 
-function TopNavbar() {
+import { useAuth } from '../../context/authUserContext';
+
+export default function TopNavbar() {
+  // TODO: Authentication
+  const { authUser } = useAuth();
+  function profileSignIn() {
+    if (authUser) {
+      return <ProfileView />;
+    }
+    return <SignInView />;
+  }
+
   return (
-    <Navbar className={styles.navbar} fixed="top">
-      <Link href="/" passHref>
-        <Nav.Link className={styles.title}>Workout Buddy</Nav.Link>
-      </Link>
+    <Navbar className={styles.navbar} fixed="top" expand="sm" collapseOnSelect>
+      <Container fluid>
+        <Navbar.Brand className={styles.title} bsPrefix="no-styling">
+          My Workout Buddy
+        </Navbar.Brand>
 
-      <Nav fill className={styles.items}>
-        <Link href="/exercises" passHref>
-          <Nav.Link className={styles.item}>Exercises</Nav.Link>
-        </Link>
+        <Navbar.Toggle aria-controls="responsive-navbar" />
+        <Navbar.Collapse id="responsive-navbar">
+          <Nav className="me-auto">
+            <Link href="/exercises" passHref>
+              <Nav.Link className={styles.item}>Exercises</Nav.Link>
+            </Link>
 
-        <Link href="/workouts" passHref>
-          <Nav.Link className={styles.item}>Workouts</Nav.Link>
-        </Link>
-      </Nav>
+            <Link href="/workouts" passHref>
+              <Nav.Link className={styles.item}>Workouts</Nav.Link>
+            </Link>
+          </Nav>
+
+          <Nav>
+            <Nav.Link className={styles.item}>{profileSignIn()}</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
     </Navbar>
   );
 }
-
-export default TopNavbar;
