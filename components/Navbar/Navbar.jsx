@@ -1,7 +1,7 @@
 // React
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-// Bootstrap Components
+// // Bootstrap Components
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,42 +17,12 @@ import SignInView from '../Profile/SignInView';
 import styles from '../../styles/Navbar.module.css';
 
 export default function TopNavbar() {
-  /* Only use the OffCanvas component if innerWidth > 576px */
-  const [useOffCanvas, setOffCanvas] = useState(true);
-  useEffect(() => {
-    if (window.innerWidth < 576) {
-      setOffCanvas(false);
-    }
-  }, []);
-
   // TODO: Authentication
   function profileSignIn(isSignedIn) {
-    if (useOffCanvas) {
-      if (isSignedIn === true) {
-        return (
-          <Nav.Link className={styles.item}>
-            <ProfileView />
-          </Nav.Link>
-        );
-      }
-      return (
-        <Nav.Link className={styles.item}>
-          <SignInView />
-        </Nav.Link>
-      );
-    }
     if (isSignedIn === true) {
-      return (
-        <Link href="/profile" passHref>
-          <Nav.Link className={styles.item}>Profile</Nav.Link>
-        </Link>
-      );
+      return <ProfileView />;
     }
-    return (
-      <Link href="/profile/signin" passHref>
-        <Nav.Link className={styles.item}>Sign In</Nav.Link>
-      </Link>
-    );
+    return <SignInView />;
   }
 
   return (
@@ -74,7 +44,9 @@ export default function TopNavbar() {
             </Link>
           </Nav>
 
-          <Nav>{profileSignIn(true)}</Nav>
+          <Nav>
+            <Nav.Link className={styles.item}>{profileSignIn(true)}</Nav.Link>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
