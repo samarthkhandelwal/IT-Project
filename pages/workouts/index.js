@@ -1,22 +1,55 @@
+// BCustom components
+import List from '../../components/List/List';
+import TopNavbar from '../../components/Navbar/Navbar';
+
+import WorkoutList from '../../components/WorkoutList/WorkoutList';
+import Image from 'next/future/image';
+import { Container, Row, Col } from 'react-bootstrap';
+
+// Styles
+import styles from '../../styles/Workouts/Workouts.module.css';
+
 // React
 import React, { useState } from 'react';
 
-// Bootstrap components
-import TopNavbar from '../../components/Navbar/Navbar';
-import List from '../../components/List/List';
-
-// Styles
-import styles from '../../styles/Workouts.module.css';
-
-// Import the Workout class so that we can create a dummy set of workouts to render
+// Import the Exercise class so that we can create a dummy set of exercises to render
 import Workout from '../../public/classes/Workout';
+import Exercise from '../../public/classes/Exercise';
 
 export default function WorkoutsPage() {
-  // A dummy workout list so that we have data to render.
+  // A dummy exercise list so that we have data to render.
   // Once the database is implemented this will not be necessary
+  const exercise_list = [];
+  exercise_list.push(
+    new Exercise('Bench Press', ['Chest', 'Shoulder', 'Triceps']),
+    new Exercise('Squats', ['Quadriceps', 'Hamstrings', 'Calves', 'Glutes']),
+    new Exercise('Plank', [
+      'Quadriceps',
+      'Hamstrings',
+      'Core',
+      'Triceps',
+      'Glutes',
+    ]),
+    new Exercise('Bench Dips ', ['Chest', 'Triceps']),
+    new Exercise('Lunges', ['Hamstrings', 'Glutes', 'Quadriceps', 'Calves']),
+    new Exercise('Custom exercise 1', ['Back', 'Biceps', 'Abs']),
+    new Exercise('Custom exercise 2', ['Quadriceps', 'Hamstrings', 'Calves']),
+    new Exercise('Custom exercise 3', ['Chest', 'Back', 'Shoulder', 'Triceps'])
+  );
+
   const workout_list = [];
   workout_list.push(
-    new Workout('Push Workout', ['Chest', 'Shoulder', 'Triceps']),
+    new Workout(
+      'Push Workout',
+      ['Chest', 'Shoulder', 'Triceps'],
+      [
+        'Bench Press',
+        'Bench Dips',
+        'Custom exercise 1',
+        'Custom exercise 2',
+        'Custom exercise 3',
+      ]
+    ),
     new Workout('Pull Workout', ['Back', 'Biceps', 'Abs']),
     new Workout('Legs Workout', ['Quadriceps', 'Hamstrings', 'Calves']),
     new Workout('Upper Workout', ['Chest', 'Back', 'Shoulder', 'Triceps']),
@@ -34,11 +67,34 @@ export default function WorkoutsPage() {
   return (
     <>
       <TopNavbar />
-      <div className={styles.container}>
-        <main className={styles.main}>
-          <List list={workout_list} {...selectState} />
-        </main>
-      </div>
+      <Container className={styles.container}>
+        <Row>
+          <Col>
+            <Image
+              src={workout_list[0].imgSrc}
+              alt="workout image"
+              width="0"
+              height="0"
+              sizes="100vw"
+              object-fit="cover"
+              style={{ width: '100%', height: '50%' }}
+            />
+            <div>
+              <main className={styles.workoutlist}>
+                <WorkoutList exercise_list={exercise_list} />
+              </main>
+            </div>
+          </Col>
+
+          <Col>
+            <div>
+              <main className={styles.main}>
+                <List list={workout_list} {...selectState} />
+              </main>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
