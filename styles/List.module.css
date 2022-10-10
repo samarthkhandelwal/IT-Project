@@ -13,7 +13,6 @@
 
 .list {
   border: 1px solid black;
-  /* border-radius: 10px; */
   margin-bottom: 1vw;
   background-color: white;
   color: black;
@@ -27,30 +26,36 @@
 }
 
 /* Contains the image and the text */
-.element {
+
+.element,
+.selement {
   display: flex;
+  height: 14vh;
   width: 25vw + 120px + 60px;
   padding: 0.5vw;
-  /* height: 13.85vh; */
 }
 
 .selement {
-  display: flex;
-  padding: 0.5vw;
   margin: 0 auto;
   justify-content: center;
-  padding-bottom: 2.26vh;
 }
 
 /* text in list */
-.stxt h1 {
-  font-size: xx-large;
-  margin: 10px 0 0 0;
+.txt,
+.stxt {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.stxt {
   text-align: center;
   text-overflow: ellipsis;
   width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
+}
+
+.stxt h1 {
+  font-size: xx-large;
+  margin: 10px 0 0 0;
 }
 
 .stxt p {
@@ -58,22 +63,18 @@
   font-style: italic;
   font-weight: 300;
   margin-bottom: 0;
-  text-align: center;
-  text-overflow: ellipsis;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 /* text in list */
-.txt h1 {
-  font-size: xx-large;
-  margin: 10px 0 0 5px;
+.txt {
   text-align: left;
   text-overflow: ellipsis;
   width: 20vw;
-  overflow: hidden;
-  white-space: nowrap;
+}
+
+.txt h1 {
+  font-size: xx-large;
+  margin: 10px 0 0 5px;
 }
 
 .txt p {
@@ -82,11 +83,6 @@
   font-weight: 300;
   margin-left: 6px;
   margin-bottom: 0;
-  text-align: left;
-  text-overflow: ellipsis;
-  width: 20vw;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .star {

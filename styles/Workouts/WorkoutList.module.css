@@ -11,6 +11,10 @@
   scrollbar-width: auto;
 }
 
+.workoutexerciselist {
+  display: flex;
+}
+
 .list {
   border: 0;
   background-color: white;
@@ -29,6 +33,18 @@
 .element {
   display: flex;
   width: 35vw;
+}
+
+.sr p {
+  margin-left: 0.5vw;
+  font-size: medium;
+  font-weight: 300;
+  margin-bottom: 0;
+  text-align: center;
+  text-overflow: ellipsis;
+  height: 100%;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .txt p {

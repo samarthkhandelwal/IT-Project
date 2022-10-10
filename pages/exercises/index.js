@@ -20,20 +20,37 @@ export default function ExercisesPage() {
   // Once the database is implemented this will not be necessary
   const exercise_list = [];
   exercise_list.push(
-    new Exercise('Bench Press', ['Chest', 'Shoulder', 'Triceps']),
-    new Exercise('Squats', ['Quadriceps', 'Hamstrings', 'Calves', 'Glutes']),
-    new Exercise('Plank', [
-      'Quadriceps',
-      'Hamstrings',
-      'Core',
-      'Triceps',
-      'Glutes',
-    ]),
-    new Exercise('Bench Dips ', ['Chest', 'Triceps']),
-    new Exercise('Lunges', ['Hamstrings', 'Glutes', 'Quadriceps', 'Calves']),
-    new Exercise('Custom exercise 1', ['Back', 'Biceps', 'Abs']),
-    new Exercise('Custom exercise 2', ['Quadriceps', 'Hamstrings', 'Calves']),
-    new Exercise('Custom exercise 3', ['Chest', 'Back', 'Shoulder', 'Triceps'])
+    new Exercise('Bench Press', ['Chest', 'Shoulder', 'Triceps'], {
+      Sets: 3,
+      Reps: 8,
+    }),
+    new Exercise('Squats', ['Quadriceps', 'Hamstrings', 'Calves', 'Glutes'], {
+      Sets: 3,
+      Reps: 8,
+    }),
+    new Exercise(
+      'Plank',
+      ['Quadriceps', 'Hamstrings', 'Core', 'Triceps', 'Glutes'],
+      { Sets: 3, Reps: 8 }
+    ),
+    new Exercise('Bench Dips ', ['Chest', 'Triceps'], { Sets: 3, Reps: 8 }),
+    new Exercise('Lunges', ['Hamstrings', 'Glutes', 'Quadriceps', 'Calves'], {
+      Sets: 3,
+      Reps: 8,
+    }),
+    new Exercise('Custom exercise 1', ['Back', 'Biceps', 'Abs'], {
+      Sets: 3,
+      Reps: 8,
+    }),
+    new Exercise('Custom exercise 2', ['Quadriceps', 'Hamstrings', 'Calves'], {
+      Sets: 3,
+      Reps: 8,
+    }),
+    new Exercise(
+      'Custom exercise 3',
+      ['Chest', 'Back', 'Shoulder', 'Triceps'],
+      { Sets: 3, Reps: 8 }
+    )
   );
 
   const selectState = {};
