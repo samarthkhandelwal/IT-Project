@@ -3,6 +3,9 @@
 import React from 'react';
 import { SSRProvider } from 'react-aria';
 
+// Firebase
+import { AuthUserProvider } from '../context/authUserContext';
+
 // Styles
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.css';
@@ -10,7 +13,9 @@ import '../styles/globals.css';
 export default function MyApp({ Component, pageProps }) {
   return (
     <SSRProvider>
-      <Component {...pageProps} />
+      <AuthUserProvider>
+        <Component {...pageProps} />
+      </AuthUserProvider>
     </SSRProvider>
   );
 }
