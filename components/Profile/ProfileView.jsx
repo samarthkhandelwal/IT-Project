@@ -34,7 +34,7 @@ export default function ProfileView() {
     <>
       <Nav onClick={handleShow}>Profile</Nav>
 
-      <Offcanvas show={show} onHide={handleClose}>
+      <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Profile</Offcanvas.Title>
         </Offcanvas.Header>
@@ -53,12 +53,6 @@ export default function ProfileView() {
               </Figure>
 
               <div className={styles.grid}>
-                <div className={styles.card}>
-                  <Link href="/" className={styles.card}>
-                    <p>Your favourites</p>
-                  </Link>
-                </div>
-
                 <div className={styles.card}>
                   <Link href="/workouts" className={styles.card}>
                     <p>Your workouts</p>
