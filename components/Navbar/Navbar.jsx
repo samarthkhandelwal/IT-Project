@@ -16,10 +16,13 @@ import SignInView from '../Profile/SignInView';
 // Styles
 import styles from '../../styles/Navbar.module.css';
 
+import { useAuth } from '../../context/authUserContext';
+
 export default function TopNavbar() {
   // TODO: Authentication
-  function profileSignIn(isSignedIn) {
-    if (isSignedIn === true) {
+  const { authUser } = useAuth();
+  function profileSignIn() {
+    if (authUser) {
       return <ProfileView />;
     }
     return <SignInView />;
@@ -45,7 +48,7 @@ export default function TopNavbar() {
           </Nav>
 
           <Nav>
-            <Nav.Link className={styles.item}>{profileSignIn(true)}</Nav.Link>
+            <Nav.Link className={styles.item}>{profileSignIn()}</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
