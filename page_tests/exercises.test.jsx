@@ -2,38 +2,44 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-// Custom Components
-//import WorkoutsPage from '../pages/workouts/index';
-
-import Workout from '../public/classes/Workout';
-
+// Custom components
 import List from '../components/List/List';
 
-import styles from '../styles/Workouts.module.css';
+// Styles
+import styles from '../styles/Exercises.module.css';
 
-function WorkoutsTest() {
-  // A dummy workout list so that we have data to render.
+// Import the Exercise class so that we can create a dummy set of exercises to render
+import Exercise from '../public/classes/Exercise';
+
+function ExercisesTest() {
+  // A dummy exercise list so that we have data to render.
   // Once the database is implemented this will not be necessary
-  const workoutList = [];
-  workoutList.push(
-    new Workout('Push Workout', ['Chest', 'Shoulder', 'Triceps']),
-    new Workout('Pull Workout', ['Back', 'Biceps', 'Abs']),
-    new Workout('Legs Workout', ['Quadriceps', 'Hamstrings', 'Calves']),
-    new Workout('Upper Workout', ['Chest', 'Back', 'Shoulder', 'Triceps']),
-    new Workout('Workout 1', ['Chest', 'Shoulder', 'Triceps']),
-    new Workout('Workout 2', ['Back', 'Biceps', 'Abs']),
-    new Workout('Workout 3', ['Quadriceps', 'Hamstrings', 'Calves']),
-    new Workout('Workout 4', ['Chest', 'Back', 'Shoulder', 'Triceps'])
+  const exerciseList = [];
+  exerciseList.push(
+    new Exercise('Bench Press', ['Chest', 'Shoulder', 'Triceps']),
+    new Exercise('Squats', ['Quadriceps', 'Hamstrings', 'Calves', 'Glutes']),
+    new Exercise('Plank', [
+      'Quadriceps',
+      'Hamstrings',
+      'Core',
+      'Triceps',
+      'Glutes',
+    ]),
+    new Exercise('Bench Dips ', ['Chest', 'Triceps']),
+    new Exercise('Lunges', ['Hamstrings', 'Glutes', 'Quadriceps', 'Calves']),
+    new Exercise('Custom exercise 1', ['Back', 'Biceps', 'Abs']),
+    new Exercise('Custom exercise 2', ['Quadriceps', 'Hamstrings', 'Calves']),
+    new Exercise('Custom exercise 3', ['Chest', 'Back', 'Shoulder', 'Triceps'])
   );
 
   const selectState = {};
-  [selectState.selected, selectState.setSelected] = useState('');
+  [selectState.selected, selectState.setSelected] = useState();
 
   return (
     <>
       <div className={styles.container}>
         <main className={styles.main}>
-          <List list={workoutList} listType="radio" {...selectState} />
+          <List list={exerciseList} {...selectState} />
         </main>
       </div>
     </>
@@ -42,7 +48,7 @@ function WorkoutsTest() {
 
 describe('The List of buttons displaying Workouts or Exercises', () => {
   it('Updates the selected button when another is clicked', () => {
-    render(<WorkoutsTest />);
+    render(<ExercisesTest />);
 
     const btns = screen.getAllByRole('radio');
 
