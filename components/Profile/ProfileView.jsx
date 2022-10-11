@@ -9,6 +9,9 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 // Next Components
 import Link from 'next/link';
 
+// Firebase
+import { useAuth } from '../../context/authUserContext';
+
 // Custom Components
 import SettingsView from './SettingsView';
 
@@ -19,6 +22,13 @@ export default function ProfileView() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const { signOutUser, authUser } = useAuth();
+
+  const handleSignOut = () => {
+    signOutUser();
+    handleClose();
+  };
 
   return (
     <>
@@ -32,13 +42,13 @@ export default function ProfileView() {
         <Offcanvas.Body>
           <div className={styles.container}>
             <main className={styles.main}>
-              <h1>Alice Brown</h1>
+              <h1>{authUser.name}</h1>
               <Figure>
                 <Figure.Image
                   width={200}
                   height={200}
                   alt="200x200"
-                  src="profile-pic.jpg"
+                  src={authUser.photoURL}
                 />
               </Figure>
 
@@ -58,7 +68,7 @@ export default function ProfileView() {
                 </div>
 
                 <div>
-                  <Nav.Link className={styles.card} onClick={handleClose}>
+                  <Nav.Link className={styles.card} onClick={handleSignOut}>
                     <p>Sign out</p>
                   </Nav.Link>
                 </div>
