@@ -1,3 +1,6 @@
+// React
+import React from 'react';
+
 // Bootstrap components
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
@@ -5,12 +8,18 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 // Custom components
 import SearchFilterBar from './SearchFilterBar';
 import Element from './Element';
-
-// Styles
 import styles from '../../styles/List.module.css';
 
-export default function List({ list, selected, setSelected }) {
-  const onchange = (e) => {
+/**
+ *
+ * @param {*} list A list of either workouts or exercises
+ * @param {*} listType Either "radio" or "checkbox".
+ * @param {*} selected State of which elements are selected. if checkbox, must be an array.
+ * @param {*} setSelected The function that sets the state of selected
+ * @returns
+ */
+export default function List({ list, listType, selected, setSelected }) {
+  const handleChange = (e) => {
     setSelected(e);
   };
 
@@ -18,12 +27,12 @@ export default function List({ list, selected, setSelected }) {
     <div>
       <SearchFilterBar />
 
-      {/* The list. A group of toggle buttons, so that the active one can be kept track of*/}
+      {/* The list. A group of toggle buttons, so that the active one can be kept track of */}
       <div className={styles.scrollableContainer}>
         <ToggleButtonGroup
+          type={listType}
           value={selected}
-          onChange={onchange}
-          variant="primary"
+          onChange={handleChange}
           vertical
           name="button-list"
         >
@@ -31,9 +40,9 @@ export default function List({ list, selected, setSelected }) {
             <ToggleButton
               className={styles.list}
               key={element.name}
-              id={`radio-${element.name}`}
-              type="radio"
-              name="radio"
+              id={`${listType}-${element.name}`}
+              variant="light"
+              name={listType}
               value={element.name}
             >
               <Element element={element} />

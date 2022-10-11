@@ -1,3 +1,6 @@
+// React
+import React, { useEffect, useState } from 'react';
+
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -5,9 +8,6 @@ import Modal from 'react-bootstrap/Modal';
 // Custom components
 import YouTube from '../Video/Video';
 import Element from '../List/Element';
-
-// React
-import React, { useEffect, useState } from 'react';
 
 /* A small extension of the Element defined in components/List/Element.
  * Handles a Modal popup or side card update when an element is clicked.
@@ -50,7 +50,7 @@ export default function ExerciseElement({ exercise, updateCard }) {
         <Modal.Body>
           <YouTube link={exercise.videoURL} />
           {exercise.instructions.map((step, index) => (
-            <p key={index}>
+            <p key={exercise.id}>
               Step {index + 1}: {step}
             </p>
           ))}

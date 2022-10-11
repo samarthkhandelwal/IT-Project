@@ -1,4 +1,4 @@
-// Import React
+// React
 import React, { useState } from 'react';
 
 // Next components
@@ -19,11 +19,21 @@ export default function Element({ element, onClick }) {
   // Event handler if the favourite button is clicked on
   const toggleStar = (e) => {
     e.preventDefault();
-    imgPath == star ? setImgPath(starFilled) : setImgPath(star);
+    if (imgPath === star) {
+      setImgPath(starFilled);
+    } else {
+      setImgPath(star);
+    }
   };
 
   return (
-    <div className={styles.element} onClick={onClick}>
+    <div
+      className={styles.element}
+      onClick={onClick}
+      onKeyPress={onClick}
+      role="button"
+      tabIndex={0}
+    >
       <Image
         src={element.imgSrc}
         alt={element.imgAlt}
@@ -45,7 +55,7 @@ export default function Element({ element, onClick }) {
             width={38}
             alt="star"
             onClick={toggleStar}
-          ></input>
+          />
         </form>
       </div>
     </div>
