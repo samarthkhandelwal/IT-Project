@@ -87,15 +87,22 @@ export default function WorkoutsPage() {
       <Container className={styles.container}>
         <Row>
           <Col>
-            <Image
-              src={workout_list[0].imgSrc}
-              alt="workout image"
-              width="0"
-              height="0"
-              sizes="100vw"
-              object-fit="cover"
-              style={{ width: '100%', height: '50%' }}
-            />
+            <div className={styles.imgcontainer}>
+              <Image
+                src={workout_list[0].imgSrc}
+                alt="workout image"
+                width="0"
+                height="0"
+                sizes="100vw"
+                object-fit="cover"
+                style={{ width: '100%', height: '48vh' }}
+              />
+              <div className={styles.textblock}>
+                <h1>{workout_list[0].name}</h1>
+                <p>{workout_list[0].muscleGroups.join(', ')}</p>
+              </div>
+            </div>
+
             <div>
               <main className={styles.workoutlist}>
                 <WorkoutList exercise_list={exercise_list} />

@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
+
 .container {
   padding: 0 2rem;
   padding: 15vh 0;
@@ -110,6 +112,36 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.imgcontainer {
+  position: relative;
+}
+
+/* Bottom right text */
+.textblock {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow: hidden;
+  -webkit-text-stroke: 0.5px black;
+}
+
+.textblock h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 7vh;
+  font-weight: bold;
+  margin: 10px 0 0 0;
+}
+
+.textblock p {
+  font-size: x-large;
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 0;
 }
 
 @media (max-width: 600px) {
