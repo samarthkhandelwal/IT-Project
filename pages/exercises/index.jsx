@@ -23,20 +23,22 @@ export default function ExercisesPage() {
     const getExercises = async () => {
       const q = query(exercisesCollectionRef, orderBy('name'), limit(10));
       const data = await getDocs(q);
-      setExerciseList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setExerciseList(
+        data.docs.map((document) => ({ ...document.data(), id: document.id }))
+      );
     };
     getExercises();
   }, []);
+
   const selectState = {};
   [selectState.selected, selectState.setSelected] = useState();
+
   return (
     <>
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
           <CRUDButton type="exercise" create />
-          {/* NOTE: Just to test, will remove later */}
-          <CRUDButton type="exercise" id="0" />
           <List list={exerciseList} listType="radio" {...selectState} />
         </main>
       </div>
