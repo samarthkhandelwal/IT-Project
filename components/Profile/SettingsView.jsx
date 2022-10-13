@@ -41,7 +41,7 @@ export default function SettingsView() {
                 <div className={styles.form}>
                   <Image src={authUser.photoURL} roundedCircle="true" />
                   <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Control type="file" />
+                    <Form.Control type="file" size="sm" />
                   </Form.Group>
                 </div>
 
