@@ -15,38 +15,37 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 // Custom components
-import DeleteToast from './DeleteToast';
+import CustomToast from './CustomToast';
 
 export default function CRUDButton({ type, create, id, exerciseName }) {
   /* Handles state for the delete toast */
-  const [isDeleteToast, setDeleteToast] = useState({});
+  const [isToastActive, setToastActive] = useState({});
   const handleToastOpen = ({ title, body, error }) => {
-    setDeleteToast({ title, body, error });
+    setToastActive({ title, body, error });
   };
   const handleToastClose = () => {
-    setDeleteToast(false);
+    setToastActive(false);
   };
 
   /* Handles state for the delete button modal */
   const [isModalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => {
-    let error;
-    let body;
     /* Delete the document from the collection, then display the toast. */
     deleteDoc(doc(db, 'exercises', id))
       .then(() => {
-        body = `Successfully deleted ${exerciseName}`;
+        handleToastOpen({
+          title: 'My Workout Buddy',
+          body: `Successfully deleted ${exerciseName}. Redirecting...`,
+        });
       })
-      .catch((deleteError) => {
-        error = deleteError;
+      .catch((error) => {
+        handleToastOpen({
+          title: 'My Workout Buddy',
+          error,
+        });
       });
     setModalOpen(false);
-    handleToastOpen({
-      title: 'My Workout Buddy',
-      body,
-      error,
-    });
   };
 
   // Makes either a button, or a dropdown button
@@ -109,19 +108,14 @@ export default function CRUDButton({ type, create, id, exerciseName }) {
 
   // Creates the toast for deleting
   function makeToast({ title, body, error }) {
-    if (isDeleteToast.title !== undefined) {
+    if (title !== undefined) {
       if (error !== undefined) {
         return (
-          <DeleteToast
-            title={title}
-            body={body}
-            error={error}
-            onClose={handleToastClose}
-          />
+          <CustomToast title={title} error={error} onClose={handleToastClose} />
         );
       }
       return (
-        <DeleteToast title={title} body={body} onClose={handleToastClose} />
+        <CustomToast title={title} body={body} onClose={handleToastClose} />
       );
     }
     return null;
@@ -131,7 +125,7 @@ export default function CRUDButton({ type, create, id, exerciseName }) {
     <>
       {makeButton(type, create)}
       {makeModal(id)}
-      {makeToast(isDeleteToast)}
+      {makeToast(isToastActive)}
     </>
   );
 }
