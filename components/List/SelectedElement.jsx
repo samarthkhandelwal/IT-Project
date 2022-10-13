@@ -10,7 +10,7 @@ const starFilled = '/images/starFilled.png';
 // Element returns what should be displayed for each element of the list
 export default function Element({ element }) {
   const [imgPath, setImgPath] = useState(star);
-  
+
   const toggleStar = (e) => {
     e.preventDefault();
     imgPath == star ? setImgPath(starFilled) : setImgPath(star);
