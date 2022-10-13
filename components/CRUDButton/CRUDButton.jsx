@@ -10,14 +10,44 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Modal from 'react-bootstrap/Modal';
 
-// Import static content
-import exercises from '../../pages/exercises/exercises.json' assert { type: 'json' };
+// Firebase
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
-export default function CRUDButton({ type, create, id }) {
-  // Handles state for the delete button modal
-  const [isOpen, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+// Custom components
+import DeleteToast from './DeleteToast';
+
+export default function CRUDButton({ type, create, id, exerciseName }) {
+  /* Handles state for the delete toast */
+  const [isDeleteToast, setDeleteToast] = useState({});
+  const handleToastOpen = ({ title, body, error }) => {
+    setDeleteToast({ title, body, error });
+  };
+  const handleToastClose = () => {
+    setDeleteToast(false);
+  };
+
+  /* Handles state for the delete button modal */
+  const [isModalOpen, setModalOpen] = useState(false);
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => {
+    let error;
+    let body;
+    /* Delete the document from the collection, then display the toast. */
+    deleteDoc(doc(db, 'exercises', id))
+      .then(() => {
+        body = `Successfully deleted ${exerciseName}`;
+      })
+      .catch((deleteError) => {
+        error = deleteError;
+      });
+    setModalOpen(false);
+    handleToastOpen({
+      title: 'My Workout Buddy',
+      body,
+      error,
+    });
+  };
 
   // Makes either a button, or a dropdown button
   function makeButton(urlBase, toCreate) {
@@ -44,29 +74,30 @@ export default function CRUDButton({ type, create, id }) {
         <Link href={{ pathname: url, query: `type=edit&id=${id}` }} passHref>
           <Dropdown.Item>Edit {urlBase}</Dropdown.Item>
         </Link>
-
-        <Dropdown.Item onClick={handleOpen}>Delete {urlBase}</Dropdown.Item>
+        <Dropdown.Item onClick={handleModalOpen}>
+          Delete {urlBase}
+        </Dropdown.Item>
       </DropdownButton>
     );
   }
 
   // Creates the modal only if there is an id.
-  function modal(toShow) {
+  function makeModal(toShow) {
     if (toShow !== undefined) {
       return (
-        <Modal show={isOpen} onHide={handleClose} centered size="lg">
+        <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
           <Modal.Header>
             <Modal.Title>
-              <p>Delete exercise &#39;{exercises[id].name}&#39;?</p>
+              <p>Delete exercise &#39;{exerciseName}&#39;?</p>
             </Modal.Title>
           </Modal.Header>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="secondary" onClick={handleModalClose}>
               Close
             </Button>
 
-            <Button variant="danger" onClick={handleClose}>
+            <Button variant="danger" onClick={handleModalClose}>
               Delete
             </Button>
           </Modal.Footer>
@@ -76,10 +107,31 @@ export default function CRUDButton({ type, create, id }) {
     return null;
   }
 
+  // Creates the toast for deleting
+  function makeToast({ title, body, error }) {
+    if (isDeleteToast.title !== undefined) {
+      if (error !== undefined) {
+        return (
+          <DeleteToast
+            title={title}
+            body={body}
+            error={error}
+            onClose={handleToastClose}
+          />
+        );
+      }
+      return (
+        <DeleteToast title={title} body={body} onClose={handleToastClose} />
+      );
+    }
+    return null;
+  }
+
   return (
     <>
       {makeButton(type, create)}
-      {modal(id)}
+      {makeModal(id)}
+      {makeToast(isDeleteToast)}
     </>
   );
 }

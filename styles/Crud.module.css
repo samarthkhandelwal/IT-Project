@@ -6,6 +6,21 @@
   padding: 0 10vw;
 }
 
+.toast {
+  position: fixed;
+  top: 10vh;
+  right: 2vw;
+  width: 300px;
+}
+
+.toasterror {
+  position: fixed;
+  top: 10vh;
+  right: 2vw;
+  width: 300px;
+  background-color: red;
+}
+
 @media (max-width: 576px) {
   .main {
     margin-top: 0;

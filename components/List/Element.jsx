@@ -4,9 +4,13 @@ import React, { useState } from 'react';
 // Next components
 import Image from 'next/image';
 
+// Custom components
+import CRUDButton from '../CRUDButton/CRUDButton';
+
 // Styles
 import styles from '../../styles/List.module.css';
 
+// Star images
 const star = '/images/star.png';
 const starFilled = '/images/starFilled.png';
 
@@ -35,10 +39,14 @@ export default function Element({ element }) {
 
       <div className={styles.txt}>
         <h1>{element.name}</h1>
-        <p>{element.muscles.join(', ')}</p>
       </div>
 
       <div className={styles.star}>
+        <CRUDButton
+          type="exercise"
+          id={element.id}
+          exerciseName={element.name}
+        />
         <form>
           <input
             type="image"
