@@ -29,7 +29,7 @@
 
 .element,
 .selement {
-  display: flex;
+  display: inline-flex;
   height: 14vh;
   width: 25vw + 120px + 60px;
   padding: 0.5vw;
@@ -38,6 +38,12 @@
 .selement {
   margin: 0 auto;
   justify-content: center;
+}
+
+.star {
+  margin: auto;
+  display: block;
+  margin-left: 1vw;
 }
 
 /* text in list */
@@ -70,6 +76,7 @@
   text-align: left;
   text-overflow: ellipsis;
   width: 20vw;
+  margin-left: 1vw;
 }
 
 .txt h1 {
@@ -83,11 +90,6 @@
   font-weight: 300;
   margin-left: 6px;
   margin-bottom: 0;
-}
-
-.star {
-  margin-top: 21px;
-  margin-left: 4px;
 }
 
 @media only screen and (max-width: 576px) {
