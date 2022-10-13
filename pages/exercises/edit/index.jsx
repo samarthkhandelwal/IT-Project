@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 // Bootstrap components
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
@@ -39,7 +40,21 @@ function ExerciseForm({ id }) {
   // TODO: Form validation
   // const [validated, setValidated] = useState(false);
 
+  /* Handles state for the alert */
+  const [isAlertActive, setAlertActive] = useState({});
+  const handleAlertOpen = ({ heading, body, variant }) => {
+    setAlertActive({ heading, body, variant });
+  };
+  const handleAlertClose = () => {
+    setAlertActive({});
+  };
+
+  /* Use Router for automatic redirect after successful form submission */
+  const router = useRouter();
+
   useEffect(() => {
+    router.prefetch('/exercises');
+
     const getExercise = async () => {
       const exerciseDoc = await getDoc(doc(db, 'exercises', id));
       setExercise(exerciseDoc.data());
@@ -93,61 +108,9 @@ function ExerciseForm({ id }) {
       getExercise();
     }
     setCheckboxes(makeCheckboxes);
-  }, [id, exercise.muscleGroups]);
+  }, [id, exercise.muscleGroups, router]);
 
-  const addExercise = ({
-    name,
-    muscleGroups,
-    equipment,
-    imageSource,
-    imageAlt,
-    videoURL,
-    instructions,
-  }) => {
-    addDoc(exercisesCollectionRef, {
-      name,
-      muscleGroups,
-      imageSource,
-      imageAlt,
-      instructions,
-      videoURL,
-      equipment,
-    })
-      .then(() => {
-        console.log('Added document successfully.');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const editExercise = ({
-    name,
-    muscleGroups,
-    equipment,
-    imageSource,
-    imageAlt,
-    videoURL,
-    instructions,
-  }) => {
-    updateDoc(doc(db, 'exercises', id), {
-      name,
-      muscleGroups,
-      equipment,
-      imageSource,
-      imageAlt,
-      videoURL,
-      instructions,
-    })
-      .then(() => {
-        console.log('Updated document successfully.');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  /* Hanles the submission of forms. */
+  /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
@@ -172,16 +135,65 @@ function ExerciseForm({ id }) {
       method: 'POST',
     });
 
+    /* Get the response, update/add the document, create an alert, then redirect. */
     const result = await response.json();
     if (id !== undefined) {
-      editExercise(result.data);
+      updateDoc(doc(db, 'exercises', id), result.data)
+        .then(() => {
+          handleAlertOpen({
+            heading: 'Success!',
+            body: `${data.name} was updated in the exercise list. Redirecting...`,
+            variant: 'success',
+          });
+          setTimeout(() => {
+            router.push('/exercises');
+          }, 3000);
+        })
+        .catch((error) => {
+          handleAlertOpen({
+            heading: 'Error',
+            body: error,
+            variant: 'danger',
+          });
+        });
     } else {
-      addExercise(result.data);
+      addDoc(exercisesCollectionRef, result.data)
+        .then(() => {
+          handleAlertOpen({
+            heading: 'Success!',
+            body: `${data.name} was added to the exercise list. Redirecting...`,
+            variant: 'success',
+          });
+          setTimeout(() => {
+            router.push('/exercises');
+          }, 3000);
+        })
+        .catch((error) => {
+          handleAlertOpen({
+            heading: 'Error',
+            body: error,
+            variant: 'danger',
+          });
+        });
     }
+  };
+
+  const displayAlert = ({ heading, body, variant }) => {
+    if (heading !== undefined) {
+      return (
+        <Alert variant={variant} onClose={handleAlertClose} dismissible>
+          <Alert.Heading>{heading}</Alert.Heading>
+          <p>{body}</p>
+        </Alert>
+      );
+    }
+    return null;
   };
 
   return (
     <div className={styles.form}>
+      {displayAlert(isAlertActive)}
+
       <h2>
         {id !== undefined
           ? `Editing '${exercise.name}'`
