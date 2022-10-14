@@ -17,7 +17,7 @@ import { db } from '../../firebase-config';
 // Custom components
 import CustomToast from './CustomToast';
 
-export default function CRUDButton({ type, create, id, exerciseName }) {
+export default function CRUDButton({ type, create, id, name }) {
   /* Handles state for the delete toast */
   const [isToastActive, setToastActive] = useState({});
   const handleToastOpen = ({ title, body, error }) => {
@@ -31,21 +31,42 @@ export default function CRUDButton({ type, create, id, exerciseName }) {
   const [isModalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => {
-    /* Delete the document from the collection, then display the toast. */
-    deleteDoc(doc(db, 'exercises', id))
-      .then(() => {
-        handleToastOpen({
-          title: 'My Workout Buddy',
-          body: `Successfully deleted ${exerciseName}. Redirecting...`,
-        });
-      })
-      .catch((error) => {
-        handleToastOpen({
-          title: 'My Workout Buddy',
-          error,
-        });
-      });
     setModalOpen(false);
+  };
+
+  const handleDelete = () => {
+    // TODO: Refresh exercise/workout list after deletion.
+    if (type === 'exercise') {
+      deleteDoc(doc(db, 'exercises', id))
+        .then(() => {
+          handleToastOpen({
+            title: 'Success',
+            body: `Successfully deleted ${name}.`,
+          });
+        })
+        .catch((error) => {
+          handleToastOpen({
+            title: 'Error',
+            error,
+          });
+        });
+    } else {
+      deleteDoc(doc(db, 'workouts', id))
+        .then(() => {
+          handleToastOpen({
+            title: 'Success',
+            body: `Successfully deleted ${name}.`,
+          });
+        })
+        .catch((error) => {
+          handleToastOpen({
+            title: 'Error',
+            error,
+          });
+        });
+    }
+
+    handleModalClose();
   };
 
   // Makes either a button, or a dropdown button
@@ -87,7 +108,9 @@ export default function CRUDButton({ type, create, id, exerciseName }) {
         <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
           <Modal.Header>
             <Modal.Title>
-              <p>Delete exercise &#39;{exerciseName}&#39;?</p>
+              <p>
+                Delete {type} &#39;{name}&#39;?
+              </p>
             </Modal.Title>
           </Modal.Header>
 
@@ -96,7 +119,7 @@ export default function CRUDButton({ type, create, id, exerciseName }) {
               Close
             </Button>
 
-            <Button variant="danger" onClick={handleModalClose}>
+            <Button variant="danger" onClick={handleDelete}>
               Delete
             </Button>
           </Modal.Footer>

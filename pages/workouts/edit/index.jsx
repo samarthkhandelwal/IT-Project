@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Next components
 import { useRouter } from 'next/router';
@@ -13,7 +13,16 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 // Firebase
-import { getDoc, collection, addDoc, updateDoc, doc } from 'firebase/firestore';
+import {
+  getDoc,
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  query,
+  orderBy,
+  getDocs,
+} from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
 // Custom components
@@ -25,15 +34,16 @@ import styles from '../../../styles/Crud.module.css';
 // Get muscle list
 import muscles from '../../../public/muscles.json' assert { type: 'json' };
 
-// Get reference to workouts collection
+// Get reference to exercises and workouts collections
+const workoutsCollectionRef = collection(db, 'workouts');
 const exercisesCollectionRef = collection(db, 'exercises');
 
-// A form used for both creating and editing exercises
-function ExerciseForm({ id }) {
+// A form used for both creating and editing workouts
+function WorkoutForm({ id }) {
   const isEditingForm = id !== undefined;
 
-  /* Handles state for the exercise */
-  const [exercise, setExercise] = useState({});
+  /* Handles state for the workout */
+  const [workout, setWorkout] = useState({});
 
   /* Handles state for the checkboxes */
   const [checkboxes, setCheckboxes] = useState([]);
@@ -51,22 +61,32 @@ function ExerciseForm({ id }) {
     setAlertActive({});
   };
 
+  /* Used to manage the list of chosen exercises in the form */
+  const chosenExercises = useRef([]);
+
+  /* Used to get a list of exercises to choose for a workout */
+  const [exerciseOptions, setExerciseOptions] = useState([]);
+
   /* Use Router for automatic redirect after successful form submission */
   const router = useRouter();
 
   useEffect(() => {
-    router.prefetch('/exercises');
+    router.prefetch('/workouts');
 
-    const getExercise = async () => {
-      const exerciseDoc = await getDoc(doc(db, 'exercises', id));
-      setExercise(exerciseDoc.data());
+    const getWorkout = async () => {
+      const workoutDoc = await getDoc(doc(db, 'workouts', id));
+      setWorkout(workoutDoc.data());
     };
+
+    if (isEditingForm) {
+      getWorkout();
+    }
 
     const makeCheckboxes = () => {
       const checkboxColumns = [];
       // Create checkboxes for all muscles, and pre-check boxes if editing
       const preChecked =
-        exercise.muscleGroups !== undefined ? exercise.muscleGroups : [];
+        workout.muscleGroups !== undefined ? workout.muscleGroups : [];
       for (let i = 0; i < muscles.length; i += 1) {
         const { group, musclesList } = muscles[i];
         const boxes = [];
@@ -77,7 +97,7 @@ function ExerciseForm({ id }) {
               {preChecked.includes(name) ? (
                 <Form.Check
                   type="checkbox"
-                  id="exerciseMuscleGroups"
+                  id="workoutMuscleGroups"
                   value={name}
                   label={name}
                   key={name}
@@ -86,7 +106,7 @@ function ExerciseForm({ id }) {
               ) : (
                 <Form.Check
                   type="checkbox"
-                  id="exerciseMuscleGroups"
+                  id="workoutMuscleGroups"
                   value={name}
                   label={name}
                   key={name}
@@ -106,11 +126,53 @@ function ExerciseForm({ id }) {
       return checkboxColumns;
     };
 
-    if (isEditingForm) {
-      getExercise();
-    }
+    const updateChosenExercises = (ex) => {
+      if (chosenExercises.current.includes(ex.target.value)) {
+        const filtered = chosenExercises.current.filter(
+          (i) => i !== ex.target.value
+        );
+        chosenExercises.current = filtered;
+      } else {
+        chosenExercises.current.push(ex.target.value);
+      }
+    };
+
+    const makeExerciseOptions = async () => {
+      const q = query(exercisesCollectionRef, orderBy('name'));
+      const data = await getDocs(q);
+      const preChecked =
+        workout.exercises !== undefined ? workout.exercises : [];
+      setExerciseOptions(
+        data.docs.map((document) => (
+          <div className="mb-3" key={document.id}>
+            {preChecked.includes(document.id) ? (
+              <Form.Check
+                type="checkbox"
+                id="chosenOptions"
+                value={document.id}
+                label={document.data().name}
+                key={document.data().name}
+                onChange={updateChosenExercises}
+                defaultChecked
+              />
+            ) : (
+              <Form.Check
+                type="checkbox"
+                id="chosenOptions"
+                value={document.id}
+                label={document.data().name}
+                key={document.data().name}
+                onChange={updateChosenExercises}
+              />
+            )}
+          </div>
+        ))
+      );
+    };
+    makeExerciseOptions();
+
     setCheckboxes(makeCheckboxes);
-  }, [id, exercise.muscleGroups, router, isEditingForm]);
+  }, [id, workout, router, isEditingForm, chosenExercises]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
@@ -119,17 +181,15 @@ function ExerciseForm({ id }) {
 
     /* TODO: Implement muscleGroups and image uploading */
     const data = {
-      name: event.target.exerciseName.value,
-      videoURL: event.target.exerciseURL.value,
-      instructions: event.target.exerciseInstructions.value,
-      equipment: event.target.exerciseEquipment.value,
-      imageSource: '',
-      imageAlt: '',
+      name: event.target.workoutName.value,
+      imageSource: '/public/images/workout.jpg',
+      imageAlt: `Picture of ${event.target.workoutName.value}`,
       muscleGroups: [],
+      exercises: chosenExercises.current,
     };
 
     /* Send the form data to the API and get a response */
-    const response = await fetch('/api/exercise', {
+    const response = await fetch('/api/workout', {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
@@ -140,15 +200,15 @@ function ExerciseForm({ id }) {
     /* Get the response, update/add the document, create an alert, then redirect. */
     const result = await response.json();
     if (isEditingForm) {
-      updateDoc(doc(db, 'exercises', id), result.data)
+      updateDoc(doc(db, 'workouts', id), result.data)
         .then(() => {
           handleAlertOpen({
             heading: 'Success!',
-            body: `${result.data.name} was updated in the exercise list. Redirecting...`,
+            body: `${result.data.name} was updated in the workout list. Redirecting...`,
             variant: 'success',
           });
           setTimeout(() => {
-            router.push('/exercises');
+            router.push('/workouts');
           }, 3000);
         })
         .catch((error) => {
@@ -159,15 +219,15 @@ function ExerciseForm({ id }) {
           });
         });
     } else {
-      addDoc(exercisesCollectionRef, result.data)
+      addDoc(workoutsCollectionRef, result.data)
         .then(() => {
           handleAlertOpen({
             heading: 'Success!',
-            body: `${result.data.name} was added to the exercise list. Redirecting...`,
+            body: `${result.data.name} was added to the workout list. Redirecting...`,
             variant: 'success',
           });
           setTimeout(() => {
-            router.push('/exercises');
+            router.push('/workouts');
           }, 3000);
         })
         .catch((error) => {
@@ -197,23 +257,23 @@ function ExerciseForm({ id }) {
       {displayAlert(isAlertActive)}
 
       <h2>
-        {isEditingForm ? `Editing '${exercise.name}'` : 'Creating new exercise'}
+        {isEditingForm ? `Editing '${workout.name}'` : 'Creating new workout'}
       </h2>
 
-      <Form onSubmit={handleSubmit} action="/api/exercise" method="post">
+      <Form onSubmit={handleSubmit} action="/api/workout" method="post">
         <Form.Group>
-          <Form.Label>Exercise name</Form.Label>
+          <Form.Label>Workout name</Form.Label>
           {isEditingForm ? (
             <Form.Control
-              id="exerciseName"
+              id="workoutName"
               type="text"
-              defaultValue={exercise.name}
+              defaultValue={workout.name}
             />
           ) : (
             <Form.Control
-              id="exerciseName"
+              id="workoutName"
               type="text"
-              placeholder="Enter exercise name"
+              placeholder="Enter workout name"
             />
           )}
         </Form.Group>
@@ -225,23 +285,6 @@ function ExerciseForm({ id }) {
           </Container>
         </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Enter video url to display</Form.Label>
-          {isEditingForm ? (
-            <Form.Control
-              id="exerciseURL"
-              type="url"
-              defaultValue={exercise.videoURL}
-            />
-          ) : (
-            <Form.Control
-              id="exerciseURL"
-              type="url"
-              placeholder="Enter video URL"
-            />
-          )}
-        </Form.Group>
-
         {/* Not going to work just yet */}
         {/* <Form.Group controlId="formThumbnail">
           <Form.Label>Select a thumbnail</Form.Label>
@@ -251,48 +294,15 @@ function ExerciseForm({ id }) {
         <Form.Group controlId="formImageAlt">
           <Form.Label>Enter text to show if image doesn&apos;t load</Form.Label>
           {isEditingForm ? (
-            <Form.Control type="imageAlt" defaultValue={exercise.imageAlt} />
+            <Form.Control type="imageAlt" defaultValue={workout.imageAlt} />
           ) : (
             <Form.Control type="imageAlt" placeholder="Enter image alt" />
           )}
         </Form.Group> */}
 
         <Form.Group>
-          <Form.Label>Equipment needed</Form.Label>
-          {isEditingForm ? (
-            <Form.Control
-              id="exerciseEquipment"
-              type="text"
-              defaultValue={exercise.equipment}
-            />
-          ) : (
-            <Form.Control
-              id="exerciseEquipment"
-              type="text"
-              placeholder="Enter required equipment"
-            />
-          )}
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label>Exercise instructions</Form.Label>
-          {isEditingForm ? (
-            <Form.Control
-              type="text"
-              id="exerciseInstructions"
-              as="textarea"
-              rows={5}
-              defaultValue={exercise.instructions}
-            />
-          ) : (
-            <Form.Control
-              type="text"
-              id="exerciseInstructions"
-              as="textarea"
-              rows={5}
-              placeholder="Enter instructions to complete the exercise. Split into steps by entering a newline."
-            />
-          )}
+          <Form.Label>Select exercises to include</Form.Label>
+          {exerciseOptions}
         </Form.Group>
 
         <Button variant="primary" type="submit">
@@ -304,8 +314,8 @@ function ExerciseForm({ id }) {
 }
 
 // TODO: Ensure this page can only be accessed if signed in as admin
-export default function EditExercise() {
-  // Get operation type and exercise ID from query parameters
+export default function EditWorkout() {
+  // Get operation type and workout ID from query parameters
   const router = useRouter();
   const { id } = router.query;
 
@@ -314,18 +324,18 @@ export default function EditExercise() {
       <TopNavbar />
       {/* TODO: Preview of changes on side. */}
       <div className={styles.main}>
-        {id !== undefined ? <ExerciseForm id={id} /> : <ExerciseForm />}
+        {id !== undefined ? <WorkoutForm id={id} /> : <WorkoutForm />}
       </div>
     </>
   );
 }
 
-export async function getServerSideProps({ query }) {
-  if (query.type !== 'create' && query.type !== 'edit') {
+export async function getServerSideProps({ query: urlQuery }) {
+  if (urlQuery.type !== 'create' && urlQuery.type !== 'edit') {
     return {
       redirect: {
         permanent: false,
-        destination: '/exercises',
+        destination: '/workouts',
       },
     };
   }

@@ -6,8 +6,9 @@ import { getDocs, collection, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 // Bootstrap components
-import TopNavbar from '../../components/Navbar/Navbar';
+import CRUDButton from '../../components/CRUDButton/CRUDButton';
 import List from '../../components/List/List';
+import TopNavbar from '../../components/Navbar/Navbar';
 
 // Styles
 import styles from '../../styles/Workouts.module.css';
@@ -35,6 +36,7 @@ export default function WorkoutsPage() {
       <TopNavbar />
       <div className={styles.container}>
         <main className={styles.main}>
+          <CRUDButton type="workout" create />
           <List
             list={workoutList}
             listType="radio"
