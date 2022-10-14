@@ -11,14 +11,7 @@
   top: 10vh;
   right: 2vw;
   width: 300px;
-}
-
-.toasterror {
-  position: fixed;
-  top: 10vh;
-  right: 2vw;
-  width: 300px;
-  background-color: red;
+  text-align: left;
 }
 
 @media (max-width: 576px) {

@@ -9,7 +9,7 @@ import styles from '../../styles/Crud.module.css';
 
 export default function CustomToast({ title, body, error, onClose }) {
   return (
-    <div className={error !== undefined ? styles.errortoast : styles.toast}>
+    <div className={styles.toast}>
       <Toast onClose={onClose}>
         <Toast.Header>
           <strong className="me-auto">{title}</strong>

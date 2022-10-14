@@ -42,11 +42,16 @@ export default function Element({ element }) {
       </div>
 
       <div className={styles.star}>
-        <CRUDButton
-          type="exercise"
-          id={element.id}
-          exerciseName={element.name}
-        />
+        {element.instructions !== undefined ? (
+          <CRUDButton
+            type="exercise"
+            id={element.id}
+            exerciseName={element.name}
+          />
+        ) : (
+          <CRUDButton type="workout" id={element.id} name={element.name} />
+        )}
+
         <form>
           <input
             type="image"
