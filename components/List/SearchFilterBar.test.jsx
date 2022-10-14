@@ -1,17 +1,10 @@
 // React
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import List from './List';
-import Workout from '../../public/classes/Workout';
+import ListTest from '../Test/ListTest';
 
 // Dummy data to render in List component
-const workoutList = [];
-workoutList.push(
-  new Workout('Push Workout', ['Chest', 'Shoulder', 'Triceps']),
-  new Workout('Pull Workout', ['Back', 'Biceps', 'Abs']),
-  new Workout('Legs Workout', ['Quadriceps', 'Hamstrings', 'Calves']),
-  new Workout('Upper Workout', ['Chest', 'Back', 'Shoulder', 'Triceps'])
-);
+import { workouts } from '../../testData/testData';
 
 describe('The Search Bar', () => {
   it('filters the correct items on lowercase input "pu"', () => {
@@ -20,8 +13,8 @@ describe('The Search Bar', () => {
     const setSelected = jest.fn();
 
     const list = render(
-      <List
-        list={workoutList}
+      <ListTest
+        list={workouts}
         selected={selected}
         setSelected={setSelected}
         type="radio"
@@ -48,8 +41,8 @@ describe('The Search Bar', () => {
     const setSelected = jest.fn();
 
     const list = render(
-      <List
-        list={workoutList}
+      <ListTest
+        list={workouts}
         selected={selected}
         setSelected={setSelected}
         type="radio"
@@ -77,8 +70,8 @@ describe('The Search Bar', () => {
     const setSelected = jest.fn();
 
     const list = render(
-      <List
-        list={workoutList}
+      <ListTest
+        list={workouts}
         selected={selected}
         setSelected={setSelected}
         type="radio"
@@ -94,10 +87,10 @@ describe('The Search Bar', () => {
     const items = list.getAllByRole('radio');
 
     // Expect only 'Push Workout' and 'Pull Workout to remain
-    expect(items.length).toBe(4);
-    expect(items[0].getAttribute('value') === 'Push Workout').toBeTruthy();
-    expect(items[1].getAttribute('value') === 'Pull Workout').toBeTruthy();
-    expect(items[2].getAttribute('value') === 'Legs Workout').toBeTruthy();
-    expect(items[3].getAttribute('value') === 'Upper Workout').toBeTruthy();
+    expect(items.length).toBe(8);
+    expect(items[4].getAttribute('value') === 'Push Workout').toBeTruthy();
+    expect(items[5].getAttribute('value') === 'Pull Workout').toBeTruthy();
+    expect(items[6].getAttribute('value') === 'Legs Workout').toBeTruthy();
+    expect(items[7].getAttribute('value') === 'Upper Workout').toBeTruthy();
   });
 });
