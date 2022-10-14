@@ -10,7 +10,7 @@ import styles from '../../styles/List.module.css';
 const star = '/images/star.png';
 const starFilled = '/images/starFilled.png';
 
-export default function ElementTest({ element, type }) {
+export default function ElementTest({ element }) {
   // State of the image that is displayed as the favourite button
   const [imgPath, setImgPath] = useState(star);
 
