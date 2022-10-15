@@ -6,8 +6,8 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 
 // Custom components
-import SearchFilterBar from './SearchFilterBar';
-import Element from './Element';
+import SearchFilterBar from '../List/SearchFilterBar';
+import ElementTest from './ElementTest';
 import styles from '../../styles/List.module.css';
 
 /**
@@ -59,7 +59,7 @@ export default function List({ list, listType, selected, setSelected, type }) {
               name={listType}
               value={element.name}
             >
-              <Element element={element} type={type} />
+              <ElementTest element={element} type={type} />
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
