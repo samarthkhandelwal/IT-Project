@@ -29,12 +29,12 @@ export default function WorkoutElement({ element }) {
       <Col>
         <Row>
           <div className={styles.sr}>
-            <p>{element.repRange.Sets} sets</p>
+            <p>{element.sets} sets</p>
           </div>
         </Row>
         <Row>
           <div className={styles.sr}>
-            <p>{element.repRange.Reps} reps</p>
+            <p>{element.reps} reps</p>
           </div>
         </Row>
       </Col>

@@ -5,7 +5,7 @@ import styles from '../../styles/Workouts/WorkoutList.module.css';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
-export default function List({ exercise_list }) {
+export default function WorkoutList({ exerciseList }) {
   return (
     <div>
       {/* The list. A group of toggle buttons, so that the active one can be kept track of*/}
@@ -16,12 +16,12 @@ export default function List({ exercise_list }) {
           vertical
           name="button-list"
         >
-          {exercise_list.map((element) => (
+          {exerciseList.map((element) => (
             <Button
               className={styles.list}
-              key={element.name}
-              id={`radio-${element.name}`}
-              value={element.name}
+              key={element.id}
+              id={`radio-${element.id}`}
+              value={element.id}
             >
               <WorkoutElement element={element} />
             </Button>

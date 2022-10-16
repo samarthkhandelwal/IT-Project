@@ -5,12 +5,16 @@ import React, { useEffect, useState } from 'react';
 import { getDocs, collection, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
+import WorkoutList from '../../components/WorkoutList/WorkoutList';
+import Image from 'next/future/image';
+import { Container, Row, Col } from 'react-bootstrap';
+
 // Bootstrap components
 import TopNavbar from '../../components/Navbar/Navbar';
 import List from '../../components/List/List';
 
 // Styles
-import styles from '../../styles/Workouts.module.css';
+import styles from '../../styles/Workouts/Workouts.module.css';
 
 // Authentication
 import { useAuth } from '../../context/authUserContext';
@@ -33,8 +37,11 @@ export default function WorkoutsPage() {
         const unfavs = workouts.filter(
           (doc) => !authUser.favouriteWorkouts.includes(doc.id)
         );
-        setWorkoutList(favs.concat(unfavs));
+        const finalList = favs.concat(unfavs);
+        setSelectedWorkout(finalList[0]);
+        setWorkoutList(finalList);
       } else {
+        setSelectedWorkout(workouts[0]);
         setWorkoutList(workouts);
       }
     };
@@ -42,21 +49,67 @@ export default function WorkoutsPage() {
   }, [authUser]);
 
   const [selected, setSelected] = useState('');
+  const [selectedWorkout, setSelectedWorkout] = useState();
+
+  useEffect(() => {
+    const getSelected = () => {
+        workoutList.forEach((doc) => {
+            if (doc.id === selected){
+                setSelectedWorkout(doc);
+                return;
+            }
+        })
+    }
+    getSelected();
+  }, [selected,workoutList])
 
   return (
     <>
-      <TopNavbar />
-      <div className={styles.container}>
-        <main className={styles.main}>
-          <List
-            list={workoutList}
-            listType="radio"
-            selected={selected}
-            setSelected={setSelected}
-            type="workouts"
-          />
-        </main>
-      </div>
-    </>
+    <TopNavbar />
+    <Container className={styles.container}>
+      <Row>
+        <Col>
+          {selectedWorkout != null &&
+          <div className={styles.imgcontainer}>
+            <Image
+              src={selectedWorkout.imgSrc}
+              alt="workout image"
+              width="0"
+              height="0"
+              sizes="100vw"
+              object-fit="cover"
+              style={{ width: '100%', height: '48vh' }}
+            />
+            <div className={styles.textblock}>
+              <h1>{selectedWorkout.name}</h1>
+              <p>{selectedWorkout.muscleGroups.join(', ')}</p>
+            </div>
+          </div>
+            }
+            {selectedWorkout != null &&
+          <div>
+            <main className={styles.workoutlist}>
+              <WorkoutList exerciseList={selectedWorkout.exercises} />
+            </main>
+          </div>
+            }
+        </Col>
+
+        <Col>
+          <div>
+            <main className={styles.main}>
+              <List
+                list={workoutList}
+                listType="radio"
+                selected={selected}
+                setSelected={setSelected}
+                type="workouts"
+              />
+            </main>
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  </>
   );
 }
