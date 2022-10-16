@@ -1,6 +1,9 @@
 // React
 import React, { useEffect, useState } from 'react';
 
+// Next
+import Head from 'next/head';
+
 // Firebase
 import { getDocs, collection, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../firebase-config';
@@ -34,7 +37,17 @@ export default function WorkoutsPage() {
     <>
       <TopNavbar />
       <div className={styles.container}>
+        <Head>
+          <title>Workout Buddy</title>
+          <meta
+            name="description"
+            content="Workout Buddy - Helping you find and create workouts"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
         <main className={styles.main}>
+          <h1>Workouts</h1>
           <List
             list={workoutList}
             listType="radio"
