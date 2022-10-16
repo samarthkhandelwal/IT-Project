@@ -1,6 +1,9 @@
 // React
 import React, { useState, useEffect } from 'react';
 
+// Next
+import Head from 'next/head';
+
 // Bootstrap components
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -72,6 +75,15 @@ export default function ExercisesPage() {
   return (
     <>
       <TopNavbar />
+      <Head>
+        <title>Workout Buddy</title>
+        <meta
+          name="description"
+          content="Workout Buddy - Helping you find and create workouts"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <Container className={styles.container}>
         <Row>
           <Col>
