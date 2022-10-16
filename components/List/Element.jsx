@@ -22,7 +22,7 @@ const starFilled = '/images/starFilled.png';
 
 const usersCollectionRef = collection(db, 'users');
 
-export default function Element({ element, type }) {
+export default function Element({ element, type, onClick }) {
   // State of the image that is displayed as the favourite button
   const [imgPath, setImgPath] = useState(star);
 
