@@ -60,7 +60,7 @@ export default function List({ list, listType, selected, setSelected, type }) {
               name={listType}
               value={element.id}
             >
-              {selected == element.name ? (
+              {selected === element.name ? (
                 <SelectedElement element={element} type={type} />
               ) : (
                 <Element element={element} type={type} />
