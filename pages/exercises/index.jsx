@@ -75,16 +75,16 @@ export default function ExercisesPage() {
   return (
     <>
       <TopNavbar />
-      <div className={styles.container}>
-        <Head>
-          <title>Workout Buddy</title>
-          <meta
-            name="description"
-            content="Workout Buddy - Helping you find and create workouts"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+      <Head>
+        <title>Workout Buddy</title>
+        <meta
+          name="description"
+          content="Workout Buddy - Helping you find and create workouts"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
+      <Container className={styles.container}>
         <Row>
           <Col>
             {selectedExercise != null && (
