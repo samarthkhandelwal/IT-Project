@@ -1,22 +1,19 @@
 .container {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  /* padding-top: 10px; */
+  padding-bottom: 20px;
+  height: 11vh;
 }
 
-.filter {
-  background: #fff;
-  color: black;
-  border: 2px solid lightgray;
-  border-radius: 3px;
-  padding: 5px 10px;
-  width: 100%;
+.filter,
+.container input {
+  text-align: center;
+  font-size: 1.5vw;
 }
 
 .container input {
-  text-align: center;
   background-image: url(../public/search.svg);
   background-size: 8%;
-  background-position: 6vw 7px;
+  background-position: 5.2vw 2.5vh;
   background-repeat: no-repeat;
   text-indent: 20px;
 }
