@@ -63,15 +63,17 @@ export default function SignInView() {
                       <Form.Label>Password</Form.Label>
                       <Form.Control
                         type="password"
-                        name="email"
+                        name="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                       />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+
+                    {/* Waiting for email/pword sign in */}
+                    {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
                       <Form.Check type="checkbox" label="Remember me" />
-                    </Form.Group>
+                    </Form.Group> */}
                   </div>
                 </div>
 
