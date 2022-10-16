@@ -12,7 +12,7 @@ import { db } from '../../firebase-config';
 import CRUDButton from '../CRUDButton/CRUDButton';
 
 // Styles
-import styles from '../../styles/List.module.css';
+import styles from '../../styles/Element.module.css';
 
 // Authentication
 import { useAuth } from '../../context/authUserContext';
@@ -131,7 +131,13 @@ export default function Element({ element, type }) {
   };
 
   return (
-    <div className={styles.element}>
+    <div
+      className={styles.element}
+      onClick={onClick}
+      onKeyPress={onClick}
+      role="button"
+      tabIndex={0}
+    >
       <Image
         src={element.imgSrc}
         alt={element.imgAlt}

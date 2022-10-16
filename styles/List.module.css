@@ -1,3 +1,8 @@
+/* Contains both the side card and list */
+.main {
+  padding: 10vh 2vw;
+}
+
 /* Makes the list scrollable if it overflows */
 .scrollableContainer {
   border: 1px solid black;
