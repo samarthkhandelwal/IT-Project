@@ -1,8 +1,18 @@
 // Import React
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+// Firebase
+import { collection, doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase-config';
+
+// Authentication
+import { useAuth } from '../../context/authUserContext';
 
 // Styles
 import styles from '../../styles/List.module.css';
+
+// Get reference to users collection
+const usersCollectionRef = collection(db, 'users');
 
 const star = '/images/star.png';
 const starFilled = '/images/starFilled.png';
@@ -115,10 +125,9 @@ export default function Element({ element, type }) {
             width={38}
             alt="star"
             onClick={toggleStar}
-          ></input>
+          />
         </form>
       </div>
     </div>
-    
   );
 }
