@@ -42,6 +42,9 @@ const exercisesCollectionRef = collection(db, 'exercises');
 function WorkoutForm({ id }) {
   const isEditingForm = id !== undefined;
 
+  /* Ensures that the Firestore is only contacted once for data */
+  const [isDataReceived, setDataReceived] = useState(false);
+
   /* Handles state for the workout */
   const [workout, setWorkout] = useState({});
 
@@ -64,23 +67,53 @@ function WorkoutForm({ id }) {
   /* Used to manage the list of chosen exercises in the form */
   const chosenExercises = useRef([]);
 
-  /* Used to get a list of exercises to choose for a workout */
+  /* Used to manage the list of chosen muscle groups in the form */
+  const chosenMuscleGroups = useRef([]);
+
+  /* Used to get a list of checkboxes for exercises to choose for a workout */
   const [exerciseOptions, setExerciseOptions] = useState([]);
+
+  /* Used to ensure that the exercises collection is queried only once */
+  const [isExercisesReceived, setExercisesReceived] = useState(false);
+  const [exercises, setExercises] = useState(undefined);
 
   /* Use Router for automatic redirect after successful form submission */
   const router = useRouter();
 
   useEffect(() => {
-    router.prefetch('/workouts');
-
     const getWorkout = async () => {
-      const workoutDoc = await getDoc(doc(db, 'workouts', id));
-      setWorkout(workoutDoc.data());
+      if (isEditingForm) {
+        const workoutDoc = await getDoc(doc(db, 'workouts', id));
+        chosenExercises.current = workoutDoc.data().exercises;
+        chosenMuscleGroups.current = workoutDoc.data().muscleGroups;
+        setWorkout(workoutDoc.data());
+      }
     };
 
-    if (isEditingForm) {
+    const getExercises = async () => {
+      const q = query(exercisesCollectionRef, orderBy('name'));
+      const data = await getDocs(q);
+      setExercises(data);
+    };
+
+    if (!isDataReceived) {
       getWorkout();
     }
+
+    if (!isExercisesReceived) {
+      getExercises();
+    }
+
+    const updateChosenMuscles = (ex) => {
+      if (chosenMuscleGroups.current.includes(ex.target.value)) {
+        const filtered = chosenMuscleGroups.current.filter(
+          (i) => i !== ex.target.value
+        );
+        chosenMuscleGroups.current = filtered;
+      } else {
+        chosenMuscleGroups.current.push(ex.target.value);
+      }
+    };
 
     const makeCheckboxes = () => {
       const checkboxColumns = [];
@@ -102,6 +135,7 @@ function WorkoutForm({ id }) {
                   label={name}
                   key={name}
                   defaultChecked
+                  onChange={updateChosenMuscles}
                 />
               ) : (
                 <Form.Check
@@ -110,6 +144,7 @@ function WorkoutForm({ id }) {
                   value={name}
                   label={name}
                   key={name}
+                  onChange={updateChosenMuscles}
                 />
               )}
             </div>
@@ -138,41 +173,59 @@ function WorkoutForm({ id }) {
     };
 
     const makeExerciseOptions = async () => {
-      const q = query(exercisesCollectionRef, orderBy('name'));
-      const data = await getDocs(q);
-      const preChecked =
-        workout.exercises !== undefined ? workout.exercises : [];
-      setExerciseOptions(
-        data.docs.map((document) => (
-          <div className="mb-3" key={document.id}>
-            {preChecked.includes(document.id) ? (
-              <Form.Check
-                type="checkbox"
-                id="chosenOptions"
-                value={document.id}
-                label={document.data().name}
-                key={document.data().name}
-                onChange={updateChosenExercises}
-                defaultChecked
-              />
-            ) : (
-              <Form.Check
-                type="checkbox"
-                id="chosenOptions"
-                value={document.id}
-                label={document.data().name}
-                key={document.data().name}
-                onChange={updateChosenExercises}
-              />
-            )}
-          </div>
-        ))
-      );
+      if (exercises !== undefined) {
+        const preChecked =
+          workout.exercises !== undefined ? workout.exercises : [];
+        setExerciseOptions(
+          exercises.docs.map((document) => (
+            <div className="mb-3" key={document.id}>
+              {preChecked.includes(document.id) ? (
+                <Form.Check
+                  type="checkbox"
+                  id="chosenOptions"
+                  value={document.id}
+                  label={document.data().name}
+                  key={document.data().name}
+                  onChange={updateChosenExercises}
+                  defaultChecked
+                />
+              ) : (
+                <Form.Check
+                  type="checkbox"
+                  id="chosenOptions"
+                  value={document.id}
+                  label={document.data().name}
+                  key={document.data().name}
+                  onChange={updateChosenExercises}
+                />
+              )}
+            </div>
+          ))
+        );
+      }
     };
-    makeExerciseOptions();
 
-    setCheckboxes(makeCheckboxes);
-  }, [id, workout, router, isEditingForm, chosenExercises]);
+    if (isDataReceived) {
+      setCheckboxes(makeCheckboxes);
+    }
+
+    if (isExercisesReceived) {
+      makeExerciseOptions();
+    }
+
+    return () => {
+      setDataReceived(true);
+      setExercisesReceived(true);
+    };
+  }, [
+    id,
+    workout,
+    router,
+    isEditingForm,
+    isDataReceived,
+    isExercisesReceived,
+    exercises,
+  ]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
@@ -184,8 +237,9 @@ function WorkoutForm({ id }) {
       name: event.target.workoutName.value,
       imageSource: '/public/images/workout.jpg',
       imageAlt: `Picture of ${event.target.workoutName.value}`,
-      muscleGroups: [],
+      muscleGroups: chosenMuscleGroups.current,
       exercises: chosenExercises.current,
+      id,
     };
 
     /* Send the form data to the API and get a response */
