@@ -1,55 +1,28 @@
-/* eslint-disable react/jsx-props-no-spreading */
 // React
 import React, { useState, useEffect } from 'react';
 
 // Bootstrap components
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 
 // Firebase
 import { getDocs, collection, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 // Custom Components
-// import Card from '../../components/ExerciseElement/Card';
+import Instructions from '../../components/Instructions';
 import List from '../../components/List/List';
-// import ExerciseElement from '../../components/ExerciseElement/ExerciseElement';
 import TopNavbar from '../../components/Navbar/Navbar';
+import YouTube from '../../components/YouTube';
+// import Card from '../../components/ExerciseElement/Card';
+// import ExerciseElement from '../../components/ExerciseElement/ExerciseElement';
 
 // Styles
 import styles from '../../styles/List.module.css';
 
-// Static content (to be replaced once database is set up)
-// const exercises = [
-//   {
-//     id: 0,
-//     name: 'Hammer Curl',
-//     muscleGroups: ['Upper arm', 'Lower arm'],
-//     imgSrc: '/../public/images/hammer-curls.png',
-//     imgAlt: 'Hammer curl positions',
-//     instructions: [
-//       'Stand up straight with your torso upright. Hold a dumbbell in each hand at arms-length. Your elbows should be close to your torso. ',
-//       'The palms of your hands should be facing your torso. This is the starting position for the exercise. ',
-//       'Curl the weight forward while contracting your biceps. Your upper arm should remain stationary. Continue to lift the weight until your biceps are fully contracted and the dumbbell is at shoulder level. Hold the contraction for a moment as you squeeze your biceps. ',
-//       'Inhale and slowly start to bring the dumbbells back to the starting position. ',
-//       'Repeat for the desired number of reps. ',
-//     ],
-//     videoURL: 'https://www.youtube.com/embed/TwD-YGVP4Bk',
-//   },
-//   {
-//     id: 1,
-//     name: 'Plank',
-//     muscleGroups: ['Quadriceps', 'Hamstrings', 'Core', 'Triceps', 'Glutes'],
-//     imgSrc: '/../public/images/hammer-curls.png',
-//     imgAlt: 'Performing a plank',
-//     instructions: [
-//       'Lie face down with your forearms on the floor, and your elbows directly underneath your shoulders. Your forearms should be parallel. Point your feet so that your toes are on the floor. ',
-//       'Lift your body up by engaging your core, so that only your toes and forearms are touching the ground. Your spine and legs should be straight. ',
-//       'Hold this position for 30 seconds. Then, release and bring your knees to the ground.',
-//     ],
-//     videoURL: 'https://www.youtube.com/embed/wCBOqf-HrTI',
-//   },
-// ];
+// Authentication
+import { useAuth } from '../../context/authUserContext';
 
 // Get reference to exercises collection
 const exercisesCollectionRef = collection(db, 'exercises');
@@ -57,14 +30,34 @@ const exercisesCollectionRef = collection(db, 'exercises');
 export default function ExercisesPage() {
   /* Get exercises from the database */
   const [exerciseList, setExerciseList] = useState([]);
+  const [selectedExercise, setSelectedExercise] = useState();
+  const { authUser } = useAuth();
+
   useEffect(() => {
     const getExercises = async () => {
       const q = query(exercisesCollectionRef, orderBy('name'), limit(10));
       const data = await getDocs(q);
-      setExerciseList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const exercises = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+      if (authUser) {
+        const favs = exercises.filter((doc) =>
+          authUser.favouriteExercises.includes(doc.id)
+        );
+        const unfavs = exercises.filter(
+          (doc) => !authUser.favouriteExercises.includes(doc.id)
+        );
+        const finalList = favs.concat(unfavs);
+        setSelectedExercise(finalList[0]);
+        setExerciseList(finalList);
+      } else {
+        setSelectedExercise(exercises[0]);
+        setExerciseList(exercises);
+      }
     };
     getExercises();
-  });
+  }, [authUser]);
+
+  const [selected, setSelected] = useState('');
 
   const selectState = {};
   [selectState.selected, selectState.setSelected] = useState();
@@ -86,19 +79,39 @@ export default function ExercisesPage() {
   //   }
   // }, []);
 
+  useEffect(() => {
+    const getSelected = () => {
+      if (selected) {
+        exerciseList.forEach((doc) => {
+          if (doc.id === selected) {
+            setSelectedExercise(doc);
+          }
+        });
+      }
+    };
+    getSelected();
+  }, [selected, exerciseList]);
+
   return (
     <>
       <TopNavbar />
-      <div className={styles.main}>
+      <Container className={styles.container}>
         <Row>
-          <Col />
-          {/* {toRenderCard ? (
-            <Card selectedExercise={selectedExercise} />
-          ) : (
-            <Col />
-          )} */}
           <Col>
-            <List list={exerciseList} listType="radio" {...selectState} />
+            {/* {toRenderCard ? (
+              <Card selectedExercise={selectedExercise} />
+            ) : (
+              <Col />
+            )} */}
+            {selectedExercise != null && (
+              <YouTube link={selectedExercise.videoURL} />
+            )}
+            {selectedExercise != null && (
+              <Instructions text={selectedExercise.instructions} />
+            )}
+          </Col>
+
+          <Col>
             {/* {exercises.map((element) => (
               <ExerciseElement
                 exercise={element}
@@ -106,9 +119,20 @@ export default function ExercisesPage() {
                 key={element.id}
               />
             ))} */}
+            <div>
+              <main className={styles.main}>
+                <List
+                  list={exerciseList}
+                  listType="radio"
+                  selected={selected}
+                  setSelected={setSelected}
+                  type="exercises"
+                />
+              </main>
+            </div>
           </Col>
         </Row>
-      </div>
+      </Container>
     </>
   );
 }
