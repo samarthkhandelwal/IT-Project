@@ -85,6 +85,9 @@ export default function ExercisesPage() {
       </Head>
 
       <Container className={styles.container}>
+        <div className={styles.heading}>
+          <h1>Exercises</h1>
+        </div>
         <Row>
           <Col>
             {selectedExercise != null && (
