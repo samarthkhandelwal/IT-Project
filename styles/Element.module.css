@@ -1,0 +1,70 @@
+/* Contains the image and the text */
+.element {
+  display: flex;
+  width: 25vw + 120px + 60px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 1vw;
+  margin-bottom: 1vw;
+}
+
+/* text in list */
+.txt h1 {
+  font-size: xx-large;
+  margin: 10px 0 0 5px;
+  text-align: left;
+  text-overflow: ellipsis;
+  width: 20vw;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.txt p {
+  font-size: large;
+  font-style: italic;
+  font-weight: 300;
+  margin-left: 6px;
+  margin-bottom: 0;
+  text-align: left;
+  text-overflow: ellipsis;
+  width: 20vw;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.star {
+  margin-top: 21px;
+  margin-left: 4px;
+}
+
+@media only screen and (max-width: 576px) {
+  .element {
+    display: flex;
+    width: 80vw;
+    min-width: fit-content;
+  }
+
+  .txt h1 {
+    font-size: x-large;
+    margin-top: 10px;
+    margin-left: 5px;
+    text-align: left;
+    text-overflow: ellipsis;
+    width: 40vw;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .txt p {
+    font-size: large;
+    font-style: italic;
+    font-weight: 300;
+    margin-left: 6px;
+    margin-bottom: 0;
+    text-align: left;
+    text-overflow: ellipsis;
+    width: 40vw;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
