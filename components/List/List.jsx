@@ -9,6 +9,7 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import SearchFilterBar from './SearchFilterBar';
 import Element from './Element';
 import styles from '../../styles/List.module.css';
+import SelectedElement from './SelectedElement';
 
 /**
  *
@@ -53,13 +54,17 @@ export default function List({ list, listType, selected, setSelected, type }) {
         >
           {filteredList.map((element) => (
             <ToggleButton
-              key={element.name}
-              id={`${listType}-${element.name}`}
+              key={element.id}
+              id={`${listType}-${element.id}`}
               variant="light"
               name={listType}
-              value={element.name}
+              value={element.id}
             >
-              <Element element={element} type={type} />
+              {selected === element.name ? (
+                <SelectedElement element={element} type={type} />
+              ) : (
+                <Element element={element} type={type} />
+              )}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
