@@ -1,6 +1,10 @@
+// React
+import React from 'react';
+
+// Styles
 import styles from '../styles/Instructions.module.css';
 
-function Instructions() {
+export default function Instructions() {
   const text = `
     Step 1: Stand up straight with your torso upright. Hold a dumbbell in
     each hand at arms-length. Your elbows should be close to your torso.
@@ -24,5 +28,3 @@ function Instructions() {
     </div>
   );
 }
-
-export default Instructions;
