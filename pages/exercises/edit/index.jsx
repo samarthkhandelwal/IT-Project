@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Next components
 import { useRouter } from 'next/router';
@@ -51,15 +51,37 @@ function ExerciseForm({ id }) {
     setAlertActive({});
   };
 
+  /* Used to manage the list of chosen muscle groups in the form */
+  const chosenMuscleGroups = useRef([]);
+
+  /* Used to ensure that the exercises collection is queried only once */
+  const [isExercisesReceived, setExercisesReceived] = useState(false);
+
   /* Use Router for automatic redirect after successful form submission */
   const router = useRouter();
 
   useEffect(() => {
-    router.prefetch('/exercises');
-
     const getExercise = async () => {
-      const exerciseDoc = await getDoc(doc(db, 'exercises', id));
-      setExercise(exerciseDoc.data());
+      if (isEditingForm) {
+        const exerciseDoc = await getDoc(doc(db, 'exercises', id));
+        chosenMuscleGroups.current = exerciseDoc.data().muscleGroups;
+        setExercise(exerciseDoc.data());
+      }
+    };
+
+    if (!isExercisesReceived) {
+      getExercise();
+    }
+
+    const updateChosenMuscles = (ex) => {
+      if (chosenMuscleGroups.current.includes(ex.target.value)) {
+        const filtered = chosenMuscleGroups.current.filter(
+          (i) => i !== ex.target.value
+        );
+        chosenMuscleGroups.current = filtered;
+      } else {
+        chosenMuscleGroups.current.push(ex.target.value);
+      }
     };
 
     const makeCheckboxes = () => {
@@ -82,6 +104,7 @@ function ExerciseForm({ id }) {
                   label={name}
                   key={name}
                   defaultChecked
+                  onChange={updateChosenMuscles}
                 />
               ) : (
                 <Form.Check
@@ -90,6 +113,7 @@ function ExerciseForm({ id }) {
                   value={name}
                   label={name}
                   key={name}
+                  onChange={updateChosenMuscles}
                 />
               )}
             </div>
@@ -106,11 +130,14 @@ function ExerciseForm({ id }) {
       return checkboxColumns;
     };
 
-    if (isEditingForm) {
-      getExercise();
+    if (isExercisesReceived) {
+      setCheckboxes(makeCheckboxes);
     }
-    setCheckboxes(makeCheckboxes);
-  }, [id, exercise.muscleGroups, router, isEditingForm]);
+
+    return () => {
+      setExercisesReceived(true);
+    };
+  }, [id, exercise.muscleGroups, router, isEditingForm, isExercisesReceived]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
@@ -123,9 +150,9 @@ function ExerciseForm({ id }) {
       videoURL: event.target.exerciseURL.value,
       instructions: event.target.exerciseInstructions.value,
       equipment: event.target.exerciseEquipment.value,
-      imageSource: '',
-      imageAlt: '',
-      muscleGroups: [],
+      imageSource: '/public/images/exercise.jpg',
+      imageAlt: `Picture of ${event.target.exerciseName.value}`,
+      muscleGroups: chosenMuscleGroups.current,
     };
 
     /* Send the form data to the API and get a response */
