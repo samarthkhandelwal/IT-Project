@@ -121,9 +121,7 @@
 }
 
 .form {
-  width: 100%;
   text-align: center;
-  margin-bottom: 1rem;
 }
 
 @media (max-width: 600px) {
