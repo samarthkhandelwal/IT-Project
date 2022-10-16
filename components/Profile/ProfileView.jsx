@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { useAuth } from '../../context/authUserContext';
 
 // Custom Components
-import SettingsView from './SettingsView';
+// import SettingsView from './SettingsView';
 
 // Styles
 import styles from '../../styles/Profile.module.css';
@@ -57,13 +57,14 @@ export default function ProfileView() {
                   </Link>
                 </div>
 
-                <div>
+                {/* Waiting for email/pword sign in */}
+                {/* <div>
                   <Nav.Link className={styles.card}>
                     <p>
                       <SettingsView />
                     </p>
                   </Nav.Link>
-                </div>
+                </div> */}
 
                 <div>
                   <Nav.Link className={styles.card} onClick={handleSignOut}>

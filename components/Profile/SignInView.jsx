@@ -70,9 +70,10 @@ export default function SignInView() {
                       />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                    {/* Waiting for email/pword sign in */}
+                    {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
                       <Form.Check type="checkbox" label="Remember me" />
-                    </Form.Group>
+                    </Form.Group> */}
                   </div>
                 </div>
 
