@@ -1,27 +1,23 @@
-// React
-import React, { useState, useEffect } from 'react';
-
-// Next components
-import Image from 'next/image';
+// Import React
+import React, { useEffect, useState } from 'react';
 
 // Firebase
-import { collection, updateDoc, doc } from 'firebase/firestore';
+import { collection, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase-config';
-
-// Custom components
-import CRUDButton from '../CRUDButton/CRUDButton';
-
-// Styles
-import styles from '../../styles/List.module.css';
 
 // Authentication
 import { useAuth } from '../../context/authUserContext';
 
+// Styles
+import styles from '../../styles/List.module.css';
+
+// Get reference to users collection
+const usersCollectionRef = collection(db, 'users');
+
 const star = '/images/star.png';
 const starFilled = '/images/starFilled.png';
 
-const usersCollectionRef = collection(db, 'users');
-
+// Element returns what should be displayed for each element of the list
 export default function Element({ element, type }) {
   // State of the image that is displayed as the favourite button
   const [imgPath, setImgPath] = useState(star);
@@ -114,29 +110,13 @@ export default function Element({ element, type }) {
   };
 
   return (
-    <div className={styles.element}>
-      <Image
-        src={element.imgSrc}
-        alt={element.imgAlt}
-        height={84}
-        width={120}
-      />
-
-      <div className={styles.txt}>
+    <div className={styles.selement}>
+      <div className={styles.stxt}>
         <h1>{element.name}</h1>
+        <p>{element.muscleGroups.join(', ')}</p>
       </div>
 
       <div className={styles.star}>
-        {element.instructions !== undefined ? (
-          <CRUDButton
-            type="exercise"
-            id={element.id}
-            exerciseName={element.name}
-          />
-        ) : (
-          <CRUDButton type="workout" id={element.id} name={element.name} />
-        )}
-
         <form>
           <input
             type="image"
