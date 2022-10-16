@@ -11,7 +11,6 @@ import { getDocs, collection, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 // Custom components
-import CRUDButton from '../../components/CRUDButton/CRUDButton';
 import Instructions from '../../components/Instructions';
 import List from '../../components/List/List';
 import TopNavbar from '../../components/Navbar/Navbar';
@@ -74,7 +73,6 @@ export default function ExercisesPage() {
     <>
       <TopNavbar />
       <Container className={styles.container}>
-        <CRUDButton type="exercise" create />
         <Row>
           <Col>
             {selectedExercise != null && (
