@@ -9,6 +9,8 @@
     "plugin:react/recommended",
     "next/core-web-vitals",
     "plugin:prettier/recommended",
+    "airbnb",
+    "airbnb/hooks",
     "prettier"
   ],
   "overrides": [],
@@ -17,5 +19,7 @@
     "sourceType": "module"
   },
   "plugins": ["react", "prettier"],
-  "rules": {}
+  "rules": {
+    "react/prop-types": [0]
+  }
 }

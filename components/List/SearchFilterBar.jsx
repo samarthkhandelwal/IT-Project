@@ -1,3 +1,4 @@
+// React
 import React from 'react';
 
 // Bootstrap components
@@ -6,10 +7,20 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 import styles from '../../styles/Search.module.css';
 
-export default function SearchFilterBar() {
+export default function SearchFilterBar({ setSearchInput }) {
+  // Function to handle when the search input changes
+  const handleSearchInput = (e) => {
+    const lowerCase = e.target.value.toLowerCase();
+    setSearchInput(lowerCase);
+  };
+
   return (
-    <InputGroup className={styles.container}>
-      <Form.Control aria-label="First name" placeholder="Search" />
+    <InputGroup className="mb-3">
+      <Form.Control
+        aria-label="First name"
+        placeholder="Search"
+        onChange={handleSearchInput}
+      />
 
       <Form.Select
         aria-label="Default select example"
