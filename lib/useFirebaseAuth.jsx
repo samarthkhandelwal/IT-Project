@@ -11,11 +11,14 @@ import { auth, provider, db } from '../firebase-config';
 
 const usersCollectionRef = collection(db, 'users');
 
-const formatAuthUser = (user) => ({
+const formatAuthUser = (user, id) => ({
+  uid: id,
   name: user.name,
   email: user.email,
   photoURL: user.photo,
   role: user.role,
+  favouriteWorkouts: user.favouriteWorkouts,
+  favouriteExercises: user.favouriteExercises,
 });
 
 const createNewUser = async (user) => {
@@ -24,6 +27,8 @@ const createNewUser = async (user) => {
     email: user.email,
     photo: user.photoURL,
     role: 1,
+    favouriteWorkouts: [],
+    favouriteExercises: [],
   });
 };
 
@@ -44,7 +49,7 @@ export default function useFirebaseAuth() {
       createNewUser(user);
       userDoc = await getDoc(docRef);
     }
-    const formattedUser = formatAuthUser(userDoc.data());
+    const formattedUser = formatAuthUser(userDoc.data(), user.uid);
     setAuthUser(formattedUser);
     setLoading(false);
   };
