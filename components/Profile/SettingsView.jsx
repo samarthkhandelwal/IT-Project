@@ -6,13 +6,19 @@ import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
 import { FloatingLabel } from 'react-bootstrap';
+
+// Firebase
+import { useAuth } from '../../context/authUserContext';
 
 // Styles
 import styles from '../../styles/Settings.module.css';
 
 export default function SettingsView() {
   const [show, setShow] = useState(false);
+
+  const { authUser } = useAuth();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -29,11 +35,20 @@ export default function SettingsView() {
           <div className={styles.container}>
             <main className={styles.main}>
               <Form>
-                <h3>
-                  <Form.Label>Change Name</Form.Label>
-                </h3>
+                <h4>
+                  <Form.Label>Update Profile Picture</Form.Label>
+                </h4>
+                <div className={styles.form}>
+                  <Image src={authUser.photoURL} roundedCircle="true" />
+                  <Form.Group controlId="formFile" className="mb-3">
+                    <Form.Control type="file" size="sm" />
+                  </Form.Group>
+                </div>
 
-                <div className={styles.item}>
+                <h4>
+                  <Form.Label>Change Name</Form.Label>
+                </h4>
+                <div className={styles.form}>
                   <FloatingLabel label="First Name" className="mb-3">
                     <Form.Control placeholder="Alice" />
                   </FloatingLabel>
@@ -42,11 +57,10 @@ export default function SettingsView() {
                   </FloatingLabel>
                 </div>
 
-                <h3>
+                <h4>
                   <Form.Label>Change Password</Form.Label>
-                </h3>
-
-                <div className={styles.item}>
+                </h4>
+                <div className={styles.form}>
                   <FloatingLabel label="Enter New Password" className="mb-3">
                     <Form.Control type="password" />
                   </FloatingLabel>
@@ -55,9 +69,9 @@ export default function SettingsView() {
                   </FloatingLabel>
                 </div>
 
-                <div className={styles.item}>
+                <div className={styles.form}>
                   <Button variant="primary" type="submit" onClick={handleClose}>
-                    Confirm
+                    Save Changes
                   </Button>
                 </div>
               </Form>
