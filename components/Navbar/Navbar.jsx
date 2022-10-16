@@ -16,6 +16,7 @@ import SignInView from '../Profile/SignInView';
 // Styles
 import styles from '../../styles/Navbar.module.css';
 
+// User Authentication
 import { useAuth } from '../../context/authUserContext';
 
 export default function TopNavbar() {
