@@ -2,13 +2,15 @@ export default class Exercise {
   /**
    * A class to represent Exercise.
    * @param {String} name
-   * @param {[String]} muscles
+   * @param {[String]} muscleGroups
+   * @param {{Sets: Int, Reps: Int}} repRange
    */
-  constructor(name, muscles) {
+  constructor(name, muscleGroups, repRange) {
     this.name = name;
-    this.muscles = muscles;
+    this.muscleGroups = muscleGroups;
+    this.repRange = repRange;
     this.imgSrc =
-      'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+      'https://images.pexels.com/photos/2204196/pexels-photo-2204196.jpeg';
     this.imgAlt = 'A man doing a bench press.';
   }
 }
