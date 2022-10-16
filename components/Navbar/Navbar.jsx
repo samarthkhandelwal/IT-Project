@@ -8,6 +8,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 // Next Components
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 // Custom Components
 import ProfileView from '../Profile/ProfileView';
@@ -20,7 +21,8 @@ import styles from '../../styles/Navbar.module.css';
 import { useAuth } from '../../context/authUserContext';
 
 export default function TopNavbar() {
-  // TODO: Authentication
+  const router = useRouter();
+
   const { authUser } = useAuth();
   function profileSignIn() {
     if (authUser) {
@@ -49,6 +51,19 @@ export default function TopNavbar() {
           </Nav>
 
           <Nav>
+            {authUser && (
+              <Link
+                href={{
+                  pathname: router.pathname.includes('exercises')
+                    ? '/exercises/edit'
+                    : '/workouts/edit',
+                  query: 'type=create',
+                }}
+                passHref
+              >
+                <Nav.Link className={styles.item}>New exercise</Nav.Link>
+              </Link>
+            )}
             <Nav.Link className={styles.item}>{profileSignIn()}</Nav.Link>
           </Nav>
         </Navbar.Collapse>

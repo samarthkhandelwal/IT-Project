@@ -113,6 +113,23 @@ export default function Element({ element, type }) {
     }
   };
 
+  const makeButton = () => {
+    if (authUser) {
+      /* Crude check for checking if the element is an exercise or workout */
+      if (element.instructions !== undefined) {
+        return (
+          <CRUDButton
+            type="exercise"
+            id={element.id}
+            exerciseName={element.name}
+          />
+        );
+      }
+      return <CRUDButton type="workout" id={element.id} name={element.name} />;
+    }
+    return null;
+  };
+
   return (
     <div className={styles.element}>
       <Image
@@ -127,16 +144,7 @@ export default function Element({ element, type }) {
       </div>
 
       <div className={styles.star}>
-        {element.instructions !== undefined ? (
-          <CRUDButton
-            type="exercise"
-            id={element.id}
-            exerciseName={element.name}
-          />
-        ) : (
-          <CRUDButton type="workout" id={element.id} name={element.name} />
-        )}
-
+        {makeButton()}
         <form>
           <input
             type="image"
