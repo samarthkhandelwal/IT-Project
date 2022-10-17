@@ -21,6 +21,7 @@ export default function SearchFilterBar({ setSearchInput }) {
         aria-label="First name"
         placeholder="Search"
         onChange={handleSearchInput}
+        className={styles.filter}
       />
 
       <Form.Select

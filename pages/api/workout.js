@@ -3,7 +3,7 @@ export default function handler(req, res) {
 
   /* Defaults for data that somehow passes client-side validation that are empty */
   if (!body.imageSource) {
-    body.imageSource = '/public/images/hammer_curl.png';
+    body.imageSource = '/images/push-ups.png';
   }
 
   if (!body.imageAlt) {

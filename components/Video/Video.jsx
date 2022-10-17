@@ -4,7 +4,7 @@ import React from 'react';
 // Styles
 import styles from '../../styles/Video.module.css';
 
-export default function Video({ videoURL }) {
+export default function Video({ videoURL, titleAlt }) {
   function verifyURL(link) {
     const regExp =
       /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -22,7 +22,7 @@ export default function Video({ videoURL }) {
             ? `https://www.youtube.com/embed/${verifyURL(videoURL)}`
             : ''
         }
-        title="YouTube Video"
+        title={titleAlt}
       />
     </div>
   );

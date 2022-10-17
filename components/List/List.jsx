@@ -19,7 +19,14 @@ import SelectedElement from './SelectedElement';
  * @param {*} setSelected The function that sets the state of selected
  * @returns
  */
-export default function List({ list, listType, selected, setSelected, type }) {
+export default function List({
+  list,
+  listType,
+  selected,
+  setSelected,
+  type,
+  onClick,
+}) {
   // A function to handle when a new element is selected
   const handleChange = (e) => {
     setSelected(e);
@@ -37,38 +44,34 @@ export default function List({ list, listType, selected, setSelected, type }) {
   });
 
   return (
-    <div className={styles.container}>
+    <div className={styles.scrollableContainer}>
       <SearchFilterBar
         searchInput={searchInput}
         setSearchInput={setSearchInput}
       />
-
-      {/* The list. A group of toggle buttons, so that the active one can be kept track of */}
-      <div className={styles.scrollableContainer}>
-        <ToggleButtonGroup
-          type={listType}
-          value={selected}
-          onChange={handleChange}
-          vertical
-          name="button-list"
-        >
-          {filteredList.map((element) => (
-            <ToggleButton
-              key={element.id}
-              id={`${listType}-${element.id}`}
-              variant="light"
-              name={listType}
-              value={element.id}
-            >
-              {selected === element.name ? (
-                <SelectedElement element={element} type={type} />
-              ) : (
-                <Element element={element} type={type} />
-              )}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-      </div>
+      <ToggleButtonGroup
+        type={listType}
+        value={selected}
+        onChange={handleChange}
+        vertical
+        name="button-list"
+      >
+        {filteredList.map((element) => (
+          <ToggleButton
+            key={element.id}
+            id={`${listType}-${element.id}`}
+            variant="light"
+            name={listType}
+            value={element.id}
+          >
+            {selected === element.name ? (
+              <SelectedElement element={element} type={type} />
+            ) : (
+              <Element element={element} type={type} onClick={onClick} />
+            )}
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
     </div>
   );
 }

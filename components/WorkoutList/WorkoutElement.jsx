@@ -13,11 +13,11 @@ export default function WorkoutElement({ element }) {
   // console.log(element)
   return (
     <Container className={styles.workoutexerciselist}>
-      <Col>
+      <Col xs={6}>
         <div className={styles.element}>
           <Image
-            src={element.imgSrc}
-            alt={element.imgAlt}
+            src={element.imageSource}
+            alt={element.imageAlt}
             height={40}
             width={65}
           />
@@ -26,7 +26,8 @@ export default function WorkoutElement({ element }) {
           </div>
         </div>
       </Col>
-      <Col>
+
+      <Col xs={6}>
         <Row>
           <div className={styles.sr}>
             <p>{element.sets} sets</p>

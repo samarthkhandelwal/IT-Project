@@ -235,7 +235,7 @@ function WorkoutForm({ id }) {
     /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
-      imageSource: '/public/images/workout.jpg',
+      imageSource: '/images/push-ups.png',
       imageAlt: `Picture of ${event.target.workoutName.value}`,
       muscleGroups: chosenMuscleGroups.current,
       exercises: chosenExercises.current,
