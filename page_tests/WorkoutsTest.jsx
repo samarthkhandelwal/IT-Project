@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import ListTest from '../components/Test/ListTest';
 
 // Styles
-import styles from '../../styles/Workouts.module.css';
+import styles from '../styles/Workouts/Workouts.module.css';
 
 // Authentication
 import { workouts } from '../testData/testData';
@@ -22,18 +22,16 @@ export default function WorkoutsPage() {
   const [selected, setSelected] = useState('');
 
   return (
-    <>
-      <div className={styles.container}>
-        <main className={styles.main}>
-          <ListTest
-            list={workoutList}
-            listType="radio"
-            selected={selected}
-            setSelected={setSelected}
-            type="workouts"
-          />
-        </main>
-      </div>
-    </>
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <ListTest
+          list={workoutList}
+          listType="radio"
+          selected={selected}
+          setSelected={setSelected}
+          type="workouts"
+        />
+      </main>
+    </div>
   );
 }

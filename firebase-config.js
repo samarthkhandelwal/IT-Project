@@ -1,8 +1,7 @@
 // import firebase SDK
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 // store configuration details
 const firebaseConfig = {
