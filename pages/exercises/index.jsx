@@ -1,9 +1,6 @@
 // React
 import React, { useState, useEffect } from 'react';
 
-// Next
-import Head from 'next/head';
-
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
