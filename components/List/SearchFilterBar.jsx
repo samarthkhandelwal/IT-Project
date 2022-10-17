@@ -5,6 +5,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
+// Styles
 import styles from '../../styles/Search.module.css';
 
 export default function SearchFilterBar({ setSearchInput }) {
@@ -20,6 +21,7 @@ export default function SearchFilterBar({ setSearchInput }) {
         aria-label="First name"
         placeholder="Search"
         onChange={handleSearchInput}
+        className={styles.filter}
       />
 
       <Form.Select

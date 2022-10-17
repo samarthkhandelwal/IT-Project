@@ -1,0 +1,92 @@
+[
+  {
+    "group": "Arms",
+    "musclesList": [
+      {
+        "id": 1,
+        "name": "Biceps"
+      },
+      {
+        "id": 4,
+        "name": "Forearms"
+      },
+      {
+        "id": 14,
+        "name": "Triceps"
+      }
+    ]
+  },
+  {
+    "group": "Back",
+    "musclesList": [
+      {
+        "id": 7,
+        "name": "Lats"
+      },
+      {
+        "id": 11,
+        "name": "Rhomboids"
+      },
+      {
+        "id": 12,
+        "name": "Spinal erectors"
+      },
+      {
+        "id": 13,
+        "name": "Traps"
+      }
+    ]
+  },
+  {
+    "group": "Chest",
+    "musclesList": [
+      {
+        "id": 9,
+        "name": "Pecs"
+      }
+    ]
+  },
+  {
+    "group": "Core",
+    "musclesList": [
+      {
+        "id": 0,
+        "name": "Abs"
+      },
+      {
+        "id": 8,
+        "name": "Obliques"
+      }
+    ]
+  },
+  {
+    "group": "Legs",
+    "musclesList": [
+      {
+        "id": 2,
+        "name": "Calves"
+      },
+      {
+        "id": 5,
+        "name": "Glutes"
+      },
+      {
+        "id": 6,
+        "name": "Hamstrings"
+      },
+      {
+        "id": 10,
+        "name": "Quadriceps"
+      }
+    ]
+  },
+  {
+    "group": "Shoulders",
+    "musclesList": [
+      {
+        "id": 3,
+        "name": "Deltoids"
+      }
+    ]
+  }
+]

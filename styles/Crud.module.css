@@ -1,0 +1,26 @@
+.main {
+  margin-top: 10vh;
+}
+
+.form {
+  padding: 0 10vw;
+}
+
+.toast {
+  position: fixed;
+  top: 10vh;
+  right: 2vw;
+  width: 300px;
+  text-align: left;
+}
+
+@media (max-width: 576px) {
+  .main {
+    margin-top: 0;
+  }
+
+  .form {
+    padding: 10vh 2vw;
+    margin: 1vh;
+  }
+}
