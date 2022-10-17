@@ -1,6 +1,6 @@
 /* Contains both the side card and list */
-.main {
-  padding: 10vh 2vw;
+.container {
+  padding: 15vh 7vw;
 }
 
 /* Makes the list scrollable if it overflows */
@@ -98,6 +98,10 @@
 }
 
 @media only screen and (max-width: 576px) {
+  .scrollableContainer {
+    padding: 0;
+  }
+
   .element {
     display: flex;
     width: 80vw;

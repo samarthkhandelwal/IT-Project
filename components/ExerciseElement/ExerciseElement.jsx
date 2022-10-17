@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 // Custom components
-import YouTube from '../Video/Video';
+import Video from '../Video/Video';
 import Element from '../List/Element';
 
 /* A small extension of the Element defined in components/List/Element.
@@ -48,12 +48,8 @@ export default function ExerciseElement({ exercise, updateCard }) {
         </Modal.Header>
 
         <Modal.Body>
-          <YouTube link={exercise.videoURL} />
-          {exercise.instructions.map((step, index) => (
-            <p key={exercise.id}>
-              Step {index + 1}: {step}
-            </p>
-          ))}
+          <Video link={exercise.videoURL} titleAlt={`${exercise.name} Video`} />
+          {exercise.instructions}
         </Modal.Body>
 
         <Modal.Footer>

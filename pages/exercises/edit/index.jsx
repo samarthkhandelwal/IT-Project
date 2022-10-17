@@ -150,7 +150,7 @@ function ExerciseForm({ id }) {
       videoURL: event.target.exerciseURL.value,
       instructions: event.target.exerciseInstructions.value,
       equipment: event.target.exerciseEquipment.value,
-      imageSource: '/public/images/exercise.jpg',
+      imageSource: '/images/hammer-curls.png',
       imageAlt: `Picture of ${event.target.exerciseName.value}`,
       muscleGroups: chosenMuscleGroups.current,
     };

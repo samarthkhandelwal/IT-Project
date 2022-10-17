@@ -51,19 +51,28 @@ export default function TopNavbar() {
           </Nav>
 
           <Nav>
-            {authUser && (
-              <Link
-                href={{
-                  pathname: router.pathname.includes('exercises')
-                    ? '/exercises/edit'
-                    : '/workouts/edit',
-                  query: 'type=create',
-                }}
-                passHref
-              >
-                <Nav.Link className={styles.item}>New exercise</Nav.Link>
-              </Link>
-            )}
+            {authUser &&
+              (router.pathname.includes('exercises') ? (
+                <Link
+                  href={{
+                    pathname: '/exercises/edit',
+                    query: 'type=create',
+                  }}
+                  passHref
+                >
+                  <Nav.Link className={styles.item}>New exercise</Nav.Link>
+                </Link>
+              ) : (
+                <Link
+                  href={{
+                    pathname: '/workouts/edit',
+                    query: 'type=create',
+                  }}
+                  passHref
+                >
+                  <Nav.Link className={styles.item}>New workout</Nav.Link>
+                </Link>
+              ))}
             <Nav.Link className={styles.item}>{profileSignIn()}</Nav.Link>
           </Nav>
         </Navbar.Collapse>
