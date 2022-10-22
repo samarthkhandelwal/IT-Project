@@ -84,12 +84,21 @@ export default function WorkoutsPage() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  /* Handles the onClick events for each workout.
+   * The split is needed to handle both mobile/desktop views at the same time.
+   * If the window width is small, the modal is opened when the elements are
+   * clicked. Otherwise, the card is updated.
+   */
   const onClick = () => {
+    setSelectedWorkout(selectedWorkout);
     if (!toRenderCard) {
       handleOpen();
-    } else {
-      setSelectedWorkout(selectedWorkout);
     }
+  };
+
+  /* When an exercise is deleted, remove it from the list. */
+  const onDelete = (id) => {
+    setWorkoutList(workouts.filter((doc) => doc.id !== id));
   };
 
   return (
@@ -149,6 +158,7 @@ export default function WorkoutsPage() {
                   setSelected={setSelected}
                   type="workouts"
                   onClick={onClick}
+                  onDelete={onDelete}
                 />
               </main>
             </div>

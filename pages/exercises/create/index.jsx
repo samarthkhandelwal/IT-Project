@@ -49,7 +49,7 @@ function ExerciseForm() {
   /* Used to manage the list of chosen muscle groups in the form */
   const chosenMuscleGroups = useRef([]);
 
-  /* Used to prevent continuously creating the checkboxes */
+  /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
 
   /* Use Router for automatic redirect after successful form submission */
@@ -203,7 +203,7 @@ function ExerciseForm() {
         </Form.Group>
 
         <Form.Group controlId="formImageAlt">
-          <Form.Label>Enter text to show if image doesn&apos;t load</Form.Label>
+          <Form.Label>Enter text to show if image doesn't load</Form.Label>
           {isEditingForm ? (
             <Form.Control type="imageAlt" defaultValue={exercise.imageAlt} />
           ) : (

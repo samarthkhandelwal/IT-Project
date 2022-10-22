@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
 // Bootstrap components
-import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
@@ -16,7 +15,6 @@ import Row from 'react-bootstrap/Row';
 import {
   getDoc,
   collection,
-  addDoc,
   updateDoc,
   doc,
   query,
@@ -26,24 +24,24 @@ import {
 import { db } from '../../../firebase-config';
 
 // Custom components
+import CustomAlert from '../../../components/EditButton/CustomAlert';
 import TopNavbar from '../../../components/Navbar/Navbar';
 
 // Styles
-import styles from '../../../styles/Crud.module.css';
+import styles from '../../../styles/EditButton.module.css';
 
 // Get muscle list
 import muscles from '../../../public/muscles.json' assert { type: 'json' };
 
 // Get reference to exercises and workouts collections
-const workoutsCollectionRef = collection(db, 'workouts');
 const exercisesCollectionRef = collection(db, 'exercises');
 
-// A form used for both creating and editing workouts
-function WorkoutForm({ id }) {
-  const isEditingForm = id !== undefined;
+function WorkoutForm() {
+  const router = useRouter();
+  const { id } = router.query;
 
   /* Ensures that the Firestore is only contacted once for data */
-  const [isDataReceived, setDataReceived] = useState(false);
+  const isFirstLoad = useRef(false);
 
   /* Handles state for the workout */
   const [workout, setWorkout] = useState({});
@@ -74,20 +72,14 @@ function WorkoutForm({ id }) {
   const [exerciseOptions, setExerciseOptions] = useState([]);
 
   /* Used to ensure that the exercises collection is queried only once */
-  const [isExercisesReceived, setExercisesReceived] = useState(false);
   const [exercises, setExercises] = useState(undefined);
-
-  /* Use Router for automatic redirect after successful form submission */
-  const router = useRouter();
 
   useEffect(() => {
     const getWorkout = async () => {
-      if (isEditingForm) {
-        const workoutDoc = await getDoc(doc(db, 'workouts', id));
-        chosenExercises.current = workoutDoc.data().exercises;
-        chosenMuscleGroups.current = workoutDoc.data().muscleGroups;
-        setWorkout(workoutDoc.data());
-      }
+      const workoutDoc = await getDoc(doc(db, 'workouts', id));
+      chosenExercises.current = workoutDoc.data().exercises;
+      chosenMuscleGroups.current = workoutDoc.data().muscleGroups;
+      setWorkout(workoutDoc.data());
     };
 
     const getExercises = async () => {
@@ -95,14 +87,6 @@ function WorkoutForm({ id }) {
       const data = await getDocs(q);
       setExercises(data);
     };
-
-    if (!isDataReceived) {
-      getWorkout();
-    }
-
-    if (!isExercisesReceived) {
-      getExercises();
-    }
 
     const updateChosenMuscles = (ex) => {
       if (chosenMuscleGroups.current.includes(ex.target.value)) {
@@ -113,52 +97,6 @@ function WorkoutForm({ id }) {
       } else {
         chosenMuscleGroups.current.push(ex.target.value);
       }
-    };
-
-    const makeCheckboxes = () => {
-      const checkboxColumns = [];
-      // Create checkboxes for all muscles, and pre-check boxes if editing
-      const preChecked =
-        workout.muscleGroups !== undefined ? workout.muscleGroups : [];
-      for (let i = 0; i < muscles.length; i += 1) {
-        const { group, musclesList } = muscles[i];
-        const boxes = [];
-        for (let j = 0; j < musclesList.length; j += 1) {
-          const { mId, name } = musclesList[j];
-          boxes.push(
-            <div className="mb-3" key={mId}>
-              {preChecked.includes(name) ? (
-                <Form.Check
-                  type="checkbox"
-                  id="workoutMuscleGroups"
-                  value={name}
-                  label={name}
-                  key={name}
-                  defaultChecked
-                  onChange={updateChosenMuscles}
-                />
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="workoutMuscleGroups"
-                  value={name}
-                  label={name}
-                  key={name}
-                  onChange={updateChosenMuscles}
-                />
-              )}
-            </div>
-          );
-        }
-        /* TODO: This is still giving unique key errors, not sure why. */
-        checkboxColumns.push(
-          <Col key={group}>
-            <b>{group}</b>
-            {boxes}
-          </Col>
-        );
-      }
-      return checkboxColumns;
     };
 
     const updateChosenExercises = (ex) => {
@@ -172,60 +110,99 @@ function WorkoutForm({ id }) {
       }
     };
 
-    const makeExerciseOptions = async () => {
+    const makeCheckboxes = () => {
+      const checkboxColumns = [];
+      // Create checkboxes for all muscles, and pre-check boxes
+      const preChecked =
+        workout.muscleGroups !== undefined ? workout.muscleGroups : [];
+      for (let i = 0; i < muscles.length; i += 1) {
+        const { group, musclesList } = muscles[i];
+        const boxes = [];
+        for (let j = 0; j < musclesList.length; j += 1) {
+          const { mId, name } = musclesList[j];
+          if (preChecked.includes(name)) {
+            boxes.push(
+              <div className="mb-3" key={mId}>
+                <Form.Check
+                  type="checkbox"
+                  id="workoutMuscleGroups"
+                  value={name}
+                  label={name}
+                  key={name}
+                  defaultChecked
+                  onChange={updateChosenMuscles}
+                />
+              </div>
+            );
+          } else {
+            boxes.push(
+              <div className="mb-3" key={mId}>
+                <Form.Check
+                  type="checkbox"
+                  id="workoutMuscleGroups"
+                  value={name}
+                  label={name}
+                  key={name}
+                  onChange={updateChosenMuscles}
+                />
+              </div>
+            );
+          }
+        }
+        /* TODO: This is still giving unique key errors, not sure why. */
+        checkboxColumns.push(
+          <Col key={group}>
+            <b>{group}</b>
+            {boxes}
+          </Col>
+        );
+      }
+      return checkboxColumns;
+    };
+
+    const makeExerciseOptions = () => {
       if (exercises !== undefined) {
         const preChecked =
           workout.exercises !== undefined ? workout.exercises : [];
-        setExerciseOptions(
-          exercises.docs.map((document) => (
-            <div className="mb-3" key={document.id}>
-              {preChecked.includes(document.id) ? (
-                <Form.Check
-                  type="checkbox"
-                  id="chosenOptions"
-                  value={document.id}
-                  label={document.data().name}
-                  key={document.data().name}
-                  onChange={updateChosenExercises}
-                  defaultChecked
-                />
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="chosenOptions"
-                  value={document.id}
-                  label={document.data().name}
-                  key={document.data().name}
-                  onChange={updateChosenExercises}
-                />
-              )}
-            </div>
-          ))
-        );
+        return exercises.docs.map((document) => (
+          <div className="mb-3" key={document.id}>
+            {preChecked.includes(document.id) ? (
+              <Form.Check
+                type="checkbox"
+                id="chosenOptions"
+                value={document.id}
+                label={document.data().name}
+                key={document.data().name}
+                onChange={updateChosenExercises}
+                defaultChecked
+              />
+            ) : (
+              <Form.Check
+                type="checkbox"
+                id="chosenOptions"
+                value={document.id}
+                label={document.data().name}
+                key={document.data().name}
+                onChange={updateChosenExercises}
+              />
+            )}
+          </div>
+        ));
       }
+      return null;
     };
 
-    if (isDataReceived) {
-      setCheckboxes(makeCheckboxes);
+    if (!isFirstLoad.current) {
+      getExercises();
+      getWorkout();
+      isFirstLoad.current = true;
     }
 
-    if (isExercisesReceived) {
-      makeExerciseOptions();
+    if (isFirstLoad.current) {
+      setCheckboxes(makeCheckboxes());
+      setExerciseOptions(makeExerciseOptions());
     }
-
-    return () => {
-      setDataReceived(true);
-      setExercisesReceived(true);
-    };
-  }, [
-    id,
-    workout,
-    router,
-    isEditingForm,
-    isDataReceived,
-    isExercisesReceived,
-    exercises,
-  ]);
+  }, [exercises, id, workout.exercises, workout.muscleGroups]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
@@ -251,56 +228,38 @@ function WorkoutForm({ id }) {
       method: 'POST',
     });
 
-    /* Get the response, update/add the document, create an alert, then redirect. */
+    /* Get the response, update the document, create an alert, then redirect. */
     const result = await response.json();
-    if (isEditingForm) {
-      updateDoc(doc(db, 'workouts', id), result.data)
-        .then(() => {
-          handleAlertOpen({
-            heading: 'Success!',
-            body: `${result.data.name} was updated in the workout list. Redirecting...`,
-            variant: 'success',
-          });
-          setTimeout(() => {
-            router.push('/workouts');
-          }, 3000);
-        })
-        .catch((error) => {
-          handleAlertOpen({
-            heading: 'Error',
-            body: error,
-            variant: 'danger',
-          });
+    updateDoc(doc(db, 'workouts', id), result.data)
+      .then(() => {
+        handleAlertOpen({
+          heading: 'Success!',
+          body: `${result.data.name} was updated in the workout list. Redirecting...`,
+          variant: 'success',
         });
-    } else {
-      addDoc(workoutsCollectionRef, result.data)
-        .then(() => {
-          handleAlertOpen({
-            heading: 'Success!',
-            body: `${result.data.name} was added to the workout list. Redirecting...`,
-            variant: 'success',
-          });
-          setTimeout(() => {
-            router.push('/workouts');
-          }, 3000);
-        })
-        .catch((error) => {
-          handleAlertOpen({
-            heading: 'Error',
-            body: error,
-            variant: 'danger',
-          });
+        setTimeout(() => {
+          router.push('/workouts');
+        }, 3000);
+      })
+      .catch((error) => {
+        handleAlertOpen({
+          heading: 'Error',
+          body: error,
+          variant: 'danger',
         });
-    }
+      });
   };
 
   const displayAlert = ({ heading, body, variant }) => {
-    if (heading !== undefined) {
+    // TODO: Check if dismissible on error
+    if (heading && body && variant) {
       return (
-        <Alert variant={variant} onClose={handleAlertClose} dismissible>
-          <Alert.Heading>{heading}</Alert.Heading>
-          <p>{body}</p>
-        </Alert>
+        <CustomAlert
+          heading={heading}
+          body={body}
+          variant={variant}
+          onClose={handleAlertClose}
+        />
       );
     }
     return null;
@@ -308,28 +267,16 @@ function WorkoutForm({ id }) {
 
   return (
     <div className={styles.form}>
-      {displayAlert(isAlertActive)}
-
-      <h2>
-        {isEditingForm ? `Editing '${workout.name}'` : 'Creating new workout'}
-      </h2>
+      <h2>{`Editing '${workout.name}'`}</h2>
 
       <Form onSubmit={handleSubmit} action="/api/workout" method="post">
         <Form.Group>
           <Form.Label>Workout name</Form.Label>
-          {isEditingForm ? (
-            <Form.Control
-              id="workoutName"
-              type="text"
-              defaultValue={workout.name}
-            />
-          ) : (
-            <Form.Control
-              id="workoutName"
-              type="text"
-              placeholder="Enter workout name"
-            />
-          )}
+          <Form.Control
+            id="workoutName"
+            type="text"
+            defaultValue={workout.name}
+          />
         </Form.Group>
 
         <Form.Group>
@@ -346,12 +293,8 @@ function WorkoutForm({ id }) {
         </Form.Group>
 
         <Form.Group controlId="formImageAlt">
-          <Form.Label>Enter text to show if image doesn&apos;t load</Form.Label>
-          {isEditingForm ? (
-            <Form.Control type="imageAlt" defaultValue={workout.imageAlt} />
-          ) : (
-            <Form.Control type="imageAlt" placeholder="Enter image alt" />
-          )}
+          <Form.Label>Enter text to show if image doesn't load</Form.Label>
+          <Form.Control type="imageAlt" defaultValue={workout.imageAlt} />
         </Form.Group> */}
 
         <Form.Group>
@@ -363,38 +306,20 @@ function WorkoutForm({ id }) {
           Submit
         </Button>
       </Form>
+
+      {displayAlert(isAlertActive)}
     </div>
   );
 }
 
-// TODO: Ensure this page can only be accessed if signed in as admin
 export default function EditWorkout() {
-  // Get operation type and workout ID from query parameters
-  const router = useRouter();
-  const { id } = router.query;
-
   return (
     <>
       <TopNavbar />
       {/* TODO: Preview of changes on side. */}
       <div className={styles.main}>
-        {id !== undefined ? <WorkoutForm id={id} /> : <WorkoutForm />}
+        <WorkoutForm />
       </div>
     </>
   );
-}
-
-export async function getServerSideProps({ query: urlQuery }) {
-  if (urlQuery.type !== 'create' && urlQuery.type !== 'edit') {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/workouts',
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
 }
