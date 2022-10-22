@@ -55,6 +55,7 @@ export default function WorkoutsPage() {
 
     if (!isWorkoutsLoaded) {
       getWorkouts();
+      setWorkoutsLoaded(true);
     }
 
     if (isWorkoutsLoaded) {
@@ -74,28 +75,10 @@ export default function WorkoutsPage() {
       }
     }
 
-    getWorkouts();
-
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-
-    return () => {
-      setWorkoutsLoaded(true);
-    };
-  }, [authUser, isWorkoutsLoaded, workouts]);
-
-  useEffect(() => {
-    const getSelected = () => {
-      workoutList.forEach((doc) => {
-        if (doc.id === selected) {
-          setSelectedWorkout(doc);
-        }
-      });
-    };
-
-    getSelected();
-  }, [selected, workoutList]);
+  }, [authUser, isWorkoutsLoaded, selected, workoutList, workouts]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

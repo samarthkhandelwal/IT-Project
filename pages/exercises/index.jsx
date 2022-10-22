@@ -52,6 +52,7 @@ export default function ExercisesPage() {
 
     if (!isExercisesLoaded) {
       getExercises();
+      setExercisesLoaded(true);
     }
 
     /* Get the user's favourites to bump them to the top of the exercise list */
@@ -73,25 +74,9 @@ export default function ExercisesPage() {
       }
     }
 
-    const getSelected = () => {
-      if (selectedExercise !== undefined) {
-        exerciseList.forEach((doc) => {
-          if (doc.id === selectedExercise) {
-            setSelectedExercise(doc);
-          }
-        });
-      }
-    };
-
-    getSelected();
-
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-
-    return () => {
-      setExercisesLoaded(true);
-    };
   }, [authUser, selectedExercise, exerciseList, isExercisesLoaded, exercises]);
 
   const [isOpen, setOpen] = useState(false);
