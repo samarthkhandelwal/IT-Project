@@ -5,7 +5,7 @@ import React from 'react';
 import Toast from 'react-bootstrap/Toast';
 
 // Styles
-import styles from '../../styles/Crud.module.css';
+import styles from '../../styles/EditButton.module.css';
 
 export default function CustomToast({ title, body, error, onClose }) {
   return (

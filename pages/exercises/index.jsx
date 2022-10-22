@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
@@ -39,7 +39,7 @@ export default function ExercisesPage() {
   const [exercises, setExercises] = useState([]);
 
   /* Used to ensure the database is only accessed once */
-  const [isExercisesLoaded, setExercisesLoaded] = useState(false);
+  const isExercisesLoaded = useRef(false);
 
   /* Only render Card if innerWidth > 576px (small breakpoint) */
   const [toRenderCard, setRenderCard] = useState(true);
@@ -50,13 +50,13 @@ export default function ExercisesPage() {
       setExercises(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
-    if (!isExercisesLoaded) {
+    if (!isExercisesLoaded.current) {
       getExercises();
-      setExercisesLoaded(true);
+      isExercisesLoaded.current = true;
     }
 
     /* Get the user's favourites to bump them to the top of the exercise list */
-    if (isExercisesLoaded) {
+    if (isExercisesLoaded.current) {
       if (authUser) {
         const favs = exercises.filter((doc) =>
           authUser.favouriteExercises.includes(doc.id)
@@ -77,7 +77,7 @@ export default function ExercisesPage() {
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-  }, [authUser, selectedExercise, exerciseList, isExercisesLoaded, exercises]);
+  }, [authUser, exercises]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -88,12 +88,16 @@ export default function ExercisesPage() {
    * If the window width is small, the modal is opened when the elements are
    * clicked. Otherwise, the card is updated.
    */
-  const onClick = () => {
+  const onClick = (ex) => {
+    setSelectedExercise(ex);
     if (!toRenderCard) {
       handleOpen();
-    } else {
-      setSelectedExercise(selectedExercise.id);
     }
+  };
+
+  /* When an exercise is deleted, remove it from the list. */
+  const onDelete = (id) => {
+    setExerciseList(exercises.filter((doc) => doc.id !== id));
   };
 
   return (
@@ -128,9 +132,9 @@ export default function ExercisesPage() {
             list={exerciseList}
             listType="radio"
             selected={selectedExercise}
-            setSelected={setSelectedExercise}
+            setSelected={onClick}
             type="exercises"
-            onClick={onClick}
+            onDelete={onDelete}
           />
         </Col>
       </Row>

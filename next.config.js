@@ -12,6 +12,16 @@ const nextConfig = {
         destination: '/exercises',
         permanent: true,
       },
+      {
+        source: '/exercises/edit',
+        destination: '/exercises',
+        permanent: true,
+      },
+      {
+        source: '/workouts/edit',
+        destination: '/workouts',
+        permanent: true,
+      },
     ]
   },
 };

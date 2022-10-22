@@ -53,23 +53,11 @@ export default function TopNavbar() {
           <Nav>
             {authUser &&
               (router.pathname.includes('exercises') ? (
-                <Link
-                  href={{
-                    pathname: '/exercises/edit',
-                    query: 'type=create',
-                  }}
-                  passHref
-                >
+                <Link href="/exercises/create" passHref>
                   <Nav.Link className={styles.item}>New exercise</Nav.Link>
                 </Link>
               ) : (
-                <Link
-                  href={{
-                    pathname: '/workouts/edit',
-                    query: 'type=create',
-                  }}
-                  passHref
-                >
+                <Link href="/workouts/create" passHref>
                   <Nav.Link className={styles.item}>New workout</Nav.Link>
                 </Link>
               ))}

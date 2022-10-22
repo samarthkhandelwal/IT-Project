@@ -78,7 +78,7 @@ export default function WorkoutsPage() {
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-  }, [authUser, isWorkoutsLoaded, selected, workoutList, workouts]);
+  }, [authUser, isWorkoutsLoaded, workouts]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

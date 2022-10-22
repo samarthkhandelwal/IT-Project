@@ -9,7 +9,7 @@ import { collection, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 // Custom components
-import CRUDButton from '../CRUDButton/CRUDButton';
+import EditButton from '../EditButton/EditButton';
 
 // Styles
 import styles from '../../styles/Element.module.css';
@@ -20,7 +20,7 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
-export default function Element({ element, type, onClick }) {
+export default function Element({ element, type, onDelete }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
   const starFilled = '/images/starFilled.png';
@@ -123,21 +123,27 @@ export default function Element({ element, type, onClick }) {
       /* Crude check for checking if the element is an exercise or workout */
       if (element.instructions !== undefined) {
         return (
-          <CRUDButton type="exercise" id={element.id} name={element.name} />
+          <EditButton
+            type="exercise"
+            id={element.id}
+            name={element.name}
+            onDelete={onDelete}
+          />
         );
       }
-      return <CRUDButton type="workout" id={element.id} name={element.name} />;
+      return (
+        <EditButton
+          type="workout"
+          id={element.id}
+          name={element.name}
+          onDelete={onDelete}
+        />
+      );
     }
     return null;
   };
   return (
-    <div
-      className={styles.element}
-      onClick={onClick}
-      onKeyPress={onClick}
-      role="button"
-      tabIndex={0}
-    >
+    <div className={styles.element}>
       <Image
         src={element.imageSource}
         alt={element.imageAlt}
