@@ -17,6 +17,8 @@ import SelectedElement from './SelectedElement';
  * @param {*} listType Either "radio" or "checkbox".
  * @param {*} selected State of which elements are selected. if checkbox, must be an array.
  * @param {*} setSelected The function that sets the state of selected
+ * @param {*} type Either "exercises" or "workouts"
+ * @param {*} onDelete The callback function to handle an element being deleted from the list.
  * @returns
  */
 export default function List({
@@ -25,7 +27,7 @@ export default function List({
   selected,
   setSelected,
   type,
-  onClick,
+  onDelete,
 }) {
   // A function to handle when a new element is selected
   const handleChange = (e) => {
@@ -62,12 +64,12 @@ export default function List({
             id={`${listType}-${element.id}`}
             variant="light"
             name={listType}
-            value={element.id}
+            value={element}
           >
             {selected === element.name ? (
               <SelectedElement element={element} type={type} />
             ) : (
-              <Element element={element} type={type} onClick={onClick} />
+              <Element element={element} type={type} onDelete={onDelete} />
             )}
           </ToggleButton>
         ))}
