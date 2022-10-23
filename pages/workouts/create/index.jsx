@@ -18,6 +18,8 @@ import {
   query,
   orderBy,
   getDocs,
+  getDoc,
+  doc,
 } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
@@ -136,14 +138,31 @@ function WorkoutForm() {
       if (exercises !== undefined) {
         return exercises.docs.map((document) => (
           <div className="mb-3" key={document.id}>
-            <Form.Check
+            <Row>
+              <Col xs={4}>
+                <Form.Control placeholder={document.data().name} readOnly />
+              </Col>
+              <Col xs={2}>
+                <Form.Control
+                  placeholder="Reps"
+                  onChange={updateChosenExercises}
+                />
+              </Col>
+              <Col xs={2}>
+                <Form.Control
+                  placeholder="Sets"
+                  onChange={updateChosenExercises}
+                />
+              </Col>
+            </Row>
+            {/* <Form.Check
               type="checkbox"
               id="chosenOptions"
               value={document.id}
               label={document.data().name}
               key={document.data().name}
               onChange={updateChosenExercises}
-            />
+            /> */}
           </div>
         ));
       }
@@ -161,18 +180,47 @@ function WorkoutForm() {
     }
   }, [exercises]);
 
+  /* Transforms an exercise into the correct data structure for the form submission */
+  const getExercisesFromId = async () => {
+    const promiseList = [];
+    for (let i = 0; i < chosenExercises.current.length; i += 1) {
+      promiseList.push(
+        getDoc(doc(db, 'exercises', chosenExercises.current[i]))
+      );
+    }
+    const exerciseList = await Promise.all(promiseList);
+    const list = [];
+
+    for (let i = 0; i < exerciseList.length; i += 1) {
+      /* Not sure why, but I can't seem to access the data directly here.
+       * So this is a workaround.
+       */
+      const obj = { ...exerciseList[i].data() };
+      delete obj.instructions;
+      delete obj.equipment;
+      delete obj.muscleGroups;
+      delete obj.videoURL;
+      list.push(obj);
+      // Add sets and reps to this
+    }
+
+    return list;
+  };
+
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
 
+    const exercisesList = await getExercisesFromId();
+
     /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
-      imageSource: '/images/push-ups.png',
-      imageAlt: `Picture of ${event.target.workoutName.value}`,
+      imgSrc: '/images/push-ups.png',
+      imgAlt: `Picture of ${event.target.workoutName.value}`,
       muscleGroups: chosenMuscleGroups.current,
-      exercises: chosenExercises.current,
+      exercises: exercisesList,
       id,
     };
 
@@ -249,9 +297,9 @@ function WorkoutForm() {
           <Form.Control type="file" />
         </Form.Group>
 
-        <Form.Group controlId="formImageAlt">
+        <Form.Group controlId="formImgAlt">
           <Form.Label>Enter text to show if image doesn't load</Form.Label>
-          <Form.Control type="imageAlt" placeholder="Enter image alt" />
+          <Form.Control type="imgAlt" placeholder="Enter image alt" />
         </Form.Group> */}
 
         <Form.Group>
@@ -269,7 +317,6 @@ function WorkoutForm() {
   );
 }
 
-// TODO: Ensure this page can only be accessed if signed in as admin
 export default function CreateWorkout() {
   return (
     <>

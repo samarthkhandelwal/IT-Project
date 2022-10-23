@@ -145,8 +145,8 @@ export default function Element({ element, type, onDelete }) {
   return (
     <div className={styles.element}>
       <Image
-        src={element.imageSource}
-        alt={element.imageAlt}
+        src={element.imgSrc}
+        alt={element.imgAlt}
         height={84}
         width={120}
       />

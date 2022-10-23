@@ -115,8 +115,8 @@ function ExerciseForm() {
       videoURL: event.target.exerciseURL.value,
       instructions: event.target.exerciseInstructions.value,
       equipment: event.target.exerciseEquipment.value,
-      imageSource: '/images/hammer-curls.png',
-      imageAlt: `Picture of ${event.target.exerciseName.value}`,
+      imgSrc: '/images/hammer-curls.png',
+      imgAlt: `Picture of ${event.target.exerciseName.value}`,
       muscleGroups: chosenMuscleGroups.current,
     };
 
@@ -202,12 +202,12 @@ function ExerciseForm() {
           <Form.Control type="file" />
         </Form.Group>
 
-        <Form.Group controlId="formImageAlt">
+        <Form.Group controlId="formimgAlt">
           <Form.Label>Enter text to show if image doesn't load</Form.Label>
           {isEditingForm ? (
-            <Form.Control type="imageAlt" defaultValue={exercise.imageAlt} />
+            <Form.Control type="imgAlt" defaultValue={exercise.imgAlt} />
           ) : (
-            <Form.Control type="imageAlt" placeholder="Enter image alt" />
+            <Form.Control type="imgAlt" placeholder="Enter image alt" />
           )}
         </Form.Group> */}
 
