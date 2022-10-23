@@ -2,12 +2,12 @@ export default function handler(req, res) {
   const { body } = req;
 
   /* Defaults for data that somehow passes client-side validation that are empty */
-  if (!body.imageSource) {
-    body.imageSource = '/images/push-ups.png';
+  if (!body.imgSrc) {
+    body.imgSrc = '/images/push-ups.png';
   }
 
-  if (!body.imageAlt) {
-    body.imageAlt = `Diagram for how to perform a ${body.name}`;
+  if (!body.imgAlt) {
+    body.imgAlt = `Diagram for how to perform a ${body.name}`;
   }
 
   if (!body.name || !body.muscleGroups || !body.exercises) {

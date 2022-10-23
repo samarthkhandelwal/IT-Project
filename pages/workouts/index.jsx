@@ -1,8 +1,5 @@
 // React
-import React, { useEffect, useState } from 'react';
-
-// Next
-import Head from 'next/head';
+import React, { useEffect, useState, useRef } from 'react';
 
 // Bootstrap components
 import Col from 'react-bootstrap/Col';
@@ -36,12 +33,11 @@ export default function WorkoutsPage() {
   const [workoutList, setWorkoutList] = useState([]);
   const { authUser } = useAuth();
 
-  const [selected, setSelected] = useState('');
   const [selectedWorkout, setSelectedWorkout] = useState();
   const [workouts, setWorkouts] = useState([]);
 
   /* Used to ensure the database is only accessed once */
-  const [isWorkoutsLoaded, setWorkoutsLoaded] = useState(false);
+  const isFirstLoad = useRef(false);
 
   /* Only render Card if innerWidth > 576px (small breakpoint) */
   const [toRenderCard, setRenderCard] = useState(true);
@@ -53,12 +49,12 @@ export default function WorkoutsPage() {
       setWorkouts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
-    if (!isWorkoutsLoaded) {
+    if (!isFirstLoad.current) {
       getWorkouts();
-      setWorkoutsLoaded(true);
+      isFirstLoad.current = true;
     }
 
-    if (isWorkoutsLoaded) {
+    if (isFirstLoad.current) {
       if (authUser) {
         const favs = workouts.filter((doc) =>
           authUser.favouriteWorkouts.includes(doc.id)
@@ -78,7 +74,7 @@ export default function WorkoutsPage() {
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-  }, [authUser, isWorkoutsLoaded, workouts]);
+  }, [authUser, workouts]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -89,8 +85,8 @@ export default function WorkoutsPage() {
    * If the window width is small, the modal is opened when the elements are
    * clicked. Otherwise, the card is updated.
    */
-  const onClick = () => {
-    setSelectedWorkout(selectedWorkout);
+  const onClick = (newWorkout) => {
+    setSelectedWorkout(newWorkout);
     if (!toRenderCard) {
       handleOpen();
     }
@@ -104,26 +100,15 @@ export default function WorkoutsPage() {
   return (
     <>
       <TopNavbar />
-      <Head>
-        <title>Workout Buddy</title>
-        <meta
-          name="description"
-          content="Workout Buddy - Helping you find and create workouts"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
       <Container className={styles.container}>
-        <div className={styles.heading}>
-          <h1>Workouts</h1>
-        </div>
         <Row>
           {toRenderCard && (
             <Col xs={6}>
               {selectedWorkout != null && (
                 <div className={styles.imgcontainer}>
                   <Image
-                    src={selectedWorkout.imageSource}
+                    src={selectedWorkout.imgSrc}
                     alt="workout image"
                     width="100%"
                     height="70%"
@@ -154,10 +139,9 @@ export default function WorkoutsPage() {
                 <List
                   list={workoutList}
                   listType="radio"
-                  selected={selected}
-                  setSelected={setSelected}
+                  selected={selectedWorkout}
+                  setSelected={onClick}
                   type="workouts"
-                  onClick={onClick}
                   onDelete={onDelete}
                 />
               </main>
@@ -177,7 +161,8 @@ export default function WorkoutsPage() {
               <Modal.Title>{selectedWorkout.name}</Modal.Title>
             </Modal.Header>
 
-            <Modal.Body>Test</Modal.Body>
+            {/* TODO: Mobile view for workouts. */}
+            <Modal.Body>.</Modal.Body>
 
             <Modal.Footer>
               <Button variant="primary" onClick={handleClose}>

@@ -16,8 +16,8 @@ export default function WorkoutElement({ element }) {
       <Col xs={6}>
         <div className={styles.element}>
           <Image
-            src={element.imageSource}
-            alt={element.imageAlt}
+            src={element.imgSrc}
+            alt={element.imgAlt}
             height={40}
             width={65}
           />

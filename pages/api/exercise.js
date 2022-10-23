@@ -2,9 +2,9 @@ export default function handler(req, res) {
   const { body } = req;
   if (!body.equipment) {
     body.equipment = 'Not required.';
-  } else if (!body.imageSource) {
-    body.imageSource = '/images/hammer-curls.png';
-    body.imageAlt = `Diagram for how to perform a ${body.name}`;
+  } else if (!body.imgSrc) {
+    body.imgSrc = '/images/hammer-curls.png';
+    body.imgAlt = `Diagram for how to perform a ${body.name}`;
   }
 
   if (

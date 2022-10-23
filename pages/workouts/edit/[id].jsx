@@ -212,8 +212,8 @@ function WorkoutForm() {
     /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
-      imageSource: '/images/push-ups.png',
-      imageAlt: `Picture of ${event.target.workoutName.value}`,
+      imgSrc: '/images/push-ups.png',
+      imgAlt: `Picture of ${event.target.workoutName.value}`,
       muscleGroups: chosenMuscleGroups.current,
       exercises: chosenExercises.current,
       id,
@@ -292,9 +292,9 @@ function WorkoutForm() {
           <Form.Control type="file" />
         </Form.Group>
 
-        <Form.Group controlId="formImageAlt">
+        <Form.Group controlId="formimgAlt">
           <Form.Label>Enter text to show if image doesn't load</Form.Label>
-          <Form.Control type="imageAlt" defaultValue={workout.imageAlt} />
+          <Form.Control type="imgAlt" defaultValue={workout.imgAlt} />
         </Form.Group> */}
 
         <Form.Group>
