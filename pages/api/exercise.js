@@ -2,18 +2,26 @@ export default function handler(req, res) {
   const { body } = req;
   if (!body.equipment) {
     body.equipment = 'Not required.';
-  } else if (!body.imgSrc) {
-    body.imgSrc = '/images/hammer-curls.png';
-    body.imgAlt = `Diagram for how to perform a ${body.name}`;
   }
 
-  if (
-    !body.name ||
-    !body.muscleGroups ||
-    !body.videoURL ||
-    !body.instructions
-  ) {
-    return res.status(400).json({ data: 'Required fields not found.' });
+  if (!body.name) {
+    return res.status(400).json({ error: 'Name of exercise is required.' });
+  }
+
+  if (!body.videoURL) {
+    return res.status(400).json({ error: 'Video URL is required.' });
+  }
+
+  if (!body.instructions) {
+    return res.status(400).json({ error: 'Instructions are required.' });
+  }
+
+  if (!body.imgSrc) {
+    return res.status(400).json({ error: 'Image source required' });
+  }
+
+  if (!body.imgAlt) {
+    body.imgAlt = `Performing a ${body.name}`;
   }
 
   return res.status(200).json({ data: req.body });

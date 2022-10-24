@@ -145,8 +145,8 @@ function ExerciseForm() {
       videoURL: event.target.exerciseURL.value,
       instructions: event.target.exerciseInstructions.value,
       equipment: event.target.exerciseEquipment.value,
-      imgSrc: '/images/hammer-curls.png',
-      imgAlt: `Picture of ${event.target.exerciseName.value}`,
+      imgSrc: event.target.exerciseImageSrc.value,
+      imgAlt: event.target.exerciseImageAlt.value,
       muscleGroups: chosenMuscleGroups.current,
     };
 
@@ -225,21 +225,23 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        {/* Not going to work just yet */}
-        {/* <Form.Group controlId="formThumbnail">
-          <Form.Label>Select a thumbnail</Form.Label>
-          <Form.Control type="file" />
+        <Form.Group>
+          <Form.Label>Enter image URL to display</Form.Label>
+          <Form.Control
+            id="exerciseImageSrc"
+            type="url"
+            defaultValue={exercise.imgSrc}
+          />
         </Form.Group>
 
-        <Form.Group controlId="formimgAlt">
-          <Form.Label>Enter text to show if image doesn't load</Form.Label>
-          {isEditingForm ? (
-            <Form.Control type="imgAlt" defaultValue={exercise.imgAlt} />
-          ) : (
-            <Form.Control type="imgAlt" placeholder="Enter image alt" />
-          )}
-        </Form.Group> */}
-
+        <Form.Group>
+          <Form.Label>Enter image alt</Form.Label>
+          <Form.Control
+            id="exerciseImageAlt"
+            type="text"
+            defaultValue={exercise.imgAlt}
+          />
+        </Form.Group>
         <Form.Group>
           <Form.Label>Equipment needed</Form.Label>
           <Form.Control
