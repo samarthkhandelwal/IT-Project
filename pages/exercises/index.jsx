@@ -135,6 +135,7 @@ export default function ExercisesPage() {
             setSelected={onClick}
             type="exercises"
             onDelete={onDelete}
+            allowEditing={authUser !== undefined}
           />
         </Col>
       </Row>
