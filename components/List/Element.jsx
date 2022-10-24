@@ -142,6 +142,14 @@ export default function Element({ element, type, onDelete, allowEditing }) {
     return null;
   };
 
+  const makeMuscles = () => {
+    let str = '';
+    for (let i = 0; i < element.muscleGroups.length; i += 1) {
+      str += `${element.muscleGroups[i]}, `;
+    }
+    return str.slice(0, str.length - 2);
+  };
+
   return (
     <div className={styles.element}>
       <Image
@@ -153,6 +161,7 @@ export default function Element({ element, type, onDelete, allowEditing }) {
 
       <div className={styles.txt}>
         <h1>{element.name}</h1>
+        <p>{makeMuscles()}</p>
       </div>
 
       <div className={styles.buttons}>
