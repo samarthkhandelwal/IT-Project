@@ -10,8 +10,17 @@ export default function handler(req, res) {
     body.imgAlt = `Diagram for how to perform a ${body.name}`;
   }
 
-  if (!body.name || !body.muscleGroups || !body.exercises) {
-    return res.status(400).json({ data: 'Required fields not found.' });
+  if (!body.muscleGroups) {
+    body.muscleGroups = [];
+  }
+
+  /* Cannot have workouts without a name or exercises */
+  if (!body.name) {
+    return res.status(400).json({ error: 'Workout name required.' });
+  }
+
+  if (body.exercises.length < 1) {
+    return res.status(400).json({ error: 'Workout contains no exercises.' });
   }
 
   return res.status(200).json({ data: req.body });

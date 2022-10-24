@@ -20,7 +20,7 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
-export default function Element({ element, type, onDelete }) {
+export default function Element({ element, type, onDelete, allowEditing }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
   const starFilled = '/images/starFilled.png';
@@ -120,8 +120,7 @@ export default function Element({ element, type, onDelete }) {
 
   const makeButton = () => {
     if (authUser) {
-      /* Crude check for checking if the element is an exercise or workout */
-      if (element.instructions !== undefined) {
+      if (type === 'exercises') {
         return (
           <EditButton
             type="exercise"
@@ -142,33 +141,37 @@ export default function Element({ element, type, onDelete }) {
     }
     return null;
   };
+
   return (
     <div className={styles.element}>
       <Image
         src={element.imgSrc}
         alt={element.imgAlt}
-        height={84}
-        width={120}
+        width={100}
+        height={100}
       />
 
       <div className={styles.txt}>
         <h1>{element.name}</h1>
       </div>
 
-      <div className={styles.star}>
-        <form>
-          <input
-            type="image"
-            src={imgPath}
-            height={38}
-            width={38}
-            alt="star"
-            onClick={toggleStar}
-          />
-        </form>
-      </div>
+      <div className={styles.buttons}>
+        <div className={styles.star}>
+          <form>
+            <Image
+              src={imgPath}
+              alt="star"
+              width={50}
+              height={50}
+              onClick={toggleStar}
+            />
+          </form>
+        </div>
 
-      <div className={styles.star}>{makeButton()}</div>
+        {allowEditing !== undefined && (
+          <div className={styles.star}>{makeButton()}</div>
+        )}
+      </div>
     </div>
   );
 }
