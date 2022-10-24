@@ -1,6 +1,7 @@
 /* Contains the image and the text */
 .element {
   display: flex;
+  justify-content: space-between;
   width: 25vw + 120px + 60px;
   border: 1px solid black;
   border-radius: 10px;
@@ -14,7 +15,6 @@
   margin: 10px 0 0 5px;
   text-align: left;
   text-overflow: ellipsis;
-  width: 20vw;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -32,10 +32,14 @@
   white-space: nowrap;
 }
 
+.buttons {
+  display: inline-flex;
+  position: relative;
+}
+
 .star {
-  margin-top: 21px;
-  margin-left: 4px;
-  padding-inline: 10px;
+  align-self: center;
+  padding: 5px;
 }
 
 @media only screen and (max-width: 576px) {

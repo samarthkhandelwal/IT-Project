@@ -19,6 +19,7 @@ import SelectedElement from './SelectedElement';
  * @param {*} setSelected The function that sets the state of selected
  * @param {*} type Either "exercises" or "workouts"
  * @param {*} onDelete The callback function to handle an element being deleted from the list.
+ * @param {*} allowEditing True if the edit button should appear on the elements.
  * @returns
  */
 export default function List({
@@ -28,6 +29,7 @@ export default function List({
   setSelected,
   type,
   onDelete,
+  allowEditing,
 }) {
   // A function to handle when a new element is selected
   const handleChange = (e) => {
@@ -58,21 +60,30 @@ export default function List({
         vertical
         name="button-list"
       >
-        {filteredList.map((element) => (
-          <ToggleButton
-            key={element.id}
-            id={`${listType}-${element.id}`}
-            variant="light"
-            name={listType}
-            value={element}
-          >
-            {selected === element.name ? (
-              <SelectedElement element={element} type={type} />
-            ) : (
-              <Element element={element} type={type} onDelete={onDelete} />
-            )}
-          </ToggleButton>
-        ))}
+        {filteredList.length === 0 ? (
+          <h3>No {type} available</h3>
+        ) : (
+          filteredList.map((element) => (
+            <ToggleButton
+              key={element.id}
+              id={`${listType}-${element.id}`}
+              variant="light"
+              name={listType}
+              value={element}
+            >
+              {selected === element.name ? (
+                <SelectedElement element={element} type={type} />
+              ) : (
+                <Element
+                  element={element}
+                  type={type}
+                  onDelete={onDelete}
+                  allowEditing={allowEditing}
+                />
+              )}
+            </ToggleButton>
+          ))
+        )}
       </ToggleButtonGroup>
     </div>
   );

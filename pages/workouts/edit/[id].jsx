@@ -2,36 +2,38 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // Next components
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Row from 'react-bootstrap/Row';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 // Firebase
 import {
-  getDoc,
   collection,
   updateDoc,
-  doc,
   query,
   orderBy,
   getDocs,
+  getDoc,
+  doc,
 } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
 // Custom components
 import CustomAlert from '../../../components/EditButton/CustomAlert';
+import List from '../../../components/List/List';
 import TopNavbar from '../../../components/Navbar/Navbar';
 
 // Styles
 import styles from '../../../styles/EditButton.module.css';
-
-// Get muscle list
-import muscles from '../../../public/muscles.json' assert { type: 'json' };
 
 // Get reference to exercises and workouts collections
 const exercisesCollectionRef = collection(db, 'exercises');
@@ -40,14 +42,8 @@ function WorkoutForm() {
   const router = useRouter();
   const { id } = router.query;
 
-  /* Ensures that the Firestore is only contacted once for data */
+  /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
-
-  /* Handles state for the workout */
-  const [workout, setWorkout] = useState({});
-
-  /* Handles state for the checkboxes */
-  const [checkboxes, setCheckboxes] = useState([]);
 
   /* Handles state for validation of form */
   // TODO: Form validation
@@ -62,134 +58,38 @@ function WorkoutForm() {
     setAlertActive({});
   };
 
-  /* Used to manage the list of chosen exercises in the form */
-  const chosenExercises = useRef([]);
+  /* Used to store the ids of exercises that have been added to the workout. */
+  const [exerciseGroups, setExerciseGroups] = useState([]);
 
-  /* Used to manage the list of chosen muscle groups in the form */
-  const chosenMuscleGroups = useRef([]);
-
-  /* Used to get a list of checkboxes for exercises to choose for a workout */
-  const [exerciseOptions, setExerciseOptions] = useState([]);
-
-  /* Used to ensure that the exercises collection is queried only once */
+  /* Used to store a list of the exercises that can be included in the workout */
   const [exercises, setExercises] = useState(undefined);
 
-  useEffect(() => {
-    const getWorkout = async () => {
-      const workoutDoc = await getDoc(doc(db, 'workouts', id));
-      chosenExercises.current = workoutDoc.data().exercises;
-      chosenMuscleGroups.current = workoutDoc.data().muscleGroups;
-      setWorkout(workoutDoc.data());
-    };
+  /* Stores the current workout being edited. */
+  const [workout, setWorkout] = useState({});
 
+  /* Used to store the selected exercise in the 'Add new exercise' modal */
+  const [selectedExercise, setSelectedExercise] = useState({});
+
+  useEffect(() => {
     const getExercises = async () => {
       const q = query(exercisesCollectionRef, orderBy('name'));
       const data = await getDocs(q);
-      setExercises(data);
+      setExercises(data.docs.map((d) => ({ ...d.data(), id: d.id })));
     };
 
-    const updateChosenMuscles = (ex) => {
-      if (chosenMuscleGroups.current.includes(ex.target.value)) {
-        const filtered = chosenMuscleGroups.current.filter(
-          (i) => i !== ex.target.value
-        );
-        chosenMuscleGroups.current = filtered;
-      } else {
-        chosenMuscleGroups.current.push(ex.target.value);
-      }
+    const getWorkout = async () => {
+      const workoutDoc = await getDoc(doc(db, 'workouts', id));
+      setWorkout(workoutDoc.data());
     };
 
-    const updateChosenExercises = (ex) => {
-      if (chosenExercises.current.includes(ex.target.value)) {
-        const filtered = chosenExercises.current.filter(
-          (i) => i !== ex.target.value
-        );
-        chosenExercises.current = filtered;
-      } else {
-        chosenExercises.current.push(ex.target.value);
-      }
-    };
-
-    const makeCheckboxes = () => {
-      const checkboxColumns = [];
-      // Create checkboxes for all muscles, and pre-check boxes
-      const preChecked =
-        workout.muscleGroups !== undefined ? workout.muscleGroups : [];
-      for (let i = 0; i < muscles.length; i += 1) {
-        const { group, musclesList } = muscles[i];
-        const boxes = [];
-        for (let j = 0; j < musclesList.length; j += 1) {
-          const { mId, name } = musclesList[j];
-          if (preChecked.includes(name)) {
-            boxes.push(
-              <div className="mb-3" key={mId}>
-                <Form.Check
-                  type="checkbox"
-                  id="workoutMuscleGroups"
-                  value={name}
-                  label={name}
-                  key={name}
-                  defaultChecked
-                  onChange={updateChosenMuscles}
-                />
-              </div>
-            );
-          } else {
-            boxes.push(
-              <div className="mb-3" key={mId}>
-                <Form.Check
-                  type="checkbox"
-                  id="workoutMuscleGroups"
-                  value={name}
-                  label={name}
-                  key={name}
-                  onChange={updateChosenMuscles}
-                />
-              </div>
-            );
-          }
+    const loadExerciseGroups = () => {
+      const newGroups = [];
+      if (workout.exercises) {
+        for (let i = 0; i < workout.exercises.length; i += 1) {
+          newGroups.push({ ...workout.exercises[i], index: i });
         }
-        /* TODO: This is still giving unique key errors, not sure why. */
-        checkboxColumns.push(
-          <Col key={group}>
-            <b>{group}</b>
-            {boxes}
-          </Col>
-        );
       }
-      return checkboxColumns;
-    };
-
-    const makeExerciseOptions = () => {
-      if (exercises !== undefined) {
-        const preChecked =
-          workout.exercises !== undefined ? workout.exercises : [];
-        return exercises.docs.map((document) => (
-          <div className="mb-3" key={document.id}>
-            {preChecked.includes(document.id) ? (
-              <Form.Check
-                type="checkbox"
-                id="chosenOptions"
-                value={document.id}
-                label={document.data().name}
-                key={document.data().name}
-                onChange={updateChosenExercises}
-                defaultChecked
-              />
-            ) : (
-              <Form.Check
-                type="checkbox"
-                id="chosenOptions"
-                value={document.id}
-                label={document.data().name}
-                key={document.data().name}
-                onChange={updateChosenExercises}
-              />
-            )}
-          </div>
-        ));
-      }
-      return null;
+      setExerciseGroups(newGroups);
     };
 
     if (!isFirstLoad.current) {
@@ -199,23 +99,82 @@ function WorkoutForm() {
     }
 
     if (isFirstLoad.current) {
-      setCheckboxes(makeCheckboxes());
-      setExerciseOptions(makeExerciseOptions());
+      loadExerciseGroups();
     }
-  }, [exercises, id, workout.exercises, workout.muscleGroups]);
+  }, [id, workout.exercises]);
+
+  /* Keeps track of which index the exercise is in the workout */
+  const index = useRef(0);
+
+  const updateExercises = (ex) => {
+    setExerciseGroups(exerciseGroups.concat(ex));
+    setSelectedExercise({});
+  };
+
+  const deleteExercise = (toDelete) => {
+    const newGroups = exerciseGroups.filter((ex) => ex.index !== toDelete);
+    for (let i = 0; i < exerciseGroups.length - 1; i += 1) {
+      newGroups[i].index = i;
+    }
+    setExerciseGroups(newGroups);
+    index.current -= 1;
+  };
+
+  /* Handles state for the add exercise modal */
+  const [isModalOpen, setModalOpen] = useState(false);
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => {
+    /* This check is to differentiate between cancelling or actually adding an exercise */
+    if (selectedExercise.id) {
+      updateExercises({ ...selectedExercise, index: index.current });
+      index.current += 1;
+    }
+    setModalOpen(false);
+  };
+
+  /* Transforms an exercise into the correct data structure for the form submission */
+  const getRepsSetsMuscles = (values) => {
+    const exercisesList = [];
+    const muscleGroupsList = [];
+
+    for (let i = 0; i < exerciseGroups.length; i += 1) {
+      /* Not sure why, but I can't seem to access the data directly here.
+       * So this is a workaround.
+       */
+      const obj = { ...exerciseGroups[i] };
+      delete obj.instructions;
+      delete obj.equipment;
+      delete obj.videoURL;
+
+      /* Get the muscle groups from the exercise */
+      for (let j = 0; j < obj.muscleGroups.length; j += 1) {
+        if (!muscleGroupsList.includes(obj.muscleGroups[j])) {
+          muscleGroupsList.push(obj.muscleGroups[j]);
+        }
+      }
+
+      obj.reps = Number(values[`${obj.id}-reps`].value);
+      obj.sets = Number(values[`${obj.id}-sets`].value);
+      exercisesList.push(obj);
+    }
+
+    return [exercisesList, muscleGroupsList.sort()];
+  };
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
 
+    const [exercisesList, muscleGroups] = getRepsSetsMuscles(event.target);
+
     /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
       imgSrc: '/images/push-ups.png',
       imgAlt: `Picture of ${event.target.workoutName.value}`,
-      muscleGroups: chosenMuscleGroups.current,
-      exercises: chosenExercises.current,
+      muscleGroups,
+      exercises: exercisesList,
       id,
     };
 
@@ -228,13 +187,22 @@ function WorkoutForm() {
       method: 'POST',
     });
 
-    /* Get the response, update the document, create an alert, then redirect. */
+    /* Get the response, add the document, create an alert, then redirect. */
     const result = await response.json();
-    updateDoc(doc(db, 'workouts', id), result.data)
+    if (result.error) {
+      handleAlertOpen({
+        heading: 'Error',
+        body: result.error,
+        variant: 'danger',
+      });
+      return;
+    }
+
+    updateDoc(doc(db, 'exercises', id), result.data)
       .then(() => {
         handleAlertOpen({
           heading: 'Success!',
-          body: `${result.data.name} was updated in the workout list. Redirecting...`,
+          body: `${result.data.name} was added to the workout list. Redirecting...`,
           variant: 'success',
         });
         setTimeout(() => {
@@ -267,24 +235,24 @@ function WorkoutForm() {
 
   return (
     <div className={styles.form}>
-      <h2>{`Editing '${workout.name}'`}</h2>
+      <div style={{ padding: '0 10vw' }}>
+        <h2>Editing {workout.name}</h2>
+      </div>
 
-      <Form onSubmit={handleSubmit} action="/api/workout" method="post">
-        <Form.Group>
-          <Form.Label>Workout name</Form.Label>
+      <Form
+        onSubmit={handleSubmit}
+        action="/api/workout"
+        method="post"
+        className={styles.form}
+      >
+        <div className={styles.formname}>
+          <Form.Label>Enter workout name:</Form.Label>
           <Form.Control
             id="workoutName"
             type="text"
             defaultValue={workout.name}
           />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label>Select targeted areas</Form.Label>
-          <Container fluid>
-            <Row>{checkboxes}</Row>
-          </Container>
-        </Form.Group>
+        </div>
 
         {/* Not going to work just yet */}
         {/* <Form.Group controlId="formThumbnail">
@@ -292,27 +260,112 @@ function WorkoutForm() {
           <Form.Control type="file" />
         </Form.Group>
 
-        <Form.Group controlId="formimgAlt">
+        <Form.Group controlId="formImgAlt">
           <Form.Label>Enter text to show if image doesn't load</Form.Label>
-          <Form.Control type="imgAlt" defaultValue={workout.imgAlt} />
+          <Form.Control type="imgAlt" placeholder="Enter image alt" />
         </Form.Group> */}
 
         <Form.Group>
-          <Form.Label>Select exercises to include</Form.Label>
-          {exerciseOptions}
+          <Form.Label>Exercises in this workout:</Form.Label>
+          <div className={styles.formexercises}>
+            {exerciseGroups.length === 0 ? (
+              <p>None</p>
+            ) : (
+              exerciseGroups.map((ex) => (
+                <Row className="mb-3" key={ex.index}>
+                  <Col xs={5} className="mt-2">
+                    {ex.name}
+                  </Col>
+
+                  <Col xs={1} className="mt-2">
+                    Reps
+                  </Col>
+
+                  <Col xs={2}>
+                    <Form.Control id={`${ex.id}-reps`} defaultValue={ex.reps} />
+                  </Col>
+
+                  <Col xs={1} className="mt-2">
+                    Sets
+                  </Col>
+
+                  <Col xs={2}>
+                    <Form.Control id={`${ex.id}-sets`} defaultValue={ex.sets} />
+                  </Col>
+
+                  <Col xs={1} className="mt-2">
+                    {/* TODO: Make this tooltip appear next to the image */}
+                    <OverlayTrigger
+                      overlay={<Tooltip>Delete {ex.name}</Tooltip>}
+                    >
+                      {({ ref }) => (
+                        <Image
+                          src="/images/delete.svg"
+                          alt={`Delete ${ex.name}`}
+                          height={20}
+                          width={20}
+                          onClick={() => deleteExercise(ex.index)}
+                          lazyRoot={ref}
+                        />
+                      )}
+                    </OverlayTrigger>
+                  </Col>
+                </Row>
+              ))
+            )}
+          </div>
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <div className={styles.formbuttons}>
+          <Button variant="primary" onClick={handleModalOpen}>
+            Add an exercise
+          </Button>
+          <div>
+            <Link href="/workouts" passHref>
+              <Button variant="secondary">Cancel</Button>
+            </Link>{' '}
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </div>
+        </div>
       </Form>
 
       {displayAlert(isAlertActive)}
+
+      <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
+        <Modal.Header>
+          <Modal.Title>
+            <p>Add an exercise</p>
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          {exercises && (
+            <List
+              list={exercises}
+              listType="radio"
+              type="exercises"
+              setSelected={setSelectedExercise}
+            />
+          )}
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleModalClose}>
+            Cancel
+          </Button>
+
+          <Button variant="primary" onClick={handleModalClose}>
+            Add
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
 
-export default function EditWorkout() {
+export default function CreateWorkout() {
   return (
     <>
       <TopNavbar />

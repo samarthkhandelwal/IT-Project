@@ -134,44 +134,35 @@ export default function WorkoutsPage() {
           )}
 
           <Col>
-            <div>
-              <main className={styles.main}>
-                <List
-                  list={workoutList}
-                  listType="radio"
-                  selected={selectedWorkout}
-                  setSelected={onClick}
-                  type="workouts"
-                  onDelete={onDelete}
-                />
-              </main>
-            </div>
+            <List
+              list={workoutList}
+              listType="radio"
+              selected={selectedWorkout}
+              setSelected={onClick}
+              type="workouts"
+              onDelete={onDelete}
+              allowEditing={authUser !== undefined}
+            />
           </Col>
         </Row>
-
-        {selectedWorkout !== undefined && (
-          <Modal
-            show={isOpen}
-            onHide={handleClose}
-            centered
-            scrollable
-            size="lg"
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>{selectedWorkout.name}</Modal.Title>
-            </Modal.Header>
-
-            {/* TODO: Mobile view for workouts. */}
-            <Modal.Body>.</Modal.Body>
-
-            <Modal.Footer>
-              <Button variant="primary" onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        )}
       </Container>
+
+      {selectedWorkout !== undefined && (
+        <Modal show={isOpen} onHide={handleClose} centered scrollable size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>{selectedWorkout.name}</Modal.Title>
+          </Modal.Header>
+
+          {/* TODO: Mobile view for workouts. */}
+          <Modal.Body>.</Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </>
   );
 }

@@ -5,6 +5,7 @@
   margin: 0 auto;
   align-content: center;
 }
+
 .main {
   flex: 1;
   display: flex;
