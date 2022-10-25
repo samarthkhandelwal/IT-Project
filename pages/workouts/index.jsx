@@ -86,10 +86,10 @@ export default function WorkoutsPage() {
    * clicked. Otherwise, the card is updated.
    */
   const onClick = (newWorkout) => {
-    setSelectedWorkout(newWorkout);
     if (!toRenderCard) {
       handleOpen();
     }
+    setSelectedWorkout(newWorkout);
   };
 
   /* When an exercise is deleted, remove it from the list. */
@@ -109,7 +109,7 @@ export default function WorkoutsPage() {
                 <div className={styles.imgcontainer}>
                   <Image
                     src={selectedWorkout.imgSrc}
-                    alt="workout image"
+                    alt={selectedWorkout.imgAlt}
                     width="100%"
                     height="70%"
                     layout="responsive"
@@ -153,8 +153,15 @@ export default function WorkoutsPage() {
             <Modal.Title>{selectedWorkout.name}</Modal.Title>
           </Modal.Header>
 
-          {/* TODO: Mobile view for workouts. */}
-          <Modal.Body>.</Modal.Body>
+          <Modal.Body>
+            {selectedWorkout != null && (
+              <div>
+                <main className={styles.workoutlist}>
+                  <WorkoutList exerciseList={selectedWorkout.exercises} />
+                </main>
+              </div>
+            )}
+          </Modal.Body>
 
           <Modal.Footer>
             <Button variant="primary" onClick={handleClose}>

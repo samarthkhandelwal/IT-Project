@@ -1,0 +1,10 @@
+.sets,
+.reps {
+  text-align: right;
+  align-self: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
