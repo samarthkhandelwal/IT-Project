@@ -145,8 +145,8 @@ function ExerciseForm() {
       videoURL: event.target.exerciseURL.value,
       instructions: event.target.exerciseInstructions.value,
       equipment: event.target.exerciseEquipment.value,
-      imgSrc: event.target.exerciseImageSrc.value,
-      imgAlt: event.target.exerciseImageAlt.value,
+      imgSrc: event.target.exerciseImgSrc.value,
+      imgAlt: event.target.exerciseImgAlt.value,
       muscleGroups: chosenMuscleGroups.current,
     };
 
@@ -228,7 +228,7 @@ function ExerciseForm() {
         <Form.Group>
           <Form.Label>Enter image URL to display</Form.Label>
           <Form.Control
-            id="exerciseImageSrc"
+            id="exerciseImgSrc"
             type="url"
             defaultValue={exercise.imgSrc}
           />
@@ -237,7 +237,7 @@ function ExerciseForm() {
         <Form.Group>
           <Form.Label>Enter image alt</Form.Label>
           <Form.Control
-            id="exerciseImageAlt"
+            id="exerciseImgAlt"
             type="text"
             defaultValue={exercise.imgAlt}
           />
