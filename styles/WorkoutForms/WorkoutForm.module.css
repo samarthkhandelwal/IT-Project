@@ -1,0 +1,51 @@
+.main {
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  padding: 0 10vw;
+  margin-bottom: 5vh;
+  width: 70%;
+}
+
+.form h2 {
+  text-align: start;
+}
+
+.formexercises {
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  padding: 1vh 12px;
+  height: 25vh;
+  scrollbar-width: auto;
+  overflow-y: auto;
+}
+
+.addexercise {
+  display: flex;
+  justify-content: right;
+}
+
+.buttongroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 576px) {
+  .main {
+    margin-top: 0;
+    display: block;
+  }
+
+  .form {
+    padding: 10vh 2vw;
+    margin: 1vh;
+    width: auto;
+  }
+  
+  .form h2 {
+    text-align: center;
+  }
+}

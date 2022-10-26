@@ -2,18 +2,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // Next components
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Row from 'react-bootstrap/Row';
-import Tooltip from 'react-bootstrap/Tooltip';
 
 // Firebase
 import {
@@ -28,12 +22,14 @@ import {
 import { db } from '../../../firebase-config';
 
 // Custom components
+import AddExerciseModal from '../../../components/WorkoutForms/AddExerciseModal';
 import CustomAlert from '../../../components/EditButton/CustomAlert';
-import List from '../../../components/List/List';
+import EditExerciseModal from '../../../components/WorkoutForms/EditExerciseModal';
+import ExerciseElement from '../../../components/WorkoutForms/ExerciseElement';
 import TopNavbar from '../../../components/Navbar/Navbar';
 
 // Styles
-import styles from '../../../styles/EditButton.module.css';
+import styles from '../../../styles/WorkoutForms/WorkoutForm.module.css';
 
 // Get reference to exercises and workouts collections
 const exercisesCollectionRef = collection(db, 'exercises');
@@ -70,6 +66,9 @@ function WorkoutForm() {
   /* Used to store the selected exercise in the 'Add new exercise' modal */
   const [selectedExercise, setSelectedExercise] = useState({});
 
+  /* Keeps track of which index the exercise is in the workout */
+  const index = useRef(0);
+
   useEffect(() => {
     const getExercises = async () => {
       const q = query(exercisesCollectionRef, orderBy('name'));
@@ -88,6 +87,7 @@ function WorkoutForm() {
         for (let i = 0; i < workout.exercises.length; i += 1) {
           newGroups.push({ ...workout.exercises[i], index: i });
         }
+        index.current = workout.exercises.length;
       }
       setExerciseGroups(newGroups);
     };
@@ -102,9 +102,6 @@ function WorkoutForm() {
       loadExerciseGroups();
     }
   }, [id, workout.exercises]);
-
-  /* Keeps track of which index the exercise is in the workout */
-  const index = useRef(0);
 
   const updateExercises = (ex) => {
     setExerciseGroups(exerciseGroups.concat(ex));
@@ -121,19 +118,42 @@ function WorkoutForm() {
   };
 
   /* Handles state for the add exercise modal */
-  const [isModalOpen, setModalOpen] = useState(false);
-  const handleModalOpen = () => setModalOpen(true);
-  const handleModalClose = () => {
+  const [isAddExerciseModalOpen, setAddExerciseModalOpen] = useState(false);
+  const handleAddExerciseModalOpen = () => setAddExerciseModalOpen(true);
+  const handleAddExerciseModalClose = () => {
     /* This check is to differentiate between cancelling or actually adding an exercise */
     if (selectedExercise.id) {
-      updateExercises({ ...selectedExercise, index: index.current });
+      updateExercises({
+        ...selectedExercise,
+        index: index.current,
+        sets: 0,
+        reps: 0,
+      });
       index.current += 1;
     }
-    setModalOpen(false);
+    setAddExerciseModalOpen(false);
+  };
+
+  /* Handles state for the editing sets/reps for an exercise modal */
+  const [isEditExerciseModalOpen, setEditExerciseModalOpen] = useState(false);
+  const handleEditExerciseModalOpen = (ex) => {
+    setSelectedExercise(ex);
+    setEditExerciseModalOpen(true);
+  };
+  const handleEditExerciseModalClose = () => {
+    for (let i = 0; i < exerciseGroups.length; i += 1) {
+      if (exerciseGroups[i].id === selectedExercise.id) {
+        exerciseGroups[i].sets = selectedExercise.sets;
+        exerciseGroups[i].reps = selectedExercise.reps;
+        break;
+      }
+    }
+    setExerciseGroups(exerciseGroups);
+    setEditExerciseModalOpen(false);
   };
 
   /* Transforms an exercise into the correct data structure for the form submission */
-  const getRepsSetsMuscles = (values) => {
+  const getRepsSetsMuscles = () => {
     const exercisesList = [];
     const muscleGroupsList = [];
 
@@ -145,16 +165,23 @@ function WorkoutForm() {
       delete obj.instructions;
       delete obj.equipment;
       delete obj.videoURL;
+      delete obj.index;
+      delete obj.muscleGroups;
 
-      /* Get the muscle groups from the exercise */
-      for (let j = 0; j < obj.muscleGroups.length; j += 1) {
-        if (!muscleGroupsList.includes(obj.muscleGroups[j])) {
-          muscleGroupsList.push(obj.muscleGroups[j]);
+      /* Get the muscle groups from the exercises */
+      if (exercises) {
+        for (let j = 0; j < exercises.length; j += 1) {
+          if (exercises[j].id === obj.id) {
+            for (let k = 0; k < exercises[j].muscleGroups.length; k += 1) {
+              if (!muscleGroupsList.includes(exercises[j].muscleGroups[k])) {
+                muscleGroupsList.push(exercises[j].muscleGroups[k]);
+              }
+            }
+            break;
+          }
         }
       }
 
-      obj.reps = Number(values[`${obj.id}-reps`].value);
-      obj.sets = Number(values[`${obj.id}-sets`].value);
       exercisesList.push(obj);
     }
 
@@ -166,7 +193,7 @@ function WorkoutForm() {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
 
-    const [exercisesList, muscleGroups] = getRepsSetsMuscles(event.target);
+    const [exercisesList, muscleGroups] = getRepsSetsMuscles();
 
     /* TODO: Implement muscleGroups and image uploading */
     const data = {
@@ -198,11 +225,11 @@ function WorkoutForm() {
       return;
     }
 
-    updateDoc(doc(db, 'exercises', id), result.data)
+    updateDoc(doc(db, 'workouts', id), result.data)
       .then(() => {
         handleAlertOpen({
           heading: 'Success!',
-          body: `${result.data.name} was added to the workout list. Redirecting...`,
+          body: `${result.data.name} was updated in the workout list. Redirecting...`,
           variant: 'success',
         });
         setTimeout(() => {
@@ -219,7 +246,6 @@ function WorkoutForm() {
   };
 
   const displayAlert = ({ heading, body, variant }) => {
-    // TODO: Check if dismissible on error
     if (heading && body && variant) {
       return (
         <CustomAlert
@@ -233,19 +259,22 @@ function WorkoutForm() {
     return null;
   };
 
+  /* Handles the submission of forms to edit sets/reps of an exercise */
+  const handleEdit = (event) => {
+    event.preventDefault();
+    selectedExercise.sets = event.target.newsets.value;
+    selectedExercise.reps = event.target.newreps.value;
+    handleEditExerciseModalClose();
+  };
+
   return (
     <div className={styles.form}>
-      <div style={{ padding: '0 10vw' }}>
+      <div>
         <h2>Editing {workout.name}</h2>
       </div>
 
-      <Form
-        onSubmit={handleSubmit}
-        action="/api/workout"
-        method="post"
-        className={styles.form}
-      >
-        <div className={styles.formname}>
+      <Form onSubmit={handleSubmit} action="/api/workout" method="post">
+        <div className="mt-3 mb-3">
           <Form.Label>Enter workout name:</Form.Label>
           <Form.Control
             id="workoutName"
@@ -279,95 +308,58 @@ function WorkoutForm() {
               <p>None</p>
             ) : (
               exerciseGroups.map((ex) => (
-                <Row className="mb-3" key={ex.index}>
-                  <Col xs={5} className="mt-2">
-                    {ex.name}
-                  </Col>
-
-                  <Col xs={1} className="mt-2">
-                    Reps
-                  </Col>
-
-                  <Col xs={2}>
-                    <Form.Control id={`${ex.id}-reps`} defaultValue={ex.reps} />
-                  </Col>
-
-                  <Col xs={1} className="mt-2">
-                    Sets
-                  </Col>
-
-                  <Col xs={2}>
-                    <Form.Control id={`${ex.id}-sets`} defaultValue={ex.sets} />
-                  </Col>
-
-                  <Col xs={1} className="mt-2">
-                    {/* TODO: Make this tooltip appear next to the image */}
-                    <OverlayTrigger
-                      overlay={<Tooltip>Delete {ex.name}</Tooltip>}
-                    >
-                      {({ ref }) => (
-                        <Image
-                          src="/images/delete.svg"
-                          alt={`Delete ${ex.name}`}
-                          height={20}
-                          width={20}
-                          onClick={() => deleteExercise(ex.index)}
-                          lazyRoot={ref}
-                        />
-                      )}
-                    </OverlayTrigger>
-                  </Col>
-                </Row>
+                <ExerciseElement
+                  exercise={ex}
+                  onClick={() => {
+                    handleEditExerciseModalOpen(ex);
+                  }}
+                />
               ))
             )}
           </div>
         </Form.Group>
 
-        <div className={styles.formbuttons}>
-          <Button variant="primary" onClick={handleModalOpen}>
-            Add an exercise
+        <div className={styles.addexercise}>
+          <Button
+            variant="outline-primary"
+            onClick={handleAddExerciseModalOpen}
+            className="mt-3 mb-3"
+          >
+            + Add an exercise
           </Button>
-          <div>
-            <Link href="/workouts" passHref>
-              <Button variant="secondary">Cancel</Button>
-            </Link>{' '}
-            <Button variant="primary" type="submit">
-              Submit
+        </div>
+
+        {displayAlert(isAlertActive)}
+
+        <div className={`mt-3 ${styles.buttongroup}`}>
+          <Link href="/workouts" passHref>
+            <Button variant="secondary" size="lg">
+              Cancel
             </Button>
-          </div>
+          </Link>
+          <Button variant="primary" type="submit" size="lg">
+            Submit
+          </Button>
         </div>
       </Form>
 
-      {displayAlert(isAlertActive)}
+      <AddExerciseModal
+        show={isAddExerciseModalOpen}
+        onClose={handleAddExerciseModalClose}
+        list={exercises}
+        setSelectedExercise={setSelectedExercise}
+      />
 
-      <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
-        <Modal.Header>
-          <Modal.Title>
-            <p>Add an exercise</p>
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          {exercises && (
-            <List
-              list={exercises}
-              listType="radio"
-              type="exercises"
-              setSelected={setSelectedExercise}
-            />
-          )}
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleModalClose}>
-            Cancel
-          </Button>
-
-          <Button variant="primary" onClick={handleModalClose}>
-            Add
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <EditExerciseModal
+        show={isEditExerciseModalOpen}
+        onClose={handleEditExerciseModalClose}
+        exercise={selectedExercise}
+        onSubmit={handleEdit}
+        onDelete={() => {
+          deleteExercise(selectedExercise.index);
+          setEditExerciseModalOpen(false);
+        }}
+      />
     </div>
   );
 }
@@ -376,7 +368,6 @@ export default function CreateWorkout() {
   return (
     <>
       <TopNavbar />
-      {/* TODO: Preview of changes on side. */}
       <div className={styles.main}>
         <WorkoutForm />
       </div>
