@@ -1,8 +1,5 @@
 // React
-import React, { useEffect, useState } from 'react';
-
-// Next
-import Head from 'next/head';
+import React, { useEffect, useState, useRef } from 'react';
 
 // Bootstrap components
 import Col from 'react-bootstrap/Col';
@@ -36,12 +33,11 @@ export default function WorkoutsPage() {
   const [workoutList, setWorkoutList] = useState([]);
   const { authUser } = useAuth();
 
-  const [selected, setSelected] = useState('');
   const [selectedWorkout, setSelectedWorkout] = useState();
   const [workouts, setWorkouts] = useState([]);
 
   /* Used to ensure the database is only accessed once */
-  const [isWorkoutsLoaded, setWorkoutsLoaded] = useState(false);
+  const isFirstLoad = useRef(false);
 
   /* Only render Card if innerWidth > 576px (small breakpoint) */
   const [toRenderCard, setRenderCard] = useState(true);
@@ -53,11 +49,12 @@ export default function WorkoutsPage() {
       setWorkouts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
-    if (!isWorkoutsLoaded) {
+    if (!isFirstLoad.current) {
       getWorkouts();
+      isFirstLoad.current = true;
     }
 
-    if (isWorkoutsLoaded) {
+    if (isFirstLoad.current) {
       if (authUser) {
         const favs = workouts.filter((doc) =>
           authUser.favouriteWorkouts.includes(doc.id)
@@ -74,64 +71,44 @@ export default function WorkoutsPage() {
       }
     }
 
-    getWorkouts();
-
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-
-    return () => {
-      setWorkoutsLoaded(true);
-    };
-  }, [authUser, isWorkoutsLoaded, workouts]);
-
-  useEffect(() => {
-    const getSelected = () => {
-      workoutList.forEach((doc) => {
-        if (doc.id === selected) {
-          setSelectedWorkout(doc);
-        }
-      });
-    };
-
-    getSelected();
-  }, [selected, workoutList]);
+  }, [authUser, workouts]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const onClick = () => {
+  /* Handles the onClick events for each workout.
+   * The split is needed to handle both mobile/desktop views at the same time.
+   * If the window width is small, the modal is opened when the elements are
+   * clicked. Otherwise, the card is updated.
+   */
+  const onClick = (newWorkout) => {
+    setSelectedWorkout(newWorkout);
     if (!toRenderCard) {
       handleOpen();
-    } else {
-      setSelectedWorkout(selectedWorkout);
     }
+  };
+
+  /* When an exercise is deleted, remove it from the list. */
+  const onDelete = (id) => {
+    setWorkoutList(workouts.filter((doc) => doc.id !== id));
   };
 
   return (
     <>
       <TopNavbar />
-      <Head>
-        <title>Workout Buddy</title>
-        <meta
-          name="description"
-          content="Workout Buddy - Helping you find and create workouts"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
       <Container className={styles.container}>
-        <div className={styles.heading}>
-          <h1>Workouts</h1>
-        </div>
         <Row>
           {toRenderCard && (
             <Col xs={6}>
               {selectedWorkout != null && (
                 <div className={styles.imgcontainer}>
                   <Image
-                    src={selectedWorkout.imageSource}
+                    src={selectedWorkout.imgSrc}
                     alt="workout image"
                     width="100%"
                     height="70%"
@@ -157,43 +134,35 @@ export default function WorkoutsPage() {
           )}
 
           <Col>
-            <div>
-              <main className={styles.main}>
-                <List
-                  list={workoutList}
-                  listType="radio"
-                  selected={selected}
-                  setSelected={setSelected}
-                  type="workouts"
-                  onClick={onClick}
-                />
-              </main>
-            </div>
+            <List
+              list={workoutList}
+              listType="radio"
+              selected={selectedWorkout}
+              setSelected={onClick}
+              type="workouts"
+              onDelete={onDelete}
+              allowEditing={authUser !== undefined}
+            />
           </Col>
         </Row>
-
-        {selectedWorkout !== undefined && (
-          <Modal
-            show={isOpen}
-            onHide={handleClose}
-            centered
-            scrollable
-            size="lg"
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>{selectedWorkout.name}</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>Test</Modal.Body>
-
-            <Modal.Footer>
-              <Button variant="primary" onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        )}
       </Container>
+
+      {selectedWorkout !== undefined && (
+        <Modal show={isOpen} onHide={handleClose} centered scrollable size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>{selectedWorkout.name}</Modal.Title>
+          </Modal.Header>
+
+          {/* TODO: Mobile view for workouts. */}
+          <Modal.Body>.</Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </>
   );
 }

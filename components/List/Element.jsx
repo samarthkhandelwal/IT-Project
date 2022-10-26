@@ -9,7 +9,7 @@ import { collection, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 // Custom components
-import CRUDButton from '../CRUDButton/CRUDButton';
+import EditButton from '../EditButton/EditButton';
 
 // Styles
 import styles from '../../styles/Element.module.css';
@@ -20,7 +20,7 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
-export default function Element({ element, type, onClick }) {
+export default function Element({ element, type, onDelete, allowEditing }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
   const starFilled = '/images/starFilled.png';
@@ -120,49 +120,67 @@ export default function Element({ element, type, onClick }) {
 
   const makeButton = () => {
     if (authUser) {
-      /* Crude check for checking if the element is an exercise or workout */
-      if (element.instructions !== undefined) {
+      if (type === 'exercises') {
         return (
-          <CRUDButton type="exercise" id={element.id} name={element.name} />
+          <EditButton
+            type="exercise"
+            id={element.id}
+            name={element.name}
+            onDelete={onDelete}
+          />
         );
       }
-      return <CRUDButton type="workout" id={element.id} name={element.name} />;
+      return (
+        <EditButton
+          type="workout"
+          id={element.id}
+          name={element.name}
+          onDelete={onDelete}
+        />
+      );
     }
     return null;
   };
+
+  const makeMuscles = () => {
+    let str = '';
+    for (let i = 0; i < element.muscleGroups.length; i += 1) {
+      str += `${element.muscleGroups[i]}, `;
+    }
+    return str.slice(0, str.length - 2);
+  };
+
   return (
-    <div
-      className={styles.element}
-      onClick={onClick}
-      onKeyPress={onClick}
-      role="button"
-      tabIndex={0}
-    >
+    <div className={styles.element}>
       <Image
-        src={element.imageSource}
-        alt={element.imageAlt}
-        height={84}
-        width={120}
+        src={element.imgSrc}
+        alt={element.imgAlt}
+        width={100}
+        height={100}
       />
 
       <div className={styles.txt}>
         <h1>{element.name}</h1>
+        <p>{makeMuscles()}</p>
       </div>
 
-      <div className={styles.star}>
-        <form>
-          <input
-            type="image"
-            src={imgPath}
-            height={38}
-            width={38}
-            alt="star"
-            onClick={toggleStar}
-          />
-        </form>
-      </div>
+      <div className={styles.buttons}>
+        <div className={styles.star}>
+          <form>
+            <Image
+              src={imgPath}
+              alt="star"
+              width={50}
+              height={50}
+              onClick={toggleStar}
+            />
+          </form>
+        </div>
 
-      <div className={styles.star}>{makeButton()}</div>
+        {allowEditing !== undefined && (
+          <div className={styles.star}>{makeButton()}</div>
+        )}
+      </div>
     </div>
   );
 }

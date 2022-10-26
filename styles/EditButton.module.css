@@ -4,6 +4,23 @@
 
 .form {
   padding: 0 10vw;
+  margin-bottom: 5vh;
+}
+
+.formname {
+  padding: 20px 0;
+}
+
+.formexercises {
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  padding: 1vh 12px;
+}
+
+.formbuttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 .toast {
