@@ -171,8 +171,8 @@ function WorkoutForm() {
     /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
-      imgSrc: event.target.workoutImageSrc.value,
-      imgAlt: event.target.workoutImageAlt.value,
+      imgSrc: event.target.workoutImgSrc.value,
+      imgAlt: event.target.workoutImgAlt.value,
       muscleGroups,
       exercises: exercisesList,
       id,
@@ -257,7 +257,7 @@ function WorkoutForm() {
         <Form.Group className="mb-3">
           <Form.Label>Enter image URL to display</Form.Label>
           <Form.Control
-            id="workoutImageSrc"
+            id="workoutImgSrc"
             type="url"
             defaultValue={workout.imgSrc}
           />
@@ -266,7 +266,7 @@ function WorkoutForm() {
         <Form.Group className="mb-3">
           <Form.Label>Enter image alt</Form.Label>
           <Form.Control
-            id="workoutImageAlt"
+            id="workoutImgAlt"
             type="text"
             defaultValue={workout.imgAlt}
           />
