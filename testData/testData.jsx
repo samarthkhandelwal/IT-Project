@@ -1,28 +1,28 @@
 export const exercises = [];
 exercises.push({
   name: 'Push Ups',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   muscleGroups: ['Biceps', 'Chest', 'Core'],
   id: '0',
 });
 exercises.push({
   name: 'Sit Ups',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   muscleGroups: ['Core'],
   id: '1',
 });
 exercises.push({
   name: 'Pull Ups',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   muscleGroups: ['Biceps', 'Shoulders'],
   id: '2',
 });
 exercises.push({
   name: 'Squats',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   muscleGroups: ['Legs', 'Glutes'],
   id: '3',
@@ -31,7 +31,7 @@ exercises.push({
 export const workouts = [];
 workouts.push({
   name: 'Workout 1',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   exercises: [{ 0: [5, 10] }, { 1: [5, 10] }],
   muscleGroups: ['Biceps', 'Chest', 'Core'],
@@ -39,7 +39,7 @@ workouts.push({
 });
 workouts.push({
   name: 'Workout 2',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   exercises: [{ 2: [5, 10] }, { 0: [5, 10] }, { 1: [5, 10] }],
   muscleGroups: ['Biceps', 'Shoulders', 'Chest', 'Core'],
@@ -47,7 +47,7 @@ workouts.push({
 });
 workouts.push({
   name: 'Workout 3',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   exercises: [{ 2: [5, 10] }, { 3: [5, 10] }],
   muscleGroups: ['Biceps', 'Shoulders', 'Legs', 'Glutes'],
@@ -55,7 +55,7 @@ workouts.push({
 });
 workouts.push({
   name: 'Workout 4',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   exercises: [{ 1: [5, 10] }, { 3: [5, 10] }],
   muscleGroups: ['Core', 'Legs', 'Glutes'],
@@ -63,7 +63,7 @@ workouts.push({
 });
 workouts.push({
   name: 'Push Workout',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   exercises: [{ 0: [5, 10] }],
   muscleGroups: ['Chest', 'Shoulder', 'Triceps'],
@@ -71,7 +71,7 @@ workouts.push({
 });
 workouts.push({
   name: 'Pull Workout',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   exercises: [{ 2: [5, 10] }],
   muscleGroups: ['Back', 'Biceps', 'Abs'],
@@ -79,7 +79,7 @@ workouts.push({
 });
 workouts.push({
   name: 'Legs Workout',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   exercises: [{ 3: [5, 10] }],
   muscleGroups: ['Quadriceps', 'Hamstrings', 'Calves'],
@@ -87,7 +87,7 @@ workouts.push({
 });
 workouts.push({
   name: 'Upper Workout',
-  imageSource:
+  imgSrc:
     'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   exercises: [{ 2: [5, 10] }],
   muscleGroups: ['Chest', 'Back', 'Shoulder', 'Triceps'],

@@ -17,7 +17,7 @@ import { db } from '../../firebase-config';
 // Custom components
 import CustomToast from './CustomToast';
 
-export default function CRUDButton({ type, create, id, name }) {
+export default function EditButton({ type, id, name, onDelete }) {
   /* Handles state for the delete toast */
   const [isToastActive, setToastActive] = useState({});
   const handleToastOpen = ({ title, body, error }) => {
@@ -35,7 +35,6 @@ export default function CRUDButton({ type, create, id, name }) {
   };
 
   const handleDelete = () => {
-    // TODO: Refresh exercise/workout list after deletion.
     if (type === 'exercise') {
       deleteDoc(doc(db, 'exercises', id))
         .then(() => {
@@ -65,44 +64,29 @@ export default function CRUDButton({ type, create, id, name }) {
           });
         });
     }
-
+    onDelete(id);
     handleModalClose();
   };
 
   // Makes either a button, or a dropdown button
-  function makeButton(urlBase, toCreate) {
-    // Get URL base
-    let url = '';
-    if (urlBase === 'exercise') {
-      url = '/exercises/edit';
-    } else if (urlBase === 'workout') {
-      url = '/workouts/edit';
-    }
-
-    // Only regular button for creating
-    if (toCreate !== undefined) {
-      return (
-        <Link href={{ pathname: url, query: 'type=create' }} passHref>
-          <Button variant="primary">New {urlBase}</Button>
+  const makeButton = (title) => (
+    <DropdownButton title="...">
+      {title === 'exercise' ? (
+        <Link href={`/exercises/edit/${id}`} passHref>
+          <Dropdown.Item>Edit {title}</Dropdown.Item>
         </Link>
-      );
-    }
-
-    // Dropdown for editing and deleting
-    return (
-      <DropdownButton title="...">
-        <Link href={{ pathname: url, query: `type=edit&id=${id}` }} passHref>
-          <Dropdown.Item>Edit {urlBase}</Dropdown.Item>
+      ) : (
+        <Link href={`/workouts/edit/${id}`} passHref>
+          <Dropdown.Item>Edit {title}</Dropdown.Item>
         </Link>
-        <Dropdown.Item onClick={handleModalOpen}>
-          Delete {urlBase}
-        </Dropdown.Item>
-      </DropdownButton>
-    );
-  }
+      )}
+
+      <Dropdown.Item onClick={handleModalOpen}>Delete {title}</Dropdown.Item>
+    </DropdownButton>
+  );
 
   // Creates the modal only if there is an id.
-  function makeModal(toShow) {
+  const makeModal = (toShow) => {
     if (toShow !== undefined) {
       return (
         <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
@@ -127,7 +111,7 @@ export default function CRUDButton({ type, create, id, name }) {
       );
     }
     return null;
-  }
+  };
 
   // Creates the toast for deleting
   function makeToast({ title, body, error }) {
@@ -146,7 +130,7 @@ export default function CRUDButton({ type, create, id, name }) {
 
   return (
     <>
-      {makeButton(type, create)}
+      {makeButton(type)}
       {makeModal(id)}
       {makeToast(isToastActive)}
     </>

@@ -16,8 +16,8 @@ export default function WorkoutElement({ element }) {
       <Col xs={6}>
         <div className={styles.element}>
           <Image
-            src={element.imageSource}
-            alt={element.imageAlt}
+            src={element.imgSrc}
+            alt={element.imgAlt}
             height={40}
             width={65}
           />
@@ -30,12 +30,12 @@ export default function WorkoutElement({ element }) {
       <Col xs={6}>
         <Row>
           <div className={styles.sr}>
-            <p>{element.sets} sets</p>
+            <p>{element.reps} reps</p>
           </div>
         </Row>
         <Row>
           <div className={styles.sr}>
-            <p>{element.reps} reps</p>
+            <p>{element.sets} sets</p>
           </div>
         </Row>
       </Col>
