@@ -23,28 +23,32 @@ import { useAuth } from '../../context/authUserContext';
 function NewLink() {
   const router = useRouter();
 
-  if (router.pathname.includes('exercises')) {
-    return (
-      <Link href="/exercises/create" passHref>
-        <Nav.Link className={styles.item}>New exercise</Nav.Link>
-      </Link>
-    );
-  }
+  const { authUser } = useAuth();
 
-  if (router.pathname.includes('userworkouts')) {
-    return (
-      <Link href="/userworkouts/create" passHref>
-        <Nav.Link className={styles.item}>New personal workout</Nav.Link>
-      </Link>
-    );
-  }
+  if (authUser) {
+    if (authUser.role === 0 && router.pathname.includes('exercises')) {
+      return (
+        <Link href="/exercises/create" passHref>
+          <Nav.Link className={styles.item}>New exercise</Nav.Link>
+        </Link>
+      );
+    }
 
-  if (router.pathname.includes('workouts')) {
-    return (
-      <Link href="/workouts/create" passHref>
-        <Nav.Link className={styles.item}>New workout</Nav.Link>
-      </Link>
-    );
+    if (router.pathname.includes('userworkouts')) {
+      return (
+        <Link href="/userworkouts/create" passHref>
+          <Nav.Link className={styles.item}>New user workout</Nav.Link>
+        </Link>
+      );
+    }
+
+    if (authUser.role === 0 && router.pathname.includes('workouts')) {
+      return (
+        <Link href="/workouts/create" passHref>
+          <Nav.Link className={styles.item}>New workout</Nav.Link>
+        </Link>
+      );
+    }
   }
 
   return null;
