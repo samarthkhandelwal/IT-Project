@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Bootstrap components
 import Col from 'react-bootstrap/Col';
@@ -10,10 +10,6 @@ import Button from 'react-bootstrap/Button';
 
 // Next components
 import Image from 'next/image';
-
-// Firebase
-import { getDocs, collection, query } from 'firebase/firestore';
-import { db } from '../../firebase-config';
 
 // Custom components
 import List from '../../components/List/List';
@@ -26,9 +22,6 @@ import styles from '../../styles/Workouts/Workouts.module.css';
 // Authentication
 import { useAuth } from '../../context/authUserContext';
 
-// Get reference to the storedWorkouts collection
-const storedWorkoutsCollectionRef = collection(db, 'storedWorkouts');
-
 export default function WorkoutsPage({ testData }) {
   const [workoutList, setWorkoutList] = useState([]);
   const { authUser } = useAuth();
@@ -36,38 +29,20 @@ export default function WorkoutsPage({ testData }) {
   const [selectedWorkout, setSelectedWorkout] = useState();
   const [workouts, setWorkouts] = useState([]);
 
-  /* Used to ensure the database is only accessed once */
-  const isFirstLoad = useRef(false);
-
   /* Only render Card if innerWidth > 576px (small breakpoint) */
   const [toRenderCard, setRenderCard] = useState(true);
 
   useEffect(() => {
-    const getWorkouts = async () => {
-      const q = query(storedWorkoutsCollectionRef);
-      const data = await getDocs(q);
-      setWorkouts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
-    if (!isFirstLoad.current && testData === undefined) {
-      getWorkouts();
-      isFirstLoad.current = true;
-    }
-
-    if (!isFirstLoad.current && testData !== undefined) {
+    if (testData !== undefined) {
       setWorkouts(testData);
-      isFirstLoad.current = true;
     }
 
-    if (isFirstLoad.current) {
-      if (authUser) {
-        const userWorkouts = workouts.filter((doc) =>
-          authUser.createdWorkouts.includes(doc.id)
-        );
-        setWorkouts(userWorkouts);
-        setSelectedWorkout(userWorkouts[0]);
-        setWorkoutList(userWorkouts);
-      }
+    if (authUser) {
+      const createdWorkouts =
+        authUser.createdWorkouts !== undefined ? authUser.createdWorkouts : [];
+      setWorkouts(createdWorkouts);
+      setSelectedWorkout(createdWorkouts[0]);
+      setWorkoutList(createdWorkouts);
     }
 
     if (window.innerWidth < 576) {

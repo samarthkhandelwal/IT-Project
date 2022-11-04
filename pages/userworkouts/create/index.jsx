@@ -12,12 +12,11 @@ import Form from 'react-bootstrap/Form';
 // Firebase
 import {
   collection,
-  addDoc,
   query,
   orderBy,
   getDocs,
-  updateDoc,
   doc,
+  setDoc,
 } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
@@ -35,9 +34,7 @@ import styles from '../../../styles/WorkoutForms/WorkoutForm.module.css';
 import { useAuth } from '../../../context/authUserContext';
 
 // Get reference to exercises and workouts collections
-const storedWorkoutsCollectionRef = collection(db, 'storedWorkouts');
 const exercisesCollectionRef = collection(db, 'exercises');
-const usersCollectionRef = collection(db, 'users');
 
 function WorkoutForm() {
   const router = useRouter();
@@ -169,13 +166,6 @@ function WorkoutForm() {
     return [exercisesList, muscleGroupsList.sort()];
   };
 
-  const updateUserDoc = async (docRef) => {
-    authUser.createdWorkouts.push(docRef);
-    await updateDoc(doc(usersCollectionRef, authUser.uid), {
-      createdWorkouts: authUser.createdWorkouts,
-    });
-  };
-
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
     /* Prevent automatic submission and refreshing of the page. */
@@ -185,6 +175,8 @@ function WorkoutForm() {
 
     const data = {
       name: event.target.workoutName.value,
+      imgSrc: event.target.workoutImgSrc.value,
+      imgAlt: event.target.workoutImgAlt.value,
       muscleGroups,
       exercises: exercisesList,
     };
@@ -209,25 +201,40 @@ function WorkoutForm() {
       return;
     }
 
-    const docRef = await addDoc(storedWorkoutsCollectionRef, result.data)
-      .then(() => {
-        handleAlertOpen({
-          heading: 'Success!',
-          body: `${result.data.name} was added to your workout list. Redirecting...`,
-          variant: 'success',
-        });
-        setTimeout(() => {
-          updateUserDoc(docRef);
-          router.push('/userworkouts');
-        }, 3000);
+    if (authUser) {
+      if (authUser.createdWorkouts === undefined) {
+        authUser.createdWorkouts = [result.data];
+      } else {
+        authUser.createdWorkouts.push(result.data);
+      }
+      setDoc(doc(db, 'users', authUser.uid), {
+        uid: authUser.uid,
+        name: authUser.name,
+        email: authUser.email,
+        photo: authUser.photoURL,
+        role: authUser.role,
+        favouriteExercises: authUser.favouriteExercises,
+        favouriteWorkouts: authUser.favouriteWorkouts,
+        createdWorkouts: authUser.createdWorkouts,
       })
-      .catch((error) => {
-        handleAlertOpen({
-          heading: 'Error',
-          body: `${error.name}: ${error.code}`,
-          variant: 'danger',
+        .then(() => {
+          handleAlertOpen({
+            heading: 'Success!',
+            body: `${result.data.name} was added to your workout list. Redirecting...`,
+            variant: 'success',
+          });
+          setTimeout(() => {
+            router.push('/userworkouts');
+          }, 3000);
+        })
+        .catch((error) => {
+          handleAlertOpen({
+            heading: 'Error',
+            body: `${error.name}: ${error.code}`,
+            variant: 'danger',
+          });
         });
-      });
+    }
   };
 
   const displayAlert = ({ heading, body, variant }) => {
@@ -268,6 +275,24 @@ function WorkoutForm() {
             placeholder="Enter workout name"
           />
         </div>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Enter image URL to display</Form.Label>
+          <Form.Control
+            id="workoutImgSrc"
+            type="url"
+            placeholder="Enter image URL"
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Enter image alt</Form.Label>
+          <Form.Control
+            id="workoutImgAlt"
+            type="text"
+            placeholder="Enter image alt (in case the image doesn't load)"
+          />
+        </Form.Group>
 
         <Form.Group>
           <Form.Label>Exercises in this workout:</Form.Label>
