@@ -19,6 +19,7 @@ const formatAuthUser = (user, id) => ({
   role: user.role,
   favouriteWorkouts: user.favouriteWorkouts,
   favouriteExercises: user.favouriteExercises,
+  createdWorkouts: user.createdWorkouts,
 });
 
 const createNewUser = async (user) => {
@@ -29,6 +30,7 @@ const createNewUser = async (user) => {
     role: 1,
     favouriteWorkouts: [],
     favouriteExercises: [],
+    createdWorkouts: [],
   });
 };
 
