@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 // Next components
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
@@ -22,6 +23,7 @@ import { useAuth } from '../../context/authUserContext';
 
 export default function EditButton({ type, id, name, onDelete }) {
   const { authUser } = useAuth();
+  const router = useRouter();
 
   /* Handles state for the delete toast */
   const [isToastActive, setToastActive] = useState({});
@@ -47,6 +49,7 @@ export default function EditButton({ type, id, name, onDelete }) {
             title: 'Success',
             body: `Successfully deleted ${name}.`,
           });
+          router.reload();
         })
         .catch((error) => {
           handleToastOpen({
@@ -63,6 +66,7 @@ export default function EditButton({ type, id, name, onDelete }) {
             title: 'Success',
             body: `Successfully deleted ${name}.`,
           });
+          router.reload();
         })
         .catch((error) => {
           handleToastOpen({
@@ -80,6 +84,7 @@ export default function EditButton({ type, id, name, onDelete }) {
       updateDoc(doc(db, 'users', authUser.uid), {
         createdWorkouts: filtered,
       });
+      router.reload();
     }
     onDelete(id);
     handleModalClose();
