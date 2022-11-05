@@ -130,9 +130,13 @@ export default function EditButton({ type, id, name, onDelete }) {
         <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
           <Modal.Header>
             <Modal.Title>
-              <p>
-                Delete {type} &#39;{name}&#39;?
-              </p>
+              {type === 'userworkout' ? (
+                <p>Delete your workout &#39;{name}&#39;?</p>
+              ) : (
+                <p>
+                  Delete {type} &#39;{name}&#39;?
+                </p>
+              )}
             </Modal.Title>
           </Modal.Header>
 
