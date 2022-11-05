@@ -284,6 +284,7 @@ function WorkoutForm() {
               exerciseGroups.map((ex) => (
                 <ExerciseElement
                   exercise={ex}
+                  key={ex.id}
                   onClick={() => {
                     handleEditExerciseModalOpen(ex);
                   }}

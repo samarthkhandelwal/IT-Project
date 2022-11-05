@@ -103,11 +103,11 @@ function WorkoutForm() {
 
     if (!isFirstLoad.current) {
       getExercises();
-      getWorkout();
       isFirstLoad.current = true;
     }
 
     if (isFirstLoad.current) {
+      getWorkout();
       loadExerciseGroups();
     }
   }, [authUser, id, workout.exercises]);
@@ -140,7 +140,6 @@ function WorkoutForm() {
       });
       index.current += 1;
     }
-    console.log(exerciseGroups);
     setAddExerciseModalOpen(false);
   };
 
@@ -234,6 +233,13 @@ function WorkoutForm() {
       return;
     }
 
+    for (let i = 0; i < authUser.createdWorkouts.length; i += 1) {
+      if (authUser.createdWorkouts[i].id === result.data.id) {
+        authUser.createdWorkouts[i] = { ...result.data };
+        break;
+      }
+    }
+
     if (authUser) {
       updateDoc(doc(db, 'users', authUser.uid), {
         createdWorkouts: authUser.createdWorkouts,
@@ -323,6 +329,7 @@ function WorkoutForm() {
               exerciseGroups.map((ex) => (
                 <ExerciseElement
                   exercise={ex}
+                  key={ex.id}
                   onClick={() => {
                     handleEditExerciseModalOpen(ex);
                   }}
