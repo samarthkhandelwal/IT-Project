@@ -11,13 +11,18 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Modal from 'react-bootstrap/Modal';
 
 // Firebase
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 // Custom components
 import CustomToast from './CustomToast';
 
+// Authentication
+import { useAuth } from '../../context/authUserContext';
+
 export default function EditButton({ type, id, name, onDelete }) {
+  const { authUser } = useAuth();
+
   /* Handles state for the delete toast */
   const [isToastActive, setToastActive] = useState({});
   const handleToastOpen = ({ title, body, error }) => {
@@ -49,7 +54,9 @@ export default function EditButton({ type, id, name, onDelete }) {
             error,
           });
         });
-    } else {
+    }
+
+    if (type === 'workout') {
       deleteDoc(doc(db, 'workouts', id))
         .then(() => {
           handleToastOpen({
@@ -64,26 +71,57 @@ export default function EditButton({ type, id, name, onDelete }) {
           });
         });
     }
+
+    if (type === 'userworkout') {
+      const filtered = authUser.createdWorkouts.filter(
+        (workout) => workout.id !== id
+      );
+      authUser.createdWorkouts = filtered;
+      updateDoc(doc(db, 'users', authUser.uid), {
+        createdWorkouts: filtered,
+      });
+    }
     onDelete(id);
     handleModalClose();
   };
 
   // Makes either a button, or a dropdown button
-  const makeButton = (title) => (
-    <DropdownButton title="...">
-      {title === 'exercise' ? (
-        <Link href={`/exercises/edit/${id}`} passHref>
-          <Dropdown.Item>Edit {title}</Dropdown.Item>
-        </Link>
-      ) : (
-        <Link href={`/workouts/edit/${id}`} passHref>
-          <Dropdown.Item>Edit {title}</Dropdown.Item>
-        </Link>
-      )}
+  const makeButton = (title) => {
+    if (title === 'exercise') {
+      return (
+        <DropdownButton title="...">
+          <Link href={`/exercises/edit/${id}`} passHref>
+            <Dropdown.Item>Edit {name}</Dropdown.Item>
+          </Link>
+          <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
+        </DropdownButton>
+      );
+    }
 
-      <Dropdown.Item onClick={handleModalOpen}>Delete {title}</Dropdown.Item>
-    </DropdownButton>
-  );
+    if (title === 'workout') {
+      return (
+        <DropdownButton title="...">
+          <Link href={`/workouts/edit/${id}`} passHref>
+            <Dropdown.Item>Edit {name}</Dropdown.Item>
+          </Link>
+          <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
+        </DropdownButton>
+      );
+    }
+
+    if (title === 'userworkout') {
+      return (
+        <DropdownButton title="...">
+          <Link href={`/userworkouts/edit/${id}`} passHref>
+            <Dropdown.Item>Edit {name}</Dropdown.Item>
+          </Link>
+          <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
+        </DropdownButton>
+      );
+    }
+
+    return null;
+  };
 
   // Creates the modal only if there is an id.
   const makeModal = (toShow) => {

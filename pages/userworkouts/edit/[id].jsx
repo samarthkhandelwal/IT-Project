@@ -12,11 +12,11 @@ import Form from 'react-bootstrap/Form';
 // Firebase
 import {
   collection,
+  updateDoc,
   query,
   orderBy,
   getDocs,
   doc,
-  updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
@@ -38,6 +38,7 @@ const exercisesCollectionRef = collection(db, 'exercises');
 
 function WorkoutForm() {
   const router = useRouter();
+  const { id } = router.query;
   const { authUser } = useAuth();
 
   /* Ensures that the database is only queried once for data */
@@ -62,8 +63,14 @@ function WorkoutForm() {
   /* Used to store a list of the exercises that can be included in the workout */
   const [exercises, setExercises] = useState(undefined);
 
+  /* Stores the current workout being edited. */
+  const [workout, setWorkout] = useState({});
+
   /* Used to store the selected exercise in the 'Add new exercise' modal */
   const [selectedExercise, setSelectedExercise] = useState({});
+
+  /* Keeps track of which index the exercise is in the workout */
+  const index = useRef(0);
 
   useEffect(() => {
     const getExercises = async () => {
@@ -72,14 +79,38 @@ function WorkoutForm() {
       setExercises(data.docs.map((d) => ({ ...d.data(), id: d.id })));
     };
 
+    const getWorkout = () => {
+      if (authUser) {
+        for (let i = 0; i < authUser.createdWorkouts.length; i += 1) {
+          if (authUser.createdWorkouts[i].id === id) {
+            setWorkout(authUser.createdWorkouts[i]);
+            break;
+          }
+        }
+      }
+    };
+
+    const loadExerciseGroups = () => {
+      const newGroups = [];
+      if (workout.exercises) {
+        for (let i = 0; i < workout.exercises.length; i += 1) {
+          newGroups.push({ ...workout.exercises[i], index: i });
+        }
+        index.current = workout.exercises.length;
+      }
+      setExerciseGroups(newGroups);
+    };
+
     if (!isFirstLoad.current) {
       getExercises();
+      getWorkout();
       isFirstLoad.current = true;
     }
-  }, []);
 
-  /* Keeps track of which index the exercise is in the workout */
-  const index = useRef(0);
+    if (isFirstLoad.current) {
+      loadExerciseGroups();
+    }
+  }, [authUser, id, workout.exercises]);
 
   const updateExercises = (ex) => {
     setExerciseGroups(exerciseGroups.concat(ex));
@@ -109,6 +140,7 @@ function WorkoutForm() {
       });
       index.current += 1;
     }
+    console.log(exerciseGroups);
     setAddExerciseModalOpen(false);
   };
 
@@ -171,7 +203,7 @@ function WorkoutForm() {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
 
-    const [exercisesList, muscleGroups] = getRepsSetsMuscles(event.target);
+    const [exercisesList, muscleGroups] = getRepsSetsMuscles();
 
     const data = {
       name: event.target.workoutName.value,
@@ -203,18 +235,13 @@ function WorkoutForm() {
     }
 
     if (authUser) {
-      if (authUser.createdWorkouts === undefined) {
-        authUser.createdWorkouts = [result.data];
-      } else {
-        authUser.createdWorkouts.push(result.data);
-      }
       updateDoc(doc(db, 'users', authUser.uid), {
         createdWorkouts: authUser.createdWorkouts,
       })
         .then(() => {
           handleAlertOpen({
             heading: 'Success!',
-            body: `${result.data.name} was added to your workout list. Redirecting...`,
+            body: `${result.data.name} was updated in your workout list. Redirecting...`,
             variant: 'success',
           });
           setTimeout(() => {
@@ -232,7 +259,6 @@ function WorkoutForm() {
   };
 
   const displayAlert = ({ heading, body, variant }) => {
-    // TODO: Check if dismissible on error
     if (heading && body && variant) {
       return (
         <CustomAlert
@@ -257,16 +283,16 @@ function WorkoutForm() {
   return (
     <div className={styles.form}>
       <div>
-        <h2>Creating new user workout</h2>
+        <h2>Editing {workout.name}</h2>
       </div>
 
-      <Form onSubmit={handleSubmit} action="/api/userworkout" method="post">
+      <Form onSubmit={handleSubmit} action="/apiwout" method="post">
         <div className="mt-3 mb-3">
           <Form.Label>Enter workout name:</Form.Label>
           <Form.Control
             id="workoutName"
             type="text"
-            placeholder="Enter workout name"
+            defaultValue={workout.name}
           />
         </div>
 
@@ -275,7 +301,7 @@ function WorkoutForm() {
           <Form.Control
             id="workoutImgSrc"
             type="url"
-            placeholder="Enter image URL"
+            defaultValue={workout.imgSrc}
           />
         </Form.Group>
 
@@ -284,7 +310,7 @@ function WorkoutForm() {
           <Form.Control
             id="workoutImgAlt"
             type="text"
-            placeholder="Enter image alt (in case the image doesn't load)"
+            defaultValue={workout.imgAlt}
           />
         </Form.Group>
 

@@ -17,7 +17,7 @@ import SelectedElement from './SelectedElement';
  * @param {*} listType Either "radio" or "checkbox".
  * @param {*} selected State of which elements are selected. if checkbox, must be an array.
  * @param {*} setSelected The function that sets the state of selected
- * @param {*} type Either "exercises" or "workouts"
+ * @param {*} type Either "exercises", "workouts", or "user workouts"
  * @param {*} onDelete The callback function to handle an element being deleted from the list.
  * @param {*} allowEditing True if the edit button should appear on the elements.
  * @returns
