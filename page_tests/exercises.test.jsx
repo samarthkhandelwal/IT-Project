@@ -3,11 +3,12 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 // Custom Components
-import ExercisesTest from './ExercisesTest';
+import ExercisesPage from '../pages/exercises/index';
+import { exercises } from '../testData/testData';
 
 describe('The List of buttons displaying Workouts or Exercises', () => {
   it('Updates the selected button when another is clicked', () => {
-    render(<ExercisesTest />);
+    render(<ExercisesPage testData={exercises} />);
 
     const btns = screen.getAllByRole('radio');
 

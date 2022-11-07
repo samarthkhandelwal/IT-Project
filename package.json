@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prettier-check": "prettier --check .",
     "prettier-fix": "prettier --write .",
-    "test": "jest --coverage",
+    "test": "jest --coverage --transformIgnorePatterns \"node_modules/(?!workoutbuddy)/\" --env=jsdom",
     "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\""
   },
   "dependencies": {
@@ -21,7 +21,14 @@
     "react-aria": "^3.19.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "18.2.0",
-    "sharp": "^0.31.1"
+    "sharp": "^0.31.1",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.7.2",
+    "workoutbuddy/allow": "^1.0.1",
+    "workoutbuddy/is-a-regular-object-react": "^1.0.0",
+    "react-scripts": "4.0.2",
+    "web-vitals": "^1.1.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.17.1",
@@ -40,7 +47,15 @@
     "jest": "^29.0.3",
     "jest-environment-jsdom": "^29.0.3",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.13",
+    "babel-jest": "^26.6.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "lint-staged": {
     "**/*.{js,jsx}": [

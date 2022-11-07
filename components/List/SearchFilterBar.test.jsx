@@ -1,7 +1,7 @@
 // React
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import ListTest from '../Test/ListTest';
+import List from './List';
 
 // Dummy data to render in List component
 import { workouts } from '../../testData/testData';
@@ -13,11 +13,12 @@ describe('The Search Bar', () => {
     const setSelected = jest.fn();
 
     const list = render(
-      <ListTest
+      <List
         list={workouts}
+        listType="radio"
         selected={selected}
         setSelected={setSelected}
-        type="radio"
+        type="workouts"
       />
     );
 
@@ -31,8 +32,8 @@ describe('The Search Bar', () => {
 
     // Expect only 'Push Workout' and 'Pull Workout to remain
     expect(items.length).toBe(2);
-    expect(items[0].getAttribute('value') === 'Push Workout').toBeTruthy();
-    expect(items[1].getAttribute('value') === 'Pull Workout').toBeTruthy();
+    expect(items[0].getAttribute('id') === 'radio-0').toBeTruthy();
+    expect(items[1].getAttribute('id') === 'radio-1').toBeTruthy();
   });
 
   it('filters the correct items on uppercase input "P"', () => {
@@ -41,11 +42,12 @@ describe('The Search Bar', () => {
     const setSelected = jest.fn();
 
     const list = render(
-      <ListTest
+      <List
         list={workouts}
+        listType="radio"
         selected={selected}
         setSelected={setSelected}
-        type="radio"
+        type="workouts"
       />
     );
 
@@ -59,9 +61,9 @@ describe('The Search Bar', () => {
 
     // Expect only 'Push Workout' and 'Pull Workout to remain
     expect(items.length).toBe(3);
-    expect(items[0].getAttribute('value') === 'Push Workout').toBeTruthy();
-    expect(items[1].getAttribute('value') === 'Pull Workout').toBeTruthy();
-    expect(items[2].getAttribute('value') === 'Upper Workout').toBeTruthy();
+    expect(items[0].getAttribute('id') === 'radio-0').toBeTruthy();
+    expect(items[1].getAttribute('id') === 'radio-1').toBeTruthy();
+    expect(items[2].getAttribute('id') === 'radio-3').toBeTruthy();
   });
 
   it('filters the correct items on mixed case input "wOrK"', () => {
@@ -70,11 +72,12 @@ describe('The Search Bar', () => {
     const setSelected = jest.fn();
 
     const list = render(
-      <ListTest
+      <List
         list={workouts}
+        listType="radio"
         selected={selected}
         setSelected={setSelected}
-        type="radio"
+        type="workouts"
       />
     );
 
@@ -87,10 +90,10 @@ describe('The Search Bar', () => {
     const items = list.getAllByRole('radio');
 
     // Expect only 'Push Workout' and 'Pull Workout to remain
-    expect(items.length).toBe(8);
-    expect(items[4].getAttribute('value') === 'Push Workout').toBeTruthy();
-    expect(items[5].getAttribute('value') === 'Pull Workout').toBeTruthy();
-    expect(items[6].getAttribute('value') === 'Legs Workout').toBeTruthy();
-    expect(items[7].getAttribute('value') === 'Upper Workout').toBeTruthy();
+    expect(items.length).toBe(4);
+    expect(items[0].getAttribute('id') === 'radio-0').toBeTruthy();
+    expect(items[1].getAttribute('id') === 'radio-1').toBeTruthy();
+    expect(items[2].getAttribute('id') === 'radio-2').toBeTruthy();
+    expect(items[3].getAttribute('id') === 'radio-3').toBeTruthy();
   });
 });
