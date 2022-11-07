@@ -1,5 +1,5 @@
 // React
-import React, { useState } from 'react';
+import React from 'react';
 
 // Bootstrap Components
 import Nav from 'react-bootstrap/Nav';
@@ -18,8 +18,7 @@ import { useAuth } from '../../context/authUserContext';
 // Styles
 import styles from '../../styles/Profile.module.css';
 
-export default function ProfileView() {
-  const [show, setShow] = useState(false);
+export default function ProfileView({ show, setShow }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
