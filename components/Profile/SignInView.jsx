@@ -13,8 +13,7 @@ import { useAuth } from '../../context/authUserContext';
 // Styles
 import styles from '../../styles/Settings.module.css';
 
-export default function SignInView() {
-  const [show, setShow] = useState(false);
+export default function SignInView({ show, setShow }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -31,73 +30,69 @@ export default function SignInView() {
   };
 
   return (
-    <>
-      <Nav onClick={handleShow}>Sign in</Nav>
+    <Offcanvas show={show} onHide={handleClose} placement="end">
+      <Offcanvas.Header closeButton>
+        <Offcanvas.Title />
+      </Offcanvas.Header>
+      <Offcanvas.Body>
+        <div className={styles.container}>
+          <main className={styles.main}>
+            <Form onSubmit={onSubmit}>
+              <h1>
+                <Form.Label>Sign In</Form.Label>
+              </h1>
 
-      <Offcanvas show={show} onHide={handleClose} placement="end">
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title />
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <div className={styles.container}>
-            <main className={styles.main}>
-              <Form onSubmit={onSubmit}>
-                <h1>
-                  <Form.Label>Sign In</Form.Label>
-                </h1>
+              <div className={styles.grid}>
+                <div className={styles.item}>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter email"
+                    />
+                  </Form.Group>
 
-                <div className={styles.grid}>
-                  <div className={styles.item}>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                      <Form.Label>Email address</Form.Label>
-                      <Form.Control
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter email"
-                      />
-                    </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Password"
+                    />
+                  </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Label>Password</Form.Label>
-                      <Form.Control
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                      />
-                    </Form.Group>
-
-                    {/* Waiting for email/pword sign in */}
-                    {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                  {/* Waiting for email/pword sign in */}
+                  {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
                       <Form.Check type="checkbox" label="Remember me" />
                     </Form.Group> */}
-                  </div>
                 </div>
-
-                <div className={styles.buttons}>
-                  <Button variant="primary" type="submit">
-                    Sign In
-                  </Button>
-
-                  <div className={styles.signup}>
-                    <Button variant="primary" type="submit">
-                      Sign Up
-                    </Button>
-                  </div>
-                </div>
-              </Form>
-              <div className={styles.buttons}>
-                <Button variant="primary" onClick={googleSignIn}>
-                  Sign In with Google
-                </Button>
               </div>
-            </main>
-          </div>
-        </Offcanvas.Body>
-      </Offcanvas>
-    </>
+
+              <div className={styles.buttons}>
+                <Button variant="primary" type="submit">
+                  Sign In
+                </Button>
+
+                <div className={styles.signup}>
+                  <Button variant="primary" type="submit">
+                    Sign Up
+                  </Button>
+                </div>
+              </div>
+            </Form>
+            <div className={styles.buttons}>
+              <Button variant="primary" onClick={googleSignIn}>
+                Sign In with Google
+              </Button>
+            </div>
+          </main>
+        </div>
+      </Offcanvas.Body>
+    </Offcanvas>
   );
 }
