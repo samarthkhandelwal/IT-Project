@@ -10,6 +10,7 @@ import { db } from '../../firebase-config';
 
 // Custom components
 import EditButton from '../EditButton/EditButton';
+import SignInView from '../Profile/SignInView';
 
 // Styles
 import styles from '../../styles/Element.module.css';
@@ -93,7 +94,10 @@ export default function Element({ element, type, onDelete, allowEditing }) {
     updateFavExercises(authUser.favouriteExercises);
   };
 
-  // Event handler if the favourite button is clicked on
+  // State to keep track of whether to show sign in view
+  const [show, setShow] = useState(false);
+
+  // Event handler when the favourite button is clicked on
   const toggleStar = (e) => {
     e.preventDefault();
     if (authUser) {
@@ -115,6 +119,9 @@ export default function Element({ element, type, onDelete, allowEditing }) {
           setImgPath(starFilled);
         }
       }
+    } else {
+      // If not logged in, show sign up sidebar
+      setShow('true');
     }
   };
 
@@ -181,6 +188,7 @@ export default function Element({ element, type, onDelete, allowEditing }) {
           <div className={styles.star}>{makeButton()}</div>
         )}
       </div>
+      <SignInView show={show} setShow={setShow} />
     </div>
   );
 }
