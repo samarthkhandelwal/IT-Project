@@ -18,8 +18,7 @@ import { useAuth } from '../../context/authUserContext';
 // Styles
 import styles from '../../styles/Profile.module.css';
 
-export default function ProfileView() {
-  const [show, setShow] = useState(false);
+export default function ProfileView({ show, setShow }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 

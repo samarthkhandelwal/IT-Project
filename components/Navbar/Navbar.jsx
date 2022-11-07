@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { useState } from 'react';
 
 // Bootstrap Components
 import Container from 'react-bootstrap/Container';
@@ -23,12 +23,16 @@ import { useAuth } from '../../context/authUserContext';
 export default function TopNavbar() {
   const router = useRouter();
 
+  // State to keep track of whether to show sign in view
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+
   const { authUser } = useAuth();
   function profileSignIn() {
     if (authUser) {
-      return <ProfileView />;
+      return <ProfileView show={show} setShow={setShow} />;
     }
-    return <SignInView />;
+    return <SignInView show={show} setShow={setShow} />;
   }
 
   return (
@@ -61,7 +65,10 @@ export default function TopNavbar() {
                   <Nav.Link className={styles.item}>New workout</Nav.Link>
                 </Link>
               ))}
-            <Nav.Link className={styles.item}>{profileSignIn()}</Nav.Link>
+            <Nav.Link className={styles.item}>
+              <Nav onClick={handleShow}>Sign in</Nav>
+              {profileSignIn()}
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
