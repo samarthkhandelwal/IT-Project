@@ -8,11 +8,19 @@ import InputGroup from 'react-bootstrap/InputGroup';
 // Styles
 import styles from '../../styles/Search.module.css';
 
-export default function SearchFilterBar({ setSearchInput }) {
+export default function SearchFilterBar({
+  setFilterInput,
+  setSearchInput,
+  muscleGroups,
+}) {
   // Function to handle when the search input changes
   const handleSearchInput = (e) => {
     const lowerCase = e.target.value.toLowerCase();
     setSearchInput(lowerCase);
+  };
+
+  const handleFilterInput = (e) => {
+    setFilterInput(e.target.value);
   };
 
   return (
@@ -27,11 +35,12 @@ export default function SearchFilterBar({ setSearchInput }) {
       <Form.Select
         aria-label="Default select example"
         className={styles.filter}
+        onChange={handleFilterInput}
       >
         <option>Filter</option>
-        <option value="1">Chest</option>
-        <option value="2">Back</option>
-        <option value="3">Hamstrings</option>
+        {muscleGroups.map((muscleGroup) => (
+          <option key={muscleGroup}>{muscleGroup}</option>
+        ))}
       </Form.Select>
     </InputGroup>
   );
