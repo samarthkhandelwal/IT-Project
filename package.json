@@ -21,13 +21,7 @@
     "react-aria": "^3.19.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "18.2.0",
-    "sharp": "^0.31.1",
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.7.2",
-    "workoutbuddy": "^1.0.1",
-    "react-scripts": "4.0.2",
-    "web-vitals": "^1.1.0"
+    "sharp": "^0.31.1"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.17.1",
