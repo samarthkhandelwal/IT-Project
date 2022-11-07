@@ -26,7 +26,6 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.2",
     "workoutbuddy": "^1.0.1",
-    "workoutbuddy/is-a-regular-object-react": "^1.0.0",
     "react-scripts": "4.0.2",
     "web-vitals": "^1.1.0"
   },
