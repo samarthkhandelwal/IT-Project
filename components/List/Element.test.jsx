@@ -3,10 +3,10 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 // Custom components
-import ElementTest from '../Test/ElementTest';
+import Element from './Element';
 
 // Test Data
-import { workouts } from '../../testData/testData';
+import { workouts, userAuth } from '../../testData/testData';
 
 const toggleImgPath = (src) =>
   src.includes('star.png') ? '/images/starFilled.png' : '/images/star.png';
@@ -14,9 +14,9 @@ const toggleImgPath = (src) =>
 describe('The Favourite button', () => {
   it('Toggles on and off when clicked', () => {
     const element = workouts[0];
-    render(<ElementTest element={element} type="workouts" />);
+    render(<Element element={element} type="workouts" testAuth={userAuth} />);
 
-    const favBtn = screen.getByRole('button');
+    const favBtn = screen.getByTitle('favourite');
     let expectedImgPath = toggleImgPath(favBtn.getAttribute('src'));
 
     fireEvent.click(favBtn);
