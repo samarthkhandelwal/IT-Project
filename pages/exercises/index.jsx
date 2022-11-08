@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
+import { Container } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
@@ -21,7 +22,6 @@ import styles from '../../styles/List.module.css';
 
 // Authentication
 import { useAuth } from '../../context/authUserContext';
-import { Container } from 'react-bootstrap';
 
 // Get reference to exercises collection
 const exercisesCollectionRef = collection(db, 'exercises');
