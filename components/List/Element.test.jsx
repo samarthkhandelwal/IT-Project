@@ -1,5 +1,3 @@
-import './matchMedia';
-
 // React
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -28,4 +26,18 @@ describe('The Favourite button', () => {
     fireEvent.click(favBtn);
     expect(favBtn).toHaveAttribute('src', expectedImgPath);
   });
+});
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
 });
