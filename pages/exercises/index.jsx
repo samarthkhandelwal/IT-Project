@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
+import { Container } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
@@ -108,41 +109,46 @@ export default function ExercisesPage({ testData }) {
   return (
     <>
       <TopNavbar />
-      <Row className={styles.container}>
-        {toRenderCard ? (
-          selectedExercise !== undefined && (
-            <Col xs={6} className={styles.scrollableContainer}>
-              <h2>{selectedExercise.name}</h2>
-              <Video
-                videoURL={selectedExercise.videoURL}
-                titleAlt={`${selectedExercise.name} Video`}
-              />
-              <h5>
-                Equipment required:{' '}
-                {selectedExercise.equipment !== undefined
-                  ? selectedExercise.equipment
-                  : 'None'}
-              </h5>
+      <Container fluid className={styles.container}>
+        <Row>
+          {toRenderCard ? (
+            selectedExercise !== undefined && (
+              <Col sm={7}>
+                <Row>
+                  <h2>{selectedExercise.name}</h2>
+                  <Video
+                    videoURL={selectedExercise.videoURL}
+                    titleAlt={`${selectedExercise.name} Video`}
+                  />
+                </Row>
+                <Row className={styles.instructions}>
+                  <h5>
+                    Equipment required:{' '}
+                    {selectedExercise.equipment !== undefined
+                      ? selectedExercise.equipment
+                      : 'None'}
+                  </h5>
+                  <h5>Instructions:</h5>
+                  {selectedExercise.instructions}
+                </Row>
+              </Col>
+            )
+          ) : (
+            <Col />
+          )}
 
-              <h5>Instructions:</h5>
-              {selectedExercise.instructions}
-            </Col>
-          )
-        ) : (
-          <Col xs={6} />
-        )}
-
-        <Col>
-          <List
-            list={exerciseList}
-            listType="radio"
-            selected={selectedExercise}
-            setSelected={onClick}
-            type="exercises"
-            onDelete={onDelete}
-          />
-        </Col>
-      </Row>
+          <Col sm={5}>
+            <List
+              list={exerciseList}
+              listType="radio"
+              selected={selectedExercise}
+              setSelected={onClick}
+              type="exercises"
+              onDelete={onDelete}
+            />
+          </Col>
+        </Row>
+      </Container>
 
       {selectedExercise !== undefined && (
         <Modal show={isOpen} onHide={handleClose} centered scrollable size="lg">
@@ -155,12 +161,6 @@ export default function ExercisesPage({ testData }) {
               videoURL={selectedExercise.videoURL}
               titleAlt={`${selectedExercise.name} Video`}
             />
-            <h5>
-              Equipment required:{' '}
-              {selectedExercise.equipment !== undefined
-                ? selectedExercise.equipment
-                : 'None'}
-            </h5>
             {selectedExercise.instructions}
           </Modal.Body>
 

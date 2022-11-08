@@ -179,6 +179,8 @@ export default function Element({ element, type, onDelete, testAuth }) {
         alt={element.imgAlt}
         width={100}
         height={100}
+        objectFit="cover"
+        objectPosition="top"
       />
 
       <div className={styles.txt}>

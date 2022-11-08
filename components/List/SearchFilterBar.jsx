@@ -24,7 +24,7 @@ export default function SearchFilterBar({
   };
 
   return (
-    <InputGroup className="mb-3">
+    <InputGroup className={styles.container}>
       <Form.Control
         aria-label="First name"
         placeholder="Search"
