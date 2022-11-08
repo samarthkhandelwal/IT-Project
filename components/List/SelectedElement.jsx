@@ -21,7 +21,7 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
-export default function Element({ element, type, onDelete, allowEditing }) {
+export default function Element({ element, type, onDelete }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
   const starFilled = '/images/starFilled.png';
@@ -31,6 +31,15 @@ export default function Element({ element, type, onDelete, allowEditing }) {
 
   /* Authenticate users for favourites */
   const { authUser } = useAuth();
+
+  const [allowEditing, setAllowEditing] = useState(false);
+  useEffect(() => {
+    if (authUser) {
+      if (authUser.role === 0) {
+        setAllowEditing(true);
+      }
+    }
+  }, [authUser]);
 
   useEffect(() => {
     /* Set the state of the favourite button based on the user's favourites */
@@ -126,27 +135,24 @@ export default function Element({ element, type, onDelete, allowEditing }) {
   };
 
   const makeButton = () => {
-    if (authUser) {
-      if (type === 'exercises') {
-        return (
-          <EditButton
-            type="exercise"
-            id={element.id}
-            name={element.name}
-            onDelete={onDelete}
-          />
-        );
-      }
+    if (type === 'exercises') {
       return (
         <EditButton
-          type="workout"
+          type="exercise"
           id={element.id}
           name={element.name}
           onDelete={onDelete}
         />
       );
     }
-    return null;
+    return (
+      <EditButton
+        type="workout"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
   };
 
   const makeMuscles = () => {
