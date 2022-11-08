@@ -48,43 +48,46 @@ export default function List({
   });
 
   return (
-    <div className={styles.scrollableContainer}>
+    <div>
       <SearchFilterBar
         searchInput={searchInput}
         setSearchInput={setSearchInput}
       />
-      <ToggleButtonGroup
-        type={listType}
-        value={selected}
-        onChange={handleChange}
-        vertical
-        name="button-list"
-      >
-        {filteredList.length === 0 ? (
-          <h3>No {type} available</h3>
-        ) : (
-          filteredList.map((element) => (
-            <ToggleButton
-              key={element.id}
-              id={`${listType}-${element.id}`}
-              variant="light"
-              name={listType}
-              value={element}
-            >
-              {selected === element.name ? (
-                <SelectedElement element={element} type={type} />
-              ) : (
-                <Element
-                  element={element}
-                  type={type}
-                  onDelete={onDelete}
-                  allowEditing={allowEditing}
-                />
-              )}
-            </ToggleButton>
-          ))
-        )}
-      </ToggleButtonGroup>
+
+      <div className={styles.scrollableContainer}>
+        <ToggleButtonGroup
+          type={listType}
+          value={selected}
+          onChange={handleChange}
+          vertical
+          name="button-list"
+        >
+          {filteredList.length === 0 ? (
+            <h3>No {type} available</h3>
+          ) : (
+            filteredList.map((element) => (
+              <ToggleButton
+                className={styles.list}
+                key={element.id}
+                id={`${listType}-${element.id}`}
+                name={listType}
+                value={element}
+              >
+                {selected.name === element.name ? (
+                  <SelectedElement element={element} type={type} />
+                ) : (
+                  <Element
+                    element={element}
+                    type={type}
+                    onDelete={onDelete}
+                    allowEditing={allowEditing}
+                  />
+                )}
+              </ToggleButton>
+            ))
+          )}
+        </ToggleButtonGroup>
+      </div>
     </div>
   );
 }
