@@ -1,8 +1,9 @@
 /* Contains the image and the text */
+/* Contains the image and the text */
 
 .element,
 .selement {
-  display: inline-flex;
+  display: flex;
   height: 14vh;
   width: 25vw + 120px + 60px;
   padding: 0.5vw;
@@ -14,22 +15,24 @@
 }
 
 .star {
-  align-self: center;
-  padding: 5px;
-  padding-top: 2vh;
+  margin: auto;
+  display: block;
+  margin-left: 1vw;
 }
 
 /* text in list */
-.txt,
-.stxt {
-  text-overflow: ellipsis;
+.txt h1,
+.stxt h1,
+.txt p,
+.stxt p {
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .stxt {
   text-align: center;
-  width: 100%;
+  width: 24vw;
 }
 
 .stxt h1 {
@@ -42,13 +45,12 @@
   font-style: italic;
   font-weight: 300;
   margin-bottom: 0;
-  max-width: 25vw;
 }
 
 /* text in list */
 .txt {
   text-align: left;
-  width: 20vw;
+  width: 17vw;
   margin-left: 1vw;
 }
 
@@ -63,6 +65,38 @@
   font-weight: 300;
   margin-left: 6px;
   margin-bottom: 0;
+}
+
+@media only screen and (max-width: 576px) {
+  .element {
+    display: flex;
+    width: 80vw;
+    min-width: fit-content;
+  }
+
+  .txt h1 {
+    font-size: x-large;
+    margin-top: 10px;
+    margin-left: 5px;
+    text-align: left;
+    text-overflow: ellipsis;
+    width: 40vw;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .txt p {
+    font-size: large;
+    font-style: italic;
+    font-weight: 300;
+    margin-left: 6px;
+    margin-bottom: 0;
+    text-align: left;
+    text-overflow: ellipsis;
+    width: 40vw;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 @media only screen and (max-width: 576px) {
