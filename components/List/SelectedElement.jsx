@@ -1,31 +1,40 @@
-// Import React
-import React, { useEffect, useState } from 'react';
+// React
+import React, { useState, useEffect } from 'react';
+
+// Next components
+import Image from 'next/image';
 
 // Firebase
-import { collection, doc, updateDoc } from 'firebase/firestore';
+import { collection, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase-config';
+
+// Custom components
+import EditButton from '../EditButton/EditButton';
+import SignInView from '../Profile/SignInView';
+
+// Styles
+import styles from '../../styles/Element.module.css';
 
 // Authentication
 import { useAuth } from '../../context/authUserContext';
 
-// Styles
-import styles from '../../styles/List.module.css';
-
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
-const star = '/images/star.png';
-const starFilled = '/images/starFilled.png';
+export default function Element({ element, type, onDelete, allowEditing }) {
+  /* Paths of the images of the favourite button */
+  const star = '/images/star.png';
+  const starFilled = '/images/starFilled.png';
 
-// Element returns what should be displayed for each element of the list
-export default function Element({ element, type }) {
-  // State of the image that is displayed as the favourite button
+  /* State of the image that is displayed as the favourite button */
   const [imgPath, setImgPath] = useState(star);
 
+  /* Authenticate users for favourites */
   const { authUser } = useAuth();
 
   useEffect(() => {
-    const isChecked = () => {
+    /* Set the state of the favourite button based on the user's favourites */
+    const setFavouriteButton = () => {
       if (authUser) {
         if (type === 'workouts') {
           if (authUser.favouriteWorkouts.includes(element.id)) {
@@ -34,6 +43,7 @@ export default function Element({ element, type }) {
             setImgPath(star);
           }
         }
+
         if (type === 'exercises') {
           if (authUser.favouriteExercises.includes(element.id)) {
             setImgPath(starFilled);
@@ -45,7 +55,7 @@ export default function Element({ element, type }) {
         setImgPath(star);
       }
     };
-    isChecked();
+    setFavouriteButton();
   }, [authUser, element.id, type]);
 
   const updateFavWorkouts = async (newFavs) => {
@@ -84,7 +94,10 @@ export default function Element({ element, type }) {
     updateFavExercises(authUser.favouriteExercises);
   };
 
-  // Event handler if the favourite button is clicked on
+  // State to keep track of whether to show sign in view
+  const [show, setShow] = useState(false);
+
+  // Event handler when the favourite button is clicked on
   const toggleStar = (e) => {
     e.preventDefault();
     if (authUser) {
@@ -106,28 +119,70 @@ export default function Element({ element, type }) {
           setImgPath(starFilled);
         }
       }
+    } else {
+      // If not logged in, show sign up sidebar
+      setShow('true');
     }
+  };
+
+  const makeButton = () => {
+    if (authUser) {
+      if (type === 'exercises') {
+        return (
+          <EditButton
+            type="exercise"
+            id={element.id}
+            name={element.name}
+            onDelete={onDelete}
+          />
+        );
+      }
+      return (
+        <EditButton
+          type="workout"
+          id={element.id}
+          name={element.name}
+          onDelete={onDelete}
+        />
+      );
+    }
+    return null;
+  };
+
+  const makeMuscles = () => {
+    let str = '';
+    for (let i = 0; i < element.muscleGroups.length; i += 1) {
+      str += `${element.muscleGroups[i]}, `;
+    }
+    return str.slice(0, str.length - 2);
   };
 
   return (
     <div className={styles.selement}>
+
       <div className={styles.stxt}>
         <h1>{element.name}</h1>
-        <p>{element.muscleGroups.join(', ')}</p>
+        <p>{makeMuscles()}</p>
       </div>
 
-      <div className={styles.star}>
-        <form>
-          <input
-            type="image"
-            src={imgPath}
-            height={38}
-            width={38}
-            alt="star"
-            onClick={toggleStar}
-          />
-        </form>
+      <div className={styles.buttons}>
+        <div className={styles.star}>
+          <form>
+            <Image
+              src={imgPath}
+              alt="star"
+              width={50}
+              height={50}
+              onClick={toggleStar}
+            />
+          </form>
+        </div>
+
+        {allowEditing !== undefined && (
+          <div className={styles.star}>{makeButton()}</div>
+        )}
       </div>
+      <SignInView show={show} setShow={setShow} />
     </div>
   );
 }

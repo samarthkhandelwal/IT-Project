@@ -1,22 +1,60 @@
 /* Contains the image and the text */
-.element {
-  display: flex;
-  justify-content: space-between;
+
+.element,
+.selement {
+  display: inline-flex;
+  height: 14vh;
   width: 25vw + 120px + 60px;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 1vw;
-  margin-bottom: 1vw;
+  padding: 0.5vw;
+}
+
+.selement {
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.star {
+  align-self: center;
+  padding: 5px;
+  padding-top: 2vh;
 }
 
 /* text in list */
-.txt h1 {
-  font-size: xx-large;
-  margin: 10px 0 0 5px;
-  text-align: left;
+.txt,
+.stxt {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.stxt {
+  text-align: center;
+  width: 100%;
+}
+
+.stxt h1 {
+  font-size: xx-large;
+  margin: 10px 0 0 0;
+}
+
+.stxt p {
+  font-size: large;
+  font-style: italic;
+  font-weight: 300;
+  margin-bottom: 0;
+  max-width: 25vw;
+}
+
+/* text in list */
+.txt {
+  text-align: left;
+  width: 20vw;
+  margin-left: 1vw;
+}
+
+.txt h1 {
+  font-size: xx-large;
+  margin: 10px 0 0 5px;
 }
 
 .txt p {
@@ -25,21 +63,6 @@
   font-weight: 300;
   margin-left: 6px;
   margin-bottom: 0;
-  text-align: left;
-  text-overflow: ellipsis;
-  width: 20vw;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.buttons {
-  display: inline-flex;
-  position: relative;
-}
-
-.star {
-  align-self: center;
-  padding: 5px;
 }
 
 @media only screen and (max-width: 576px) {
