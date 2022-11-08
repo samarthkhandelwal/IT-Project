@@ -19,7 +19,6 @@ import SelectedElement from './SelectedElement';
  * @param {*} setSelected The function that sets the state of selected
  * @param {*} type Either "exercises" or "workouts"
  * @param {*} onDelete The callback function to handle an element being deleted from the list.
- * @param {*} allowEditing True if the edit button should appear on the elements.
  * @returns
  */
 export default function List({
@@ -66,39 +65,45 @@ export default function List({
   });
 
   return (
-    <div className={styles.scrollableContainer}>
+    <div>
       <SearchFilterBar
         setSearchInput={setSearchInput}
         setFilterInput={setFilterInput}
         muscleGroups={muscleGroups}
       />
-      <ToggleButtonGroup
-        type={listType}
-        value={selected}
-        onChange={handleChange}
-        vertical
-        name="button-list"
-      >
-        {filteredList.length === 0 ? (
-          <h3>No {type} available</h3>
-        ) : (
-          filteredList.map((element) => (
-            <ToggleButton
-              key={element.id}
-              id={`${listType}-${element.id}`}
-              variant="light"
-              role={listType}
-              value={element}
-            >
-              {selected === element.name ? (
-                <SelectedElement element={element} type={type} />
-              ) : (
-                <Element element={element} type={type} onDelete={onDelete} />
-              )}
-            </ToggleButton>
-          ))
-        )}
-      </ToggleButtonGroup>
+      <div className={styles.scrollableContainer}>
+        <ToggleButtonGroup
+          type={listType}
+          value={selected}
+          onChange={handleChange}
+          vertical
+          name="button-list"
+        >
+          {filteredList.length === 0 ? (
+            <h3>No {type} available</h3>
+          ) : (
+            filteredList.map((element) => (
+              <ToggleButton
+                className={styles.list}
+                key={element.id}
+                id={`${listType}-${element.id}`}
+                name={listType}
+                value={element}
+              >
+                {selected.name === element.name ? (
+                  <SelectedElement
+                    element={element}
+                    type={type}
+                    onDelete={onDelete}
+                  />
+                ) : (
+                  <Element element={element} type={type} onDelete={onDelete} />
+                )}
+              </ToggleButton>
+            ))
+          )}
+        </ToggleButtonGroup>
+      </div>
     </div>
   );
 }
