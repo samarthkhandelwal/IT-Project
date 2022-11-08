@@ -19,7 +19,6 @@ import SelectedElement from './SelectedElement';
  * @param {*} setSelected The function that sets the state of selected
  * @param {*} type Either "exercises" or "workouts"
  * @param {*} onDelete The callback function to handle an element being deleted from the list.
- * @param {*} allowEditing True if the edit button should appear on the elements.
  * @returns
  */
 export default function List({
@@ -72,14 +71,13 @@ export default function List({
                 value={element}
               >
                 {selected.name === element.name ? (
-                  <SelectedElement element={element} type={type} />
-                ) : (
-                  <Element
+                  <SelectedElement
                     element={element}
                     type={type}
                     onDelete={onDelete}
-                    allowEditing={allowEditing}
                   />
+                ) : (
+                  <Element element={element} type={type} onDelete={onDelete} />
                 )}
               </ToggleButton>
             ))
