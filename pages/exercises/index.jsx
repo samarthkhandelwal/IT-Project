@@ -26,7 +26,7 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to exercises collection
 const exercisesCollectionRef = collection(db, 'exercises');
 
-export default function ExercisesPage() {
+export default function ExercisesPage({ testData }) {
   /* Get exercises from the database */
   const [exerciseList, setExerciseList] = useState([]);
 
@@ -51,8 +51,13 @@ export default function ExercisesPage() {
       setExercises(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
-    if (!isExercisesLoaded.current) {
+    if (!isExercisesLoaded.current && testData === undefined) {
       getExercises();
+      isExercisesLoaded.current = true;
+    }
+
+    if (!isExercisesLoaded.current && testData !== undefined) {
+      setExercises(testData);
       isExercisesLoaded.current = true;
     }
 
@@ -78,7 +83,7 @@ export default function ExercisesPage() {
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-  }, [authUser, exercises]);
+  }, [authUser, exercises, testData]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

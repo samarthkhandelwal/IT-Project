@@ -21,7 +21,7 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
-export default function Element({ element, type, onDelete, allowEditing }) {
+export default function Element({ element, type, onDelete, testAuth }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
   const starFilled = '/images/starFilled.png';
@@ -32,12 +32,30 @@ export default function Element({ element, type, onDelete, allowEditing }) {
   /* Authenticate users for favourites */
   const { authUser } = useAuth();
 
+  const [currUser, setCurrUser] = useState(null);
+  useEffect(() => {
+    if (testAuth !== undefined) {
+      setCurrUser(testAuth);
+    } else {
+      setCurrUser(authUser);
+    }
+  }, [authUser, testAuth]);
+
+  const [allowEditing, setAllowEditing] = useState(false);
+  useEffect(() => {
+    if (currUser) {
+      if (currUser.role === 0) {
+        setAllowEditing(true);
+      }
+    }
+  }, [currUser]);
+
   useEffect(() => {
     /* Set the state of the favourite button based on the user's favourites */
     const setFavouriteButton = () => {
-      if (authUser) {
+      if (currUser) {
         if (type === 'workouts') {
-          if (authUser.favouriteWorkouts.includes(element.id)) {
+          if (currUser.favouriteWorkouts.includes(element.id)) {
             setImgPath(starFilled);
           } else {
             setImgPath(star);
@@ -45,7 +63,7 @@ export default function Element({ element, type, onDelete, allowEditing }) {
         }
 
         if (type === 'exercises') {
-          if (authUser.favouriteExercises.includes(element.id)) {
+          if (currUser.favouriteExercises.includes(element.id)) {
             setImgPath(starFilled);
           } else {
             setImgPath(star);
@@ -56,42 +74,42 @@ export default function Element({ element, type, onDelete, allowEditing }) {
       }
     };
     setFavouriteButton();
-  }, [authUser, element.id, type]);
+  }, [currUser, element.id, type]);
 
   const updateFavWorkouts = async (newFavs) => {
-    authUser.favouriteWorkouts = newFavs;
-    const docRef = doc(usersCollectionRef, authUser.uid);
+    currUser.favouriteWorkouts = newFavs;
+    const docRef = doc(usersCollectionRef, currUser.uid);
     await updateDoc(docRef, {
       favouriteWorkouts: newFavs,
     });
   };
 
   const updateFavExercises = async (newFavs) => {
-    authUser.favouriteExercises = newFavs;
-    const docRef = doc(usersCollectionRef, authUser.uid);
+    currUser.favouriteExercises = newFavs;
+    const docRef = doc(usersCollectionRef, currUser.uid);
     await updateDoc(docRef, {
       favouriteExercises: newFavs,
     });
   };
 
   const removeFavWorkout = (elem) => {
-    const newFavs = authUser.favouriteWorkouts.filter((val) => val !== elem);
+    const newFavs = currUser.favouriteWorkouts.filter((val) => val !== elem);
     updateFavWorkouts(newFavs);
   };
 
   const addToFavWorkouts = async (elem) => {
-    authUser.favouriteWorkouts.push(elem);
-    updateFavWorkouts(authUser.favouriteWorkouts);
+    currUser.favouriteWorkouts.push(elem);
+    updateFavWorkouts(currUser.favouriteWorkouts);
   };
 
   const removeFavExercise = async (elem) => {
-    const newFavs = authUser.favouriteExercises.filter((val) => val !== elem);
+    const newFavs = currUser.favouriteExercises.filter((val) => val !== elem);
     updateFavExercises(newFavs);
   };
 
   const addToFavExercises = async (elem) => {
-    authUser.favouriteExercises.push(elem);
-    updateFavExercises(authUser.favouriteExercises);
+    currUser.favouriteExercises.push(elem);
+    updateFavExercises(currUser.favouriteExercises);
   };
 
   // State to keep track of whether to show sign in view
@@ -100,9 +118,9 @@ export default function Element({ element, type, onDelete, allowEditing }) {
   // Event handler when the favourite button is clicked on
   const toggleStar = (e) => {
     e.preventDefault();
-    if (authUser) {
+    if (currUser) {
       if (type === 'workouts') {
-        if (authUser.favouriteWorkouts.includes(element.id)) {
+        if (currUser.favouriteWorkouts.includes(element.id)) {
           removeFavWorkout(element.id);
           setImgPath(star);
         } else {
@@ -111,7 +129,7 @@ export default function Element({ element, type, onDelete, allowEditing }) {
         }
       }
       if (type === 'exercises') {
-        if (authUser.favouriteExercises.includes(element.id)) {
+        if (currUser.favouriteExercises.includes(element.id)) {
           removeFavExercise(element.id);
           setImgPath(star);
         } else {
@@ -126,27 +144,24 @@ export default function Element({ element, type, onDelete, allowEditing }) {
   };
 
   const makeButton = () => {
-    if (authUser) {
-      if (type === 'exercises') {
-        return (
-          <EditButton
-            type="exercise"
-            id={element.id}
-            name={element.name}
-            onDelete={onDelete}
-          />
-        );
-      }
+    if (type === 'exercises') {
       return (
         <EditButton
-          type="workout"
+          type="exercise"
           id={element.id}
           name={element.name}
           onDelete={onDelete}
         />
       );
     }
-    return null;
+    return (
+      <EditButton
+        type="workout"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
   };
 
   const makeMuscles = () => {
@@ -176,19 +191,19 @@ export default function Element({ element, type, onDelete, allowEditing }) {
       <div className={styles.buttons}>
         <div className={styles.star}>
           <form>
-            <Image
+            <input
+              title="favourite"
+              type="image"
               src={imgPath}
               alt="star"
-              width={50}
-              height={50}
+              width={28}
+              height={28}
               onClick={toggleStar}
             />
           </form>
         </div>
 
-        {allowEditing !== undefined && (
-          <div className={styles.star}>{makeButton()}</div>
-        )}
+        {allowEditing && <div className={styles.star}>{makeButton()}</div>}
       </div>
       <SignInView show={show} setShow={setShow} />
     </div>
