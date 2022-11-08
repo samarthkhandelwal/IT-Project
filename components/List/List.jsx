@@ -29,7 +29,6 @@ export default function List({
   setSelected,
   type,
   onDelete,
-  allowEditing,
 }) {
   // A function to handle when a new element is selected
   const handleChange = (e) => {
@@ -68,18 +67,13 @@ export default function List({
               key={element.id}
               id={`${listType}-${element.id}`}
               variant="light"
-              name={listType}
+              role={listType}
               value={element}
             >
               {selected === element.name ? (
                 <SelectedElement element={element} type={type} />
               ) : (
-                <Element
-                  element={element}
-                  type={type}
-                  onDelete={onDelete}
-                  allowEditing={allowEditing}
-                />
+                <Element element={element} type={type} onDelete={onDelete} />
               )}
             </ToggleButton>
           ))

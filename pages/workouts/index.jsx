@@ -29,7 +29,7 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to workouts collection
 const workoutsCollectionRef = collection(db, 'workouts');
 
-export default function WorkoutsPage() {
+export default function WorkoutsPage({ testData }) {
   const [workoutList, setWorkoutList] = useState([]);
   const { authUser } = useAuth();
 
@@ -49,8 +49,13 @@ export default function WorkoutsPage() {
       setWorkouts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
-    if (!isFirstLoad.current) {
+    if (!isFirstLoad.current && testData === undefined) {
       getWorkouts();
+      isFirstLoad.current = true;
+    }
+
+    if (!isFirstLoad.current && testData !== undefined) {
+      setWorkouts(testData);
       isFirstLoad.current = true;
     }
 
@@ -74,7 +79,7 @@ export default function WorkoutsPage() {
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-  }, [authUser, workouts]);
+  }, [authUser, workouts, testData]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -141,7 +146,6 @@ export default function WorkoutsPage() {
               setSelected={onClick}
               type="workouts"
               onDelete={onDelete}
-              allowEditing={authUser !== undefined}
             />
           </Col>
         </Row>
