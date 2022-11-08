@@ -29,7 +29,6 @@ export default function List({
   setSelected,
   type,
   onDelete,
-  allowEditing,
 }) {
   // A function to handle when a new element is selected
   const handleChange = (e) => {
@@ -53,7 +52,6 @@ export default function List({
         searchInput={searchInput}
         setSearchInput={setSearchInput}
       />
-
       <div className={styles.scrollableContainer}>
         <ToggleButtonGroup
           type={listType}
