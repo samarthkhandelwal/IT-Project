@@ -1,5 +1,3 @@
-import './matchMedia';
-
 // React
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
@@ -104,4 +102,18 @@ describe('The Search Bar', () => {
     expect(items[2].getAttribute('id') === 'radio-2').toBeTruthy();
     expect(items[3].getAttribute('id') === 'radio-3').toBeTruthy();
   });
+});
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
 });
