@@ -38,19 +38,39 @@ export default function List({
   // State to keep track of the search input
   const [searchInput, setSearchInput] = useState('');
 
-  // When searchInput is changed, filteredList updates to only contain elements with names including searchInput
+  // State to keep track of filter input
+  const [filterInput, setFilterInput] = useState('');
+
+  // State to hold which muscle groups are necessary in the filter dropdown
+  const [muscleGroups, setMuscleGroups] = useState([]);
+  muscleGroups.sort();
+
+  // When searchInput is changed, filteredList updates to only contain elements with names including searchInput and musclegroups including filterInput
   const filteredList = list.filter((item) => {
-    if (searchInput === '') {
-      return item;
-    }
-    return item.name.toLowerCase().includes(searchInput);
+    const searchFilter =
+      searchInput === '' ? true : item.name.toLowerCase().includes(searchInput);
+    const muscleGroupFilter =
+      filterInput === '' || filterInput === 'Filter'
+        ? true
+        : item.muscleGroups.includes(filterInput);
+
+    return searchFilter && muscleGroupFilter;
+  });
+
+  filteredList.forEach((element) => {
+    element.muscleGroups.forEach((muscleGroup) => {
+      if (!muscleGroups.includes(muscleGroup)) {
+        setMuscleGroups([...muscleGroups, muscleGroup]);
+      }
+    });
   });
 
   return (
     <div className={styles.scrollableContainer}>
       <SearchFilterBar
-        searchInput={searchInput}
         setSearchInput={setSearchInput}
+        setFilterInput={setFilterInput}
+        muscleGroups={muscleGroups}
       />
       <ToggleButtonGroup
         type={listType}
