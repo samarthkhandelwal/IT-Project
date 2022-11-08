@@ -129,7 +129,7 @@ export default function ExercisesPage() {
               </Col>
             )
           ) : (
-            <Col/>
+            <Col />
           )}
 
           <Col sm={5}>

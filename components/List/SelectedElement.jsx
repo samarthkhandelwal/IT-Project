@@ -159,7 +159,6 @@ export default function Element({ element, type, onDelete, allowEditing }) {
 
   return (
     <div className={styles.selement}>
-
       <div className={styles.stxt}>
         <h1>{element.name}</h1>
         <p>{makeMuscles()}</p>
