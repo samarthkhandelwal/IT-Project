@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prettier-check": "prettier --check .",
     "prettier-fix": "prettier --write .",
-    "test": "jest --coverage",
+    "test": "jest --coverage --transformIgnorePatterns \"node_modules/(?!workoutbuddy)/\"",
     "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\""
   },
   "dependencies": {
