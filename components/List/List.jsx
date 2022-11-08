@@ -47,17 +47,14 @@ export default function List({
 
   // When searchInput is changed, filteredList updates to only contain elements with names including searchInput and musclegroups including filterInput
   const filteredList = list.filter((item) => {
-    if (
-      searchInput === '' &&
-      (filterInput === '' || filterInput === 'Filter')
-    ) {
-      return item;
-    }
+    const searchFilter =
+      searchInput === '' ? true : item.name.toLowerCase().includes(searchInput);
+    const muscleGroupFilter =
+      filterInput === '' || filterInput === 'Filter'
+        ? true
+        : item.muscleGroups.includes(filterInput);
 
-    const includeSearchTerm = item.name.toLowerCase().includes(searchInput);
-    const includeMuscleGroup =
-      item.muscleGroups.includes(filterInput) || filterInput === 'Filter';
-    return includeSearchTerm && includeMuscleGroup;
+    return searchFilter && muscleGroupFilter;
   });
 
   filteredList.forEach((element) => {
