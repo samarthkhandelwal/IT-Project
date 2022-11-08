@@ -1,3 +1,5 @@
+import './matchMedia';
+
 // React
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
@@ -11,6 +13,7 @@ describe('The Search Bar', () => {
     // Mock props. They are unecessary for the test
     const selected = '';
     const setSelected = jest.fn();
+    const onDelete = jest.fn();
 
     const list = render(
       <List
@@ -19,6 +22,7 @@ describe('The Search Bar', () => {
         selected={selected}
         setSelected={setSelected}
         type="workouts"
+        onDelete={onDelete}
       />
     );
 
@@ -40,6 +44,7 @@ describe('The Search Bar', () => {
     // Mock props. They are unecessary for the test
     const selected = '';
     const setSelected = jest.fn();
+    const onDelete = jest.fn();
 
     const list = render(
       <List
@@ -48,6 +53,7 @@ describe('The Search Bar', () => {
         selected={selected}
         setSelected={setSelected}
         type="workouts"
+        onDelete={onDelete}
       />
     );
 
@@ -70,6 +76,7 @@ describe('The Search Bar', () => {
     // Mock props. They are unecessary for the test
     const selected = '';
     const setSelected = jest.fn();
+    const onDelete = jest.fn();
 
     const list = render(
       <List
@@ -78,6 +85,7 @@ describe('The Search Bar', () => {
         selected={selected}
         setSelected={setSelected}
         type="workouts"
+        onDelete={onDelete}
       />
     );
 
