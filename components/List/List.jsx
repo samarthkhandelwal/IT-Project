@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // React
 import React, { useState } from 'react';
 
@@ -12,7 +13,7 @@ import styles from '../../styles/List.module.css';
 import SelectedElement from './SelectedElement';
 
 /**
- *
+ * Displays a list of exercises or workouts.
  * @param {*} list A list of either workouts or exercises
  * @param {*} listType Either "radio" or "checkbox".
  * @param {*} selected State of which elements are selected. if checkbox, must be an array.
@@ -79,8 +80,10 @@ export default function List({
           vertical
           name="button-list"
         >
-          {filteredList.length === 0 ? (
+          {filteredList.length === 0 && type !== 'edit' ? (
             <h3>No {type} available</h3>
+          ) : filteredList.length === 0 && type !== 'edit' ? (
+            <h3>No exercise available</h3>
           ) : (
             filteredList.map((element) => (
               <ToggleButton

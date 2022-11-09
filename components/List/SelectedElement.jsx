@@ -1,3 +1,5 @@
+// istanbul ignore file
+
 // React
 import React, { useState, useEffect } from 'react';
 
@@ -21,6 +23,12 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
+/**
+ * A special component to display the selected element different to the others
+ * @param {*} element The exercise or a workout to display
+ * @param {*} type The type of element, i.e. exercise or workout
+ * @param {*} onDelete A function that handles how the exercise or workout is deleted from the database
+ */
 export default function Element({ element, type, onDelete }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
@@ -169,24 +177,23 @@ export default function Element({ element, type, onDelete }) {
         <h1>{element.name}</h1>
         <p>{makeMuscles()}</p>
       </div>
+      {type !== 'edit' && (
+        <div className={styles.buttons}>
+          <div className={styles.star}>
+            <form>
+              <Image
+                src={imgPath}
+                alt="star"
+                width={50}
+                height={50}
+                onClick={toggleStar}
+              />
+            </form>
+          </div>
 
-      <div className={styles.buttons}>
-        <div className={styles.star}>
-          <form>
-            <Image
-              src={imgPath}
-              alt="star"
-              width={50}
-              height={50}
-              onClick={toggleStar}
-            />
-          </form>
+          {allowEditing && <div className={styles.star}>{makeButton()}</div>}
         </div>
-
-        {allowEditing !== undefined && (
-          <div className={styles.star}>{makeButton()}</div>
-        )}
-      </div>
+      )}
       <SignInView show={show} setShow={setShow} />
     </div>
   );
