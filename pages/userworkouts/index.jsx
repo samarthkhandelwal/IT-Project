@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button';
 
 // Next components
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 // Custom components
 import List from '../../components/List/List';
@@ -23,6 +24,8 @@ import styles from '../../styles/Workouts/Workouts.module.css';
 import { useAuth } from '../../context/authUserContext';
 
 export default function WorkoutsPage({ testData }) {
+  const router = useRouter();
+
   const [workoutList, setWorkoutList] = useState([]);
   const { authUser } = useAuth();
 
@@ -33,6 +36,10 @@ export default function WorkoutsPage({ testData }) {
   const [toRenderCard, setRenderCard] = useState(true);
 
   useEffect(() => {
+    if (!authUser) {
+      router.push('/workouts');
+    }
+
     if (testData !== undefined) {
       setWorkouts(testData);
     }
@@ -48,7 +55,7 @@ export default function WorkoutsPage({ testData }) {
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-  }, [authUser, workouts, testData]);
+  }, [authUser, workouts, testData, router]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

@@ -66,6 +66,10 @@ function WorkoutForm() {
   const [selectedExercise, setSelectedExercise] = useState({});
 
   useEffect(() => {
+    if (!authUser) {
+      router.push('/workouts');
+    }
+
     const getExercises = async () => {
       const q = query(exercisesCollectionRef, orderBy('name'));
       const data = await getDocs(q);
@@ -76,7 +80,7 @@ function WorkoutForm() {
       getExercises();
       isFirstLoad.current = true;
     }
-  }, []);
+  }, [authUser, router]);
 
   /* Keeps track of which index the exercise is in the workout */
   const index = useRef(0);

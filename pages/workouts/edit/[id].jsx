@@ -31,12 +31,16 @@ import TopNavbar from '../../../components/Navbar/Navbar';
 // Styles
 import styles from '../../../styles/WorkoutForms/WorkoutForm.module.css';
 
+// Authentication
+import { useAuth } from '../../../context/authUserContext';
+
 // Get reference to exercises and workouts collections
 const exercisesCollectionRef = collection(db, 'exercises');
 
 function WorkoutForm() {
   const router = useRouter();
   const { id } = router.query;
+  const { authUser } = useAuth();
 
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
@@ -70,6 +74,10 @@ function WorkoutForm() {
   const index = useRef(0);
 
   useEffect(() => {
+    if (!authUser) {
+      router.push('/workouts');
+    }
+
     const getExercises = async () => {
       const q = query(exercisesCollectionRef, orderBy('name'));
       const data = await getDocs(q);
@@ -105,7 +113,7 @@ function WorkoutForm() {
     if (isFirstLoad.current) {
       loadExerciseGroups();
     }
-  }, [id, router.isReady, workout]);
+  }, [authUser, id, router, router.isReady, workout]);
 
   const updateExercises = (ex) => {
     setExerciseGroups(exerciseGroups.concat(ex));
