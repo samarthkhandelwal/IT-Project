@@ -1,3 +1,5 @@
+// istanbul ignore file
+
 // React
 import React from 'react';
 
@@ -11,9 +13,6 @@ import Link from 'next/link';
 
 // Firebase
 import { useAuth } from '../../context/authUserContext';
-
-// Custom Components
-// import SettingsView from './SettingsView';
 
 // Styles
 import styles from '../../styles/Profile.module.css';
