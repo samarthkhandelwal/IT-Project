@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // React
 import React, { useState } from 'react';
 
@@ -12,7 +13,7 @@ import styles from '../../styles/List.module.css';
 import SelectedElement from './SelectedElement';
 
 /**
- *
+ * Displays a list of exercises or workouts.
  * @param {*} list A list of either workouts or exercises
  * @param {*} listType Either "radio" or "checkbox".
  * @param {*} selected State of which elements are selected. if checkbox, must be an array.
@@ -123,12 +124,3 @@ export default function List({
     </div>
   );
 }
-
-// {selected && selected.name === element.name} ? (
-//   <SelectedElement
-//     element={element}
-//     type={type}
-//     onDelete={onDelete}
-//   />
-//   ) : (
-//   <Element element={element} type={type} onDelete={onDelete} />)

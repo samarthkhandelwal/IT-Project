@@ -1,5 +1,3 @@
-// istanbul ignore file
-
 // React
 import React, { useState } from 'react';
 
