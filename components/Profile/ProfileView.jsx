@@ -42,28 +42,28 @@ export default function ProfileView({ show, setShow }) {
               roundedCircle="true"
             />
 
-              <div className={styles.grid}>
-                <div className={styles.card}>
-                  <Link href="/workouts" className={styles.card}>
-                    <p>Your workouts</p>
-                  </Link>
-                </div>
-       
-                {authUser.role === 0 && (
-                  <>
-                    <div className={styles.card}>
-                      <Link href="/admin/add" className={styles.card}>
-                        <p>Add admin</p>
-                      </Link>
-                    </div>
+            <div className={styles.grid}>
+              <div className={styles.card}>
+                <Link href="/workouts" className={styles.card}>
+                  <p>Your workouts</p>
+                </Link>
+              </div>
 
-                    <div className={styles.card}>
-                      <Link href="/admin/remove" className={styles.card}>
-                        <p>Remove admin</p>
-                      </Link>
-                    </div>
-                  </>
-                )}
+              {authUser.role === 0 && (
+                <>
+                  <div className={styles.card}>
+                    <Link href="/admin/add" className={styles.card}>
+                      <p>Add admin</p>
+                    </Link>
+                  </div>
+
+                  <div className={styles.card}>
+                    <Link href="/admin/remove" className={styles.card}>
+                      <p>Remove admin</p>
+                    </Link>
+                  </div>
+                </>
+              )}
 
               {/* Waiting for email/pword sign in */}
               {/* <div>
