@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // React
 import React, { useState } from 'react';
 
@@ -79,8 +80,10 @@ export default function List({
           vertical
           name="button-list"
         >
-          {filteredList.length === 0 ? (
+          {filteredList.length === 0 && type !== 'edit' ? (
             <h3>No {type} available</h3>
+          ) : filteredList.length === 0 && type !== 'edit' ? (
+            <h3>No exercise available</h3>
           ) : (
             filteredList.map((element) => (
               <ToggleButton

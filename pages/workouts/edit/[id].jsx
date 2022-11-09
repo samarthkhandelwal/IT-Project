@@ -351,6 +351,7 @@ function WorkoutForm() {
         show={isAddExerciseModalOpen}
         onClose={handleAddExerciseModalClose}
         list={exercises}
+        selected={selectedExercise}
         setSelectedExercise={setSelectedExercise}
       />
 
