@@ -126,10 +126,15 @@ function AdminForm() {
       <Form onSubmit={handleSubmit} action="/api/exercise" method="post">
         <Form.Group>
           <Form.Label>Account email</Form.Label>
-          <Form.Control id="accountEmail" type="text" />
+          <Form.Control 
+            id="accountEmail" 
+            type="text" 
+            placeholder="username@email.com"
+          />
+
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className={styles.btncenter}>
           Remove Admin
         </Button>
       </Form>
