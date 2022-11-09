@@ -4,7 +4,7 @@
 .element,
 .selement {
   display: flex;
-  height: 14vh;
+  height: 115px;
   width: 25vw + 120px + 60px;
   padding: 0.5vw;
 }
@@ -50,8 +50,8 @@
 /* text in list */
 .txt {
   text-align: left;
-  width: 17vw;
-  margin-left: 1vw;
+  width: 15vw;
+  /* margin-left: 0.5vw; */
 }
 
 .txt h1 {
@@ -65,6 +65,12 @@
   font-weight: 300;
   margin-left: 6px;
   margin-bottom: 0;
+}
+
+.thumbimg {
+  aspect-ratio: 1 / 1;
+  align-self: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 576px) {
