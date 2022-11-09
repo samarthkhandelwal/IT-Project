@@ -1,3 +1,5 @@
+// istanbul ignore file
+
 // React
 import React, { useState, useEffect } from 'react';
 
@@ -185,24 +187,23 @@ export default function Element({ element, type, onDelete }) {
         <h1>{element.name}</h1>
         <p>{makeMuscles()}</p>
       </div>
+      {type !== 'edit' && (
+        <div className={styles.buttons}>
+          <div className={styles.star}>
+            <form>
+              <Image
+                src={imgPath}
+                alt="star"
+                width={50}
+                height={50}
+                onClick={toggleStar}
+              />
+            </form>
+          </div>
 
-      <div className={styles.buttons}>
-        <div className={styles.star}>
-          <form>
-            <Image
-              src={imgPath}
-              alt="star"
-              width={50}
-              height={50}
-              onClick={toggleStar}
-            />
-          </form>
+          {allowEditing && <div className={styles.star}>{makeButton()}</div>}
         </div>
-
-        {allowEditing !== undefined && (
-          <div className={styles.star}>{makeButton()}</div>
-        )}
-      </div>
+      )}
       <SignInView show={show} setShow={setShow} />
     </div>
   );

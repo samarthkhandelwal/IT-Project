@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 // React
 import React, { useState } from 'react';
 
@@ -65,6 +64,24 @@ export default function List({
     });
   });
 
+  const placeholderText = () => {
+    if (filteredList.length === 0) {
+      if (type === 'user') {
+        return <h3>No user workouts available.</h3>;
+      }
+
+      if (type === 'workouts') {
+        return <h3>No workouts available.</h3>;
+      }
+
+      if (type === 'exercises') {
+        return <h3>No exercises available.</h3>;
+      }
+    }
+
+    return null;
+  };
+
   return (
     <div>
       <SearchFilterBar
@@ -80,13 +97,8 @@ export default function List({
           vertical
           name="button-list"
         >
-          {filteredList.length === 0 ? (
-            type === 'user' ? (
-              <h3>No user workouts available</h3>
-            ) : (
-              <h3>No {type} available</h3>
-            )
-          ) : (
+          {placeholderText}
+          {filteredList.length !== 0 &&
             filteredList.map((element) => (
               <ToggleButton
                 className={styles.list}
@@ -105,10 +117,18 @@ export default function List({
                   <Element element={element} type={type} onDelete={onDelete} />
                 )}
               </ToggleButton>
-            ))
-          )}
+            ))}
         </ToggleButtonGroup>
       </div>
     </div>
   );
 }
+
+// {selected && selected.name === element.name} ? (
+//   <SelectedElement
+//     element={element}
+//     type={type}
+//     onDelete={onDelete}
+//   />
+//   ) : (
+//   <Element element={element} type={type} onDelete={onDelete} />)

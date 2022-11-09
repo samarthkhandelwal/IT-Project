@@ -89,7 +89,11 @@ export default function TopNavbar() {
           <Nav>
             <NewLink />
             <Nav.Link className={styles.item}>
-              <Nav onClick={handleShow}>Sign in</Nav>
+              {authUser === null ? (
+                <Nav onClick={handleShow}>Sign In</Nav>
+              ) : (
+                <Nav onClick={handleShow}>Profile</Nav>
+              )}
               {profileSignIn()}
             </Nav.Link>
           </Nav>
