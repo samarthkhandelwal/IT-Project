@@ -161,6 +161,13 @@ export default function ExercisesPage({ testData }) {
               videoURL={selectedExercise.videoURL}
               titleAlt={`${selectedExercise.name} Video`}
             />
+            <h5>
+              Equipment required:{' '}
+              {selectedExercise.equipment !== undefined
+                ? selectedExercise.equipment
+                : 'None'}
+            </h5>
+            <h5>Instructions:</h5>
             {selectedExercise.instructions}
           </Modal.Body>
 
