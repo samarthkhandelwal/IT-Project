@@ -58,9 +58,13 @@ function ExerciseForm() {
 
   useEffect(() => {
     const getExercise = async () => {
-      const exerciseDoc = await getDoc(doc(db, 'exercises', id));
-      chosenMuscleGroups.current = exerciseDoc.data().muscleGroups;
-      setExercise(exerciseDoc.data());
+      if (router.isReady) {
+        const exerciseDoc = await getDoc(doc(db, 'exercises', id));
+        if (exerciseDoc.exists()) {
+          chosenMuscleGroups.current = exerciseDoc.data().muscleGroups;
+          setExercise(exerciseDoc.data());
+        }
+      }
     };
 
     const updateChosenMuscles = (ex) => {
@@ -124,7 +128,7 @@ function ExerciseForm() {
       return checkboxColumns;
     };
 
-    if (!isFirstLoad.current) {
+    if (!isFirstLoad.current || exercise !== undefined) {
       getExercise();
       isFirstLoad.current = true;
     }
@@ -132,7 +136,7 @@ function ExerciseForm() {
     if (isFirstLoad.current) {
       setCheckboxes(makeCheckboxes());
     }
-  }, [exercise.muscleGroups, id]);
+  }, [exercise, id, router.isReady]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
