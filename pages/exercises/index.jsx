@@ -26,6 +26,66 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to exercises collection
 const exercisesCollectionRef = collection(db, 'exercises');
 
+function MobileModal({ selectedExercise, isOpen, handleClose }) {
+  if (selectedExercise) {
+    return (
+      <Modal show={isOpen} onHide={handleClose} centered scrollable size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedExercise.name}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Video
+            videoURL={selectedExercise.videoURL}
+            titleAlt={`${selectedExercise.name} Video`}
+          />
+          <h5>
+            Equipment required:{' '}
+            {selectedExercise.equipment !== undefined
+              ? selectedExercise.equipment
+              : 'None'}
+          </h5>
+          <h5>Instructions:</h5>
+          {selectedExercise.instructions}
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
+function DesktopCard({ selectedExercise }) {
+  if (selectedExercise) {
+    return (
+      <Col sm={7}>
+        <Row>
+          <h2>{selectedExercise.name}</h2>
+          <Video
+            videoURL={selectedExercise.videoURL}
+            titleAlt={`${selectedExercise.name} Video`}
+          />
+        </Row>
+        <Row className={styles.instructions}>
+          <h5>
+            Equipment required:{' '}
+            {selectedExercise.equipment !== undefined
+              ? selectedExercise.equipment
+              : 'None'}
+          </h5>
+          <h5>Instructions:</h5>
+          {selectedExercise.instructions}
+        </Row>
+      </Col>
+    );
+  }
+  return <Col />;
+}
+
 export default function ExercisesPage({ testData }) {
   /* Get exercises from the database */
   const [exerciseList, setExerciseList] = useState([]);
@@ -111,32 +171,7 @@ export default function ExercisesPage({ testData }) {
       <TopNavbar />
       <Container fluid className={styles.container}>
         <Row>
-          {toRenderCard ? (
-            selectedExercise !== undefined && (
-              <Col sm={7}>
-                <Row>
-                  <h2>{selectedExercise.name}</h2>
-                  <Video
-                    videoURL={selectedExercise.videoURL}
-                    titleAlt={`${selectedExercise.name} Video`}
-                  />
-                </Row>
-                <Row className={styles.instructions}>
-                  <h5>
-                    Equipment required:{' '}
-                    {selectedExercise.equipment !== undefined
-                      ? selectedExercise.equipment
-                      : 'None'}
-                  </h5>
-                  <h5>Instructions:</h5>
-                  {selectedExercise.instructions}
-                </Row>
-              </Col>
-            )
-          ) : (
-            <Col />
-          )}
-
+          {toRenderCard && <DesktopCard selectedExercise={selectedExercise} />}
           <Col sm={5}>
             <List
               list={exerciseList}
@@ -150,34 +185,11 @@ export default function ExercisesPage({ testData }) {
         </Row>
       </Container>
 
-      {selectedExercise !== undefined && (
-        <Modal show={isOpen} onHide={handleClose} centered scrollable size="lg">
-          <Modal.Header closeButton>
-            <Modal.Title>{selectedExercise.name}</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <Video
-              videoURL={selectedExercise.videoURL}
-              titleAlt={`${selectedExercise.name} Video`}
-            />
-            <h5>
-              Equipment required:{' '}
-              {selectedExercise.equipment !== undefined
-                ? selectedExercise.equipment
-                : 'None'}
-            </h5>
-            <h5>Instructions:</h5>
-            {selectedExercise.instructions}
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="primary" onClick={handleClose}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
+      <MobileModal
+        selectedExercise={selectedExercise}
+        isOpen={isOpen}
+        handleClose={handleClose}
+      />
     </>
   );
 }
