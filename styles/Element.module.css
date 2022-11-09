@@ -72,11 +72,13 @@
     display: flex;
     width: 80vw;
     min-width: fit-content;
+    align-items: center;
+    height: 10vh;
   }
 
   .txt h1,
   .stxt h1 {
-    font-size: x-large;
+    font-size: large;
     margin-top: 10px;
     margin-left: 5px;
     text-overflow: ellipsis;
@@ -87,7 +89,7 @@
 
   .txt p,
   .stxt p {
-    font-size: large;
+    font-size: medium;
     font-style: italic;
     font-weight: 300;
     margin-left: 6px;
