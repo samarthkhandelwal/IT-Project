@@ -166,7 +166,7 @@ export default function Element({ element, type, onDelete, testAuth }) {
       );
     }
 
-    if (type === 'user workouts') {
+    if (type.includes('user')) {
       return (
         <EditButton
           type="userworkout"
