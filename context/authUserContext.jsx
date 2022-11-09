@@ -1,3 +1,6 @@
+// istanbul ignore file
+// Firebase stuff, difficult to test properly
+
 // React
 import React, { createContext, useContext } from 'react';
 
