@@ -113,7 +113,7 @@ export default function ExercisesPage({ testData }) {
         <Row>
           {toRenderCard ? (
             selectedExercise !== undefined && (
-              <Col sm={7}>
+              <Col sm={7} className="h-100">
                 <Row>
                   <h2>{selectedExercise.name}</h2>
                   <Video
@@ -137,7 +137,7 @@ export default function ExercisesPage({ testData }) {
             <Col />
           )}
 
-          <Col sm={5}>
+          <Col sm={5} className="h-100">
             <List
               list={exerciseList}
               listType="radio"
