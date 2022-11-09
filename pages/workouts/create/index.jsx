@@ -29,12 +29,16 @@ import TopNavbar from '../../../components/Navbar/Navbar';
 // Styles
 import styles from '../../../styles/WorkoutForms/WorkoutForm.module.css';
 
+// Authentication
+import { useAuth } from '../../../context/authUserContext';
+
 // Get reference to exercises and workouts collections
 const workoutsCollectionRef = collection(db, 'workouts');
 const exercisesCollectionRef = collection(db, 'exercises');
 
 function WorkoutForm() {
   const router = useRouter();
+  const { authUser } = useAuth();
 
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
@@ -62,6 +66,10 @@ function WorkoutForm() {
   const [selectedExercise, setSelectedExercise] = useState({});
 
   useEffect(() => {
+    if (!authUser) {
+      router.push('/workouts');
+    }
+
     const getExercises = async () => {
       const q = query(exercisesCollectionRef, orderBy('name'));
       const data = await getDocs(q);
@@ -72,7 +80,7 @@ function WorkoutForm() {
       getExercises();
       isFirstLoad.current = true;
     }
-  }, []);
+  }, [authUser, router]);
 
   /* Keeps track of which index the exercise is in the workout */
   const index = useRef(0);
@@ -284,6 +292,7 @@ function WorkoutForm() {
               exerciseGroups.map((ex) => (
                 <ExerciseElement
                   exercise={ex}
+                  key={ex.id}
                   onClick={() => {
                     handleEditExerciseModalOpen(ex);
                   }}

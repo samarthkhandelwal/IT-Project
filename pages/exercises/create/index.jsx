@@ -25,11 +25,16 @@ import styles from '../../../styles/EditButton.module.css';
 // Get muscle list
 import muscles from '../../../public/muscles.json' assert { type: 'json' };
 
+// Authentication
+import { useAuth } from '../../../context/authUserContext';
+
 // Get reference to workouts collection
 const exercisesCollectionRef = collection(db, 'exercises');
 
 // A form used for both creating and editing exercises
 function ExerciseForm() {
+  const { authUser } = useAuth();
+
   /* Handles the state of the checkboxes */
   const [checkboxes, setCheckboxes] = useState([]);
 
@@ -56,6 +61,10 @@ function ExerciseForm() {
   const router = useRouter();
 
   useEffect(() => {
+    if (!authUser) {
+      router.push('/exercises');
+    }
+
     const updateChosenMuscles = (ex) => {
       if (chosenMuscleGroups.current.includes(ex.target.value)) {
         const filtered = chosenMuscleGroups.current.filter(
@@ -102,7 +111,7 @@ function ExerciseForm() {
       setCheckboxes(makeCheckboxes);
       isFirstLoad.current = true;
     }
-  }, [isFirstLoad]);
+  }, [authUser, isFirstLoad, router]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
