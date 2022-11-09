@@ -22,6 +22,9 @@ import TopNavbar from '../../../components/Navbar/Navbar';
 // Styles
 import styles from '../../../styles/EditButton.module.css';
 
+// Authentication
+import { useAuth } from '../../../context/authUserContext';
+
 // Get muscle list
 import muscles from '../../../public/muscles.json' assert { type: 'json' };
 
@@ -30,6 +33,7 @@ function ExerciseForm() {
   /* Get exercise ID from query parameters */
   const router = useRouter();
   const { id } = router.query;
+  const { authUser } = useAuth();
 
   /* Handles state for the exercise */
   const [exercise, setExercise] = useState({});
@@ -57,6 +61,10 @@ function ExerciseForm() {
   const isFirstLoad = useRef(false);
 
   useEffect(() => {
+    if (!authUser) {
+      router.push('/exercises');
+    }
+
     const getExercise = async () => {
       if (router.isReady) {
         const exerciseDoc = await getDoc(doc(db, 'exercises', id));
@@ -136,7 +144,7 @@ function ExerciseForm() {
     if (isFirstLoad.current) {
       setCheckboxes(makeCheckboxes());
     }
-  }, [exercise, id, router.isReady]);
+  }, [authUser, exercise, id, router, router.isReady]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {

@@ -73,6 +73,10 @@ function WorkoutForm() {
   const index = useRef(0);
 
   useEffect(() => {
+    if (!authUser) {
+      router.push('/workouts');
+    }
+
     const getExercises = async () => {
       const q = query(exercisesCollectionRef, orderBy('name'));
       const data = await getDocs(q);
@@ -110,7 +114,7 @@ function WorkoutForm() {
       getWorkout();
       loadExerciseGroups();
     }
-  }, [authUser, id, workout.exercises]);
+  }, [authUser, id, router, workout.exercises]);
 
   const updateExercises = (ex) => {
     setExerciseGroups(exerciseGroups.concat(ex));
