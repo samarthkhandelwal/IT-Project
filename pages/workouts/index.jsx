@@ -109,16 +109,17 @@ export default function WorkoutsPage({ testData }) {
       <Container className={styles.container}>
         <Row>
           {toRenderCard && (
-            <Col xs={6}>
+            <Col sm={7}>
               {selectedWorkout != null && (
                 <div className={styles.imgcontainer}>
                   <Image
                     src={selectedWorkout.imgSrc}
                     alt={selectedWorkout.imgAlt}
                     width="100%"
-                    height="70%"
+                    height="50vh"
                     layout="responsive"
-                    object-fit="cover"
+                    objectFit="cover"
+                    objectPosition="top"
                     style={{ width: '100%', height: '48vh' }}
                   />
                   <div className={styles.textblock}>
@@ -138,7 +139,7 @@ export default function WorkoutsPage({ testData }) {
             </Col>
           )}
 
-          <Col>
+          <Col sm={5}>
             <List
               list={workoutList}
               listType="radio"
