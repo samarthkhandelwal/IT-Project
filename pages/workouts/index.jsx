@@ -105,8 +105,7 @@ export default function WorkoutsPage({ testData }) {
   return (
     <>
       <TopNavbar />
-
-      <Container className={styles.container}>
+      <Container fluid className={styles.container}>
         <Row>
           {toRenderCard && (
             <Col sm={7}>
@@ -116,11 +115,11 @@ export default function WorkoutsPage({ testData }) {
                     src={selectedWorkout.imgSrc}
                     alt={selectedWorkout.imgAlt}
                     width="100%"
-                    height="50vh"
+                    height="66.95vh"
                     layout="responsive"
                     objectFit="cover"
                     objectPosition="top"
-                    style={{ width: '100%', height: '48vh' }}
+                    style={{ aspectRatio: 16 / 9 }}
                   />
                   <div className={styles.textblock}>
                     <h1>{selectedWorkout.name}</h1>
@@ -131,9 +130,9 @@ export default function WorkoutsPage({ testData }) {
 
               {selectedWorkout != null && (
                 <div>
-                  <main className={styles.workoutlist}>
+                  <div className={styles.workoutlist}>
                     <WorkoutList exerciseList={selectedWorkout.exercises} />
-                  </main>
+                  </div>
                 </div>
               )}
             </Col>
