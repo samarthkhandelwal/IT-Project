@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 // Next components
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
@@ -23,6 +22,17 @@ import { useAuth } from '../../context/authUserContext';
 
 // Makes either a button, or a dropdown button
 function AButton({ type, name, id, handleModalOpen }) {
+  if (type === 'user') {
+    return (
+      <DropdownButton title="...">
+        <Link href={`/userworkouts/edit/${id}`} passHref>
+          <Dropdown.Item>Edit {name}</Dropdown.Item>
+        </Link>
+        <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
+      </DropdownButton>
+    );
+  }
+
   if (type === 'exercise') {
     return (
       <DropdownButton title="...">
@@ -44,17 +54,6 @@ function AButton({ type, name, id, handleModalOpen }) {
       </DropdownButton>
     );
   }
-
-  if (type === 'userworkout') {
-    return (
-      <DropdownButton title="...">
-        <Link href={`/userworkouts/edit/${id}`} passHref>
-          <Dropdown.Item>Edit {name}</Dropdown.Item>
-        </Link>
-        <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
-      </DropdownButton>
-    );
-  }
 }
 
 function DeleteModal({
@@ -68,7 +67,7 @@ function DeleteModal({
     <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
       <Modal.Header>
         <Modal.Title>
-          {type === 'userworkout' ? (
+          {type === 'user' ? (
             <p>Delete your workout &#39;{name}&#39;?</p>
           ) : (
             <p>
@@ -93,7 +92,6 @@ function DeleteModal({
 
 export default function EditButton({ type, id, name, onDelete }) {
   const { authUser } = useAuth();
-  const router = useRouter();
 
   /* Handles state for the delete toast */
   const [isToastActive, setToastActive] = useState({});
@@ -112,9 +110,7 @@ export default function EditButton({ type, id, name, onDelete }) {
   };
 
   const handleDelete = () => {
-    // Hacky workaround since type was defaulting to workout in specific
-    // instances
-    if (router.pathname.includes('userworkouts')) {
+    if (type === 'user') {
       const filtered = authUser.createdWorkouts.filter(
         (workout) => workout.id !== id
       );
@@ -173,7 +169,6 @@ export default function EditButton({ type, id, name, onDelete }) {
     }
     return null;
   }
-
   return (
     <>
       <AButton

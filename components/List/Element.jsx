@@ -169,7 +169,7 @@ export default function Element({ element, type, onDelete, testAuth }) {
     if (type.includes('user')) {
       return (
         <EditButton
-          type="userworkout"
+          type="user"
           id={element.id}
           name={element.name}
           onDelete={onDelete}

@@ -113,7 +113,7 @@ export default function WorkoutsPage({ testData }) {
               listType="radio"
               selected={selectedWorkout}
               setSelected={onClick}
-              type="user workouts"
+              type="user"
               onDelete={onDelete}
             />
           </Col>
