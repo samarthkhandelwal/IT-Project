@@ -2,6 +2,7 @@
   /* padding-top: 10px; */
   padding-bottom: 20px;
   height: 11vh;
+  /* padding: 0; */
 }
 
 .filter,
@@ -10,11 +11,9 @@
 }
 
 .container input {
-  background-image: url(../public/search.svg);
-  background-size: 8%;
-  background-position: 5.2vw 2.5vh;
+  background: url(../public/search.svg) center;
   background-repeat: no-repeat;
-  text-indent: 20px;
+  background-position: left 4vw center;
 }
 
 .container ::-webkit-input-placeholder {
