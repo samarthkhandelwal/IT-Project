@@ -1,3 +1,5 @@
+// istanbul ignore file
+
 // React
 import React, { useState, useEffect } from 'react';
 
