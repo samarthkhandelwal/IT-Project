@@ -1,3 +1,5 @@
+// istanbul ignore file
+
 import { useState, useEffect } from 'react';
 import {
   onAuthStateChanged,
