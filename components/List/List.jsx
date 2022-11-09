@@ -19,7 +19,6 @@ import SelectedElement from './SelectedElement';
  * @param {*} setSelected The function that sets the state of selected
  * @param {*} type Either "exercises", "workouts", or "user workouts"
  * @param {*} onDelete The callback function to handle an element being deleted from the list.
- * @param {*} allowEditing True if the edit button should appear on the elements.
  * @returns
  */
 export default function List({
@@ -38,47 +37,73 @@ export default function List({
   // State to keep track of the search input
   const [searchInput, setSearchInput] = useState('');
 
-  // When searchInput is changed, filteredList updates to only contain elements with names including searchInput
+  // State to keep track of filter input
+  const [filterInput, setFilterInput] = useState('');
+
+  // State to hold which muscle groups are necessary in the filter dropdown
+  const [muscleGroups, setMuscleGroups] = useState([]);
+  muscleGroups.sort();
+
+  // When searchInput is changed, filteredList updates to only contain elements with names including searchInput and musclegroups including filterInput
   const filteredList = list.filter((item) => {
-    if (searchInput === '') {
-      return item;
-    }
-    return item.name.toLowerCase().includes(searchInput);
+    const searchFilter =
+      searchInput === '' ? true : item.name.toLowerCase().includes(searchInput);
+    const muscleGroupFilter =
+      filterInput === '' || filterInput === 'Filter'
+        ? true
+        : item.muscleGroups.includes(filterInput);
+
+    return searchFilter && muscleGroupFilter;
+  });
+
+  filteredList.forEach((element) => {
+    element.muscleGroups.forEach((muscleGroup) => {
+      if (!muscleGroups.includes(muscleGroup)) {
+        setMuscleGroups([...muscleGroups, muscleGroup]);
+      }
+    });
   });
 
   return (
-    <div className={styles.scrollableContainer}>
+    <div>
       <SearchFilterBar
-        searchInput={searchInput}
         setSearchInput={setSearchInput}
+        setFilterInput={setFilterInput}
+        muscleGroups={muscleGroups}
       />
-      <ToggleButtonGroup
-        type={listType}
-        value={selected}
-        onChange={handleChange}
-        vertical
-        name="button-list"
-      >
-        {filteredList.length === 0 ? (
-          <h3>No {type} available</h3>
-        ) : (
-          filteredList.map((element) => (
-            <ToggleButton
-              key={element.id}
-              id={`${listType}-${element.id}`}
-              variant="light"
-              role={listType}
-              value={element}
-            >
-              {selected === element.name ? (
-                <SelectedElement element={element} type={type} />
-              ) : (
-                <Element element={element} type={type} onDelete={onDelete} />
-              )}
-            </ToggleButton>
-          ))
-        )}
-      </ToggleButtonGroup>
+      <div className={styles.scrollableContainer}>
+        <ToggleButtonGroup
+          type={listType}
+          value={selected}
+          onChange={handleChange}
+          vertical
+          name="button-list"
+        >
+          {filteredList.length === 0 ? (
+            <h3>No {type} available</h3>
+          ) : (
+            filteredList.map((element) => (
+              <ToggleButton
+                className={styles.list}
+                key={element.id}
+                id={`${listType}-${element.id}`}
+                name={listType}
+                value={element}
+              >
+                {selected.name === element.name ? (
+                  <SelectedElement
+                    element={element}
+                    type={type}
+                    onDelete={onDelete}
+                  />
+                ) : (
+                  <Element element={element} type={type} onDelete={onDelete} />
+                )}
+              </ToggleButton>
+            ))
+          )}
+        </ToggleButtonGroup>
+      </div>
     </div>
   );
 }

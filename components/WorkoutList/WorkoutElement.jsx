@@ -20,6 +20,8 @@ export default function WorkoutElement({ element }) {
             alt={element.imgAlt}
             height={40}
             width={65}
+            objectFit="cover"
+            objectPosition="top"
           />
           <div className={styles.txt}>
             <p>{element.name}</p>
