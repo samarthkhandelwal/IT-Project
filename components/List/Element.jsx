@@ -1,5 +1,7 @@
 // React
 import React, { useState, useEffect } from 'react';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 // Next components
 import Image from 'next/image';
@@ -172,22 +174,29 @@ export default function Element({ element, type, onDelete, testAuth }) {
   };
 
   return (
-    <div className={styles.element}>
-      <Image
-        src={element.imgSrc}
-        alt={element.imgAlt}
-        width={100}
-        height={100}
-        objectFit="cover"
-        objectPosition="top"
-      />
+    <>
+      <Row className={styles.element}>
+        <Col xs={3}>
+          <div className={styles.thumbimg}>
+            <Image
+              src={element.imgSrc}
+              alt={element.imgAlt}
+              width="100%"
+              height="100%"
+              objectFit="cover"
+              objectPosition="top"
+            />
+          </div>
+        </Col>
 
-      <div className={styles.txt}>
-        <h1>{element.name}</h1>
-        <p>{makeMuscles()}</p>
-      </div>
-      {type !== 'edit' && (
-        <div className={styles.buttons}>
+        <Col xs={6}>
+          <div className={styles.txt}>
+            <h1>{element.name}</h1>
+            <p>{makeMuscles()}</p>
+          </div>
+        </Col>
+
+        <Col xs={3}>
           <div className={styles.star}>
             <form>
               <input
@@ -195,17 +204,18 @@ export default function Element({ element, type, onDelete, testAuth }) {
                 type="image"
                 src={imgPath}
                 alt="star"
-                width={28}
-                height={28}
+                width={40}
+                height={40}
                 onClick={toggleStar}
               />
             </form>
           </div>
 
           {allowEditing && <div className={styles.star}>{makeButton()}</div>}
-        </div>
-      )}
+        </Col>
+      </Row>
+
       <SignInView show={show} setShow={setShow} />
-    </div>
+    </>
   );
 }
