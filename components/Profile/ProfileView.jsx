@@ -44,8 +44,8 @@ export default function ProfileView({ show, setShow }) {
 
             <div className={styles.grid}>
               <div className={styles.card}>
-                <Link href="/workouts" className={styles.card}>
-                  <p>Your workouts</p>
+                <Link href="/userworkouts" className={styles.card}>
+                  <p>Your created workouts</p>
                 </Link>
               </div>
 
