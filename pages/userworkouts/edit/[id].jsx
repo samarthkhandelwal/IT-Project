@@ -16,7 +16,6 @@ import {
   query,
   orderBy,
   getDocs,
-  getDoc,
   doc,
 } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
@@ -31,12 +30,16 @@ import TopNavbar from '../../../components/Navbar/Navbar';
 // Styles
 import styles from '../../../styles/WorkoutForms/WorkoutForm.module.css';
 
+// Authentication
+import { useAuth } from '../../../context/authUserContext';
+
 // Get reference to exercises and workouts collections
 const exercisesCollectionRef = collection(db, 'exercises');
 
 function WorkoutForm() {
   const router = useRouter();
   const { id } = router.query;
+  const { authUser } = useAuth();
 
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
@@ -76,11 +79,13 @@ function WorkoutForm() {
       setExercises(data.docs.map((d) => ({ ...d.data(), id: d.id })));
     };
 
-    const getWorkout = async () => {
-      if (router.isReady) {
-        const workoutDoc = await getDoc(doc(db, 'workouts', id));
-        if (workoutDoc.exists()) {
-          setWorkout(workoutDoc.data());
+    const getWorkout = () => {
+      if (authUser) {
+        for (let i = 0; i < authUser.createdWorkouts.length; i += 1) {
+          if (authUser.createdWorkouts[i].id === id) {
+            setWorkout(authUser.createdWorkouts[i]);
+            break;
+          }
         }
       }
     };
@@ -96,16 +101,16 @@ function WorkoutForm() {
       setExerciseGroups(newGroups);
     };
 
-    if (!isFirstLoad.current || workout !== undefined) {
+    if (!isFirstLoad.current) {
       getExercises();
-      getWorkout();
       isFirstLoad.current = true;
     }
 
     if (isFirstLoad.current) {
+      getWorkout();
       loadExerciseGroups();
     }
-  }, [id, router.isReady, workout]);
+  }, [authUser, id, workout.exercises]);
 
   const updateExercises = (ex) => {
     setExerciseGroups(exerciseGroups.concat(ex));
@@ -199,18 +204,17 @@ function WorkoutForm() {
 
     const [exercisesList, muscleGroups] = getRepsSetsMuscles();
 
-    /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
       imgSrc: event.target.workoutImgSrc.value,
       imgAlt: event.target.workoutImgAlt.value,
       muscleGroups,
       exercises: exercisesList,
-      id,
+      id: `${authUser.uid}-${event.target.workoutName.value}`,
     };
 
     /* Send the form data to the API and get a response */
-    const response = await fetch('/api/workout', {
+    const response = await fetch('/api/userworkout', {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
@@ -229,24 +233,35 @@ function WorkoutForm() {
       return;
     }
 
-    updateDoc(doc(db, 'workouts', id), result.data)
-      .then(() => {
-        handleAlertOpen({
-          heading: 'Success!',
-          body: `${result.data.name} was updated in the workout list. Redirecting...`,
-          variant: 'success',
-        });
-        setTimeout(() => {
-          router.push('/workouts');
-        }, 3000);
+    for (let i = 0; i < authUser.createdWorkouts.length; i += 1) {
+      if (authUser.createdWorkouts[i].id === result.data.id) {
+        authUser.createdWorkouts[i] = { ...result.data };
+        break;
+      }
+    }
+
+    if (authUser) {
+      updateDoc(doc(db, 'users', authUser.uid), {
+        createdWorkouts: authUser.createdWorkouts,
       })
-      .catch((error) => {
-        handleAlertOpen({
-          heading: 'Error',
-          body: error,
-          variant: 'danger',
+        .then(() => {
+          handleAlertOpen({
+            heading: 'Success!',
+            body: `${result.data.name} was updated in your workout list. Redirecting...`,
+            variant: 'success',
+          });
+          setTimeout(() => {
+            router.push('/userworkouts');
+          }, 3000);
+        })
+        .catch((error) => {
+          handleAlertOpen({
+            heading: 'Error',
+            body: `${error.name}: ${error.code}`,
+            variant: 'danger',
+          });
         });
-      });
+    }
   };
 
   const displayAlert = ({ heading, body, variant }) => {
@@ -277,7 +292,7 @@ function WorkoutForm() {
         <h2>Editing {workout.name}</h2>
       </div>
 
-      <Form onSubmit={handleSubmit} action="/api/workout" method="post">
+      <Form onSubmit={handleSubmit} action="/apiwout" method="post">
         <div className="mt-3 mb-3">
           <Form.Label>Enter workout name:</Form.Label>
           <Form.Control
@@ -337,7 +352,7 @@ function WorkoutForm() {
         {displayAlert(isAlertActive)}
 
         <div className={`mt-3 ${styles.buttongroup}`}>
-          <Link href="/workouts" passHref>
+          <Link href="/userworkouts" passHref>
             <Button variant="secondary" size="lg">
               Cancel
             </Button>
@@ -352,7 +367,6 @@ function WorkoutForm() {
         show={isAddExerciseModalOpen}
         onClose={handleAddExerciseModalClose}
         list={exercises}
-        selected={selectedExercise}
         setSelectedExercise={setSelectedExercise}
       />
 

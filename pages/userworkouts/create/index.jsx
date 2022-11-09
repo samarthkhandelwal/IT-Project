@@ -12,12 +12,11 @@ import Form from 'react-bootstrap/Form';
 // Firebase
 import {
   collection,
-  updateDoc,
   query,
   orderBy,
   getDocs,
-  getDoc,
   doc,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
@@ -31,12 +30,15 @@ import TopNavbar from '../../../components/Navbar/Navbar';
 // Styles
 import styles from '../../../styles/WorkoutForms/WorkoutForm.module.css';
 
+// Authentication
+import { useAuth } from '../../../context/authUserContext';
+
 // Get reference to exercises and workouts collections
 const exercisesCollectionRef = collection(db, 'exercises');
 
 function WorkoutForm() {
   const router = useRouter();
-  const { id } = router.query;
+  const { authUser } = useAuth();
 
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
@@ -60,14 +62,8 @@ function WorkoutForm() {
   /* Used to store a list of the exercises that can be included in the workout */
   const [exercises, setExercises] = useState(undefined);
 
-  /* Stores the current workout being edited. */
-  const [workout, setWorkout] = useState({});
-
   /* Used to store the selected exercise in the 'Add new exercise' modal */
   const [selectedExercise, setSelectedExercise] = useState({});
-
-  /* Keeps track of which index the exercise is in the workout */
-  const index = useRef(0);
 
   useEffect(() => {
     const getExercises = async () => {
@@ -76,36 +72,14 @@ function WorkoutForm() {
       setExercises(data.docs.map((d) => ({ ...d.data(), id: d.id })));
     };
 
-    const getWorkout = async () => {
-      if (router.isReady) {
-        const workoutDoc = await getDoc(doc(db, 'workouts', id));
-        if (workoutDoc.exists()) {
-          setWorkout(workoutDoc.data());
-        }
-      }
-    };
-
-    const loadExerciseGroups = () => {
-      const newGroups = [];
-      if (workout.exercises) {
-        for (let i = 0; i < workout.exercises.length; i += 1) {
-          newGroups.push({ ...workout.exercises[i], index: i });
-        }
-        index.current = workout.exercises.length;
-      }
-      setExerciseGroups(newGroups);
-    };
-
-    if (!isFirstLoad.current || workout !== undefined) {
+    if (!isFirstLoad.current) {
       getExercises();
-      getWorkout();
       isFirstLoad.current = true;
     }
+  }, []);
 
-    if (isFirstLoad.current) {
-      loadExerciseGroups();
-    }
-  }, [id, router.isReady, workout]);
+  /* Keeps track of which index the exercise is in the workout */
+  const index = useRef(0);
 
   const updateExercises = (ex) => {
     setExerciseGroups(exerciseGroups.concat(ex));
@@ -197,20 +171,19 @@ function WorkoutForm() {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
 
-    const [exercisesList, muscleGroups] = getRepsSetsMuscles();
+    const [exercisesList, muscleGroups] = getRepsSetsMuscles(event.target);
 
-    /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
       imgSrc: event.target.workoutImgSrc.value,
       imgAlt: event.target.workoutImgAlt.value,
       muscleGroups,
       exercises: exercisesList,
-      id,
+      id: `${authUser.uid}-${event.target.workoutName.value}`,
     };
 
     /* Send the form data to the API and get a response */
-    const response = await fetch('/api/workout', {
+    const response = await fetch('/api/userworkout', {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
@@ -229,27 +202,37 @@ function WorkoutForm() {
       return;
     }
 
-    updateDoc(doc(db, 'workouts', id), result.data)
-      .then(() => {
-        handleAlertOpen({
-          heading: 'Success!',
-          body: `${result.data.name} was updated in the workout list. Redirecting...`,
-          variant: 'success',
-        });
-        setTimeout(() => {
-          router.push('/workouts');
-        }, 3000);
+    if (authUser) {
+      if (authUser.createdWorkouts === undefined) {
+        authUser.createdWorkouts = [result.data];
+      } else {
+        authUser.createdWorkouts.push(result.data);
+      }
+      updateDoc(doc(db, 'users', authUser.uid), {
+        createdWorkouts: authUser.createdWorkouts,
       })
-      .catch((error) => {
-        handleAlertOpen({
-          heading: 'Error',
-          body: error,
-          variant: 'danger',
+        .then(() => {
+          handleAlertOpen({
+            heading: 'Success!',
+            body: `${result.data.name} was added to your workout list. Redirecting...`,
+            variant: 'success',
+          });
+          setTimeout(() => {
+            router.push('/userworkouts');
+          }, 3000);
+        })
+        .catch((error) => {
+          handleAlertOpen({
+            heading: 'Error',
+            body: `${error.name}: ${error.code}`,
+            variant: 'danger',
+          });
         });
-      });
+    }
   };
 
   const displayAlert = ({ heading, body, variant }) => {
+    // TODO: Check if dismissible on error
     if (heading && body && variant) {
       return (
         <CustomAlert
@@ -274,16 +257,16 @@ function WorkoutForm() {
   return (
     <div className={styles.form}>
       <div>
-        <h2>Editing {workout.name}</h2>
+        <h2>Creating new user workout</h2>
       </div>
 
-      <Form onSubmit={handleSubmit} action="/api/workout" method="post">
+      <Form onSubmit={handleSubmit} action="/api/userworkout" method="post">
         <div className="mt-3 mb-3">
           <Form.Label>Enter workout name:</Form.Label>
           <Form.Control
             id="workoutName"
             type="text"
-            defaultValue={workout.name}
+            placeholder="Enter workout name"
           />
         </div>
 
@@ -292,7 +275,7 @@ function WorkoutForm() {
           <Form.Control
             id="workoutImgSrc"
             type="url"
-            defaultValue={workout.imgSrc}
+            placeholder="Enter image URL"
           />
         </Form.Group>
 
@@ -301,7 +284,7 @@ function WorkoutForm() {
           <Form.Control
             id="workoutImgAlt"
             type="text"
-            defaultValue={workout.imgAlt}
+            placeholder="Enter image alt (in case the image doesn't load)"
           />
         </Form.Group>
 
@@ -337,7 +320,7 @@ function WorkoutForm() {
         {displayAlert(isAlertActive)}
 
         <div className={`mt-3 ${styles.buttongroup}`}>
-          <Link href="/workouts" passHref>
+          <Link href="/userworkouts" passHref>
             <Button variant="secondary" size="lg">
               Cancel
             </Button>
@@ -352,7 +335,6 @@ function WorkoutForm() {
         show={isAddExerciseModalOpen}
         onClose={handleAddExerciseModalClose}
         list={exercises}
-        selected={selectedExercise}
         setSelectedExercise={setSelectedExercise}
       />
 
