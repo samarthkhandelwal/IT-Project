@@ -124,7 +124,7 @@ function ExerciseForm() {
       return checkboxColumns;
     };
 
-    if (!isFirstLoad.current) {
+    if (!isFirstLoad.current && id !== undefined) {
       getExercise();
       isFirstLoad.current = true;
     }

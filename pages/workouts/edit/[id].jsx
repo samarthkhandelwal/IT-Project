@@ -92,7 +92,7 @@ function WorkoutForm() {
       setExerciseGroups(newGroups);
     };
 
-    if (!isFirstLoad.current) {
+    if (!isFirstLoad.current && id !== undefined) {
       getExercises();
       getWorkout();
       isFirstLoad.current = true;
@@ -347,6 +347,7 @@ function WorkoutForm() {
         show={isAddExerciseModalOpen}
         onClose={handleAddExerciseModalClose}
         list={exercises}
+        selected={selectedExercise}
         setSelectedExercise={setSelectedExercise}
       />
 
