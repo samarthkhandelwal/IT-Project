@@ -30,7 +30,7 @@ export default function SignInView({ show, setShow }) {
   return (
     <Offcanvas show={show} onHide={handleClose} placement="end">
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title />
+        <Offcanvas.Title>Sign In</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <div className={styles.container}>

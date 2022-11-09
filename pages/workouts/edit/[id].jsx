@@ -77,8 +77,12 @@ function WorkoutForm() {
     };
 
     const getWorkout = async () => {
-      const workoutDoc = await getDoc(doc(db, 'workouts', id));
-      setWorkout(workoutDoc.data());
+      if (router.isReady) {
+        const workoutDoc = await getDoc(doc(db, 'workouts', id));
+        if (workoutDoc.exists()) {
+          setWorkout(workoutDoc.data());
+        }
+      }
     };
 
     const loadExerciseGroups = () => {
@@ -92,7 +96,7 @@ function WorkoutForm() {
       setExerciseGroups(newGroups);
     };
 
-    if (!isFirstLoad.current) {
+    if (!isFirstLoad.current || workout !== undefined) {
       getExercises();
       getWorkout();
       isFirstLoad.current = true;
@@ -101,7 +105,7 @@ function WorkoutForm() {
     if (isFirstLoad.current) {
       loadExerciseGroups();
     }
-  }, [id, workout.exercises]);
+  }, [id, router.isReady, workout]);
 
   const updateExercises = (ex) => {
     setExerciseGroups(exerciseGroups.concat(ex));
@@ -348,6 +352,7 @@ function WorkoutForm() {
         show={isAddExerciseModalOpen}
         onClose={handleAddExerciseModalClose}
         list={exercises}
+        selected={selectedExercise}
         setSelectedExercise={setSelectedExercise}
       />
 
