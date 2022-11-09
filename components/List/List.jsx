@@ -90,7 +90,7 @@ export default function List({
                 name={listType}
                 value={element}
               >
-                {selected.name === element.name ? (
+                {selected && selected.name === element.name ? (
                   <SelectedElement
                     element={element}
                     type={type}

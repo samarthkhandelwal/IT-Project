@@ -21,6 +21,76 @@ import CustomToast from './CustomToast';
 // Authentication
 import { useAuth } from '../../context/authUserContext';
 
+// Makes either a button, or a dropdown button
+function AButton({ type, name, id, handleModalOpen }) {
+  if (type === 'exercise') {
+    return (
+      <DropdownButton title="...">
+        <Link href={`/exercises/edit/${id}`} passHref>
+          <Dropdown.Item>Edit {name}</Dropdown.Item>
+        </Link>
+        <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
+      </DropdownButton>
+    );
+  }
+
+  if (type === 'workout') {
+    return (
+      <DropdownButton title="...">
+        <Link href={`/workouts/edit/${id}`} passHref>
+          <Dropdown.Item>Edit {name}</Dropdown.Item>
+        </Link>
+        <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
+      </DropdownButton>
+    );
+  }
+
+  if (type === 'userworkout') {
+    return (
+      <DropdownButton title="...">
+        <Link href={`/userworkouts/edit/${id}`} passHref>
+          <Dropdown.Item>Edit {name}</Dropdown.Item>
+        </Link>
+        <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
+      </DropdownButton>
+    );
+  }
+}
+
+function DeleteModal({
+  name,
+  type,
+  isModalOpen,
+  handleModalClose,
+  handleDelete,
+}) {
+  return (
+    <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
+      <Modal.Header>
+        <Modal.Title>
+          {type === 'userworkout' ? (
+            <p>Delete your workout &#39;{name}&#39;?</p>
+          ) : (
+            <p>
+              Delete {type} &#39;{name}&#39;?
+            </p>
+          )}
+        </Modal.Title>
+      </Modal.Header>
+
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleModalClose}>
+          Close
+        </Button>
+
+        <Button variant="danger" onClick={handleDelete}>
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
 export default function EditButton({ type, id, name, onDelete }) {
   const { authUser } = useAuth();
   const router = useRouter();
@@ -42,6 +112,18 @@ export default function EditButton({ type, id, name, onDelete }) {
   };
 
   const handleDelete = () => {
+    // Hacky workaround since type was defaulting to workout in specific
+    // instances
+    if (router.pathname.includes('userworkouts')) {
+      const filtered = authUser.createdWorkouts.filter(
+        (workout) => workout.id !== id
+      );
+      authUser.createdWorkouts = filtered;
+      updateDoc(doc(db, 'users', authUser.uid), {
+        createdWorkouts: filtered,
+      });
+    }
+
     if (type === 'exercise') {
       deleteDoc(doc(db, 'exercises', id))
         .then(() => {
@@ -49,7 +131,6 @@ export default function EditButton({ type, id, name, onDelete }) {
             title: 'Success',
             body: `Successfully deleted ${name}.`,
           });
-          router.reload();
         })
         .catch((error) => {
           handleToastOpen({
@@ -66,7 +147,6 @@ export default function EditButton({ type, id, name, onDelete }) {
             title: 'Success',
             body: `Successfully deleted ${name}.`,
           });
-          router.reload();
         })
         .catch((error) => {
           handleToastOpen({
@@ -75,89 +155,8 @@ export default function EditButton({ type, id, name, onDelete }) {
           });
         });
     }
-
-    if (type === 'userworkout') {
-      const filtered = authUser.createdWorkouts.filter(
-        (workout) => workout.id !== id
-      );
-      authUser.createdWorkouts = filtered;
-      updateDoc(doc(db, 'users', authUser.uid), {
-        createdWorkouts: filtered,
-      });
-      router.reload();
-    }
     onDelete(id);
     handleModalClose();
-  };
-
-  // Makes either a button, or a dropdown button
-  const makeButton = (title) => {
-    if (title === 'exercise') {
-      return (
-        <DropdownButton title="...">
-          <Link href={`/exercises/edit/${id}`} passHref>
-            <Dropdown.Item>Edit {name}</Dropdown.Item>
-          </Link>
-          <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
-        </DropdownButton>
-      );
-    }
-
-    if (title === 'workout') {
-      return (
-        <DropdownButton title="...">
-          <Link href={`/workouts/edit/${id}`} passHref>
-            <Dropdown.Item>Edit {name}</Dropdown.Item>
-          </Link>
-          <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
-        </DropdownButton>
-      );
-    }
-
-    if (title === 'userworkout') {
-      return (
-        <DropdownButton title="...">
-          <Link href={`/userworkouts/edit/${id}`} passHref>
-            <Dropdown.Item>Edit {name}</Dropdown.Item>
-          </Link>
-          <Dropdown.Item onClick={handleModalOpen}>Delete {name}</Dropdown.Item>
-        </DropdownButton>
-      );
-    }
-
-    return null;
-  };
-
-  // Creates the modal only if there is an id.
-  const makeModal = (toShow) => {
-    if (toShow !== undefined) {
-      return (
-        <Modal show={isModalOpen} onHide={handleModalClose} centered size="lg">
-          <Modal.Header>
-            <Modal.Title>
-              {type === 'userworkout' ? (
-                <p>Delete your workout &#39;{name}&#39;?</p>
-              ) : (
-                <p>
-                  Delete {type} &#39;{name}&#39;?
-                </p>
-              )}
-            </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleModalClose}>
-              Close
-            </Button>
-
-            <Button variant="danger" onClick={handleDelete}>
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      );
-    }
-    return null;
   };
 
   // Creates the toast for deleting
@@ -177,8 +176,21 @@ export default function EditButton({ type, id, name, onDelete }) {
 
   return (
     <>
-      {makeButton(type)}
-      {makeModal(id)}
+      <AButton
+        type={type}
+        name={name}
+        id={id}
+        handleModalOpen={handleModalOpen}
+      />
+      {id !== undefined && (
+        <DeleteModal
+          name={name}
+          type={type}
+          isModalOpen={isModalOpen}
+          handleModalClose={handleModalClose}
+          handleDelete={handleDelete}
+        />
+      )}
       {makeToast(isToastActive)}
     </>
   );
