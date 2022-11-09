@@ -29,8 +29,9 @@ const usersCollectionRef = collection(db, 'users');
  * @param {*} element The exercise or a workout to display
  * @param {*} type The type of element, i.e. exercise or workout
  * @param {*} onDelete A function that handles how the exercise or workout is deleted from the database
+ * @param {*} onClick A function that handles when the element is clicked
  */
-export default function Element({ element, type, onDelete }) {
+export default function Element({ element, type, onDelete, onClick }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
   const starFilled = '/images/starFilled.png';
@@ -191,7 +192,7 @@ export default function Element({ element, type, onDelete }) {
   return (
     <>
       <Row className={styles.element}>
-        <Col xs={9}>
+        <Col xs={9} onClick={onClick}>
           <div className={styles.stxt}>
             <h1>{element.name}</h1>
             <p>{makeMuscles()}</p>
