@@ -1,17 +1,11 @@
 /* Contains the image and the text */
 /* Contains the image and the text */
 
-.element,
-.selement {
+.element {
   display: flex;
-  height: 14vh;
+  height: 115px;
   width: 25vw + 120px + 60px;
   padding: 0.5vw;
-}
-
-.selement {
-  margin: 0 auto;
-  justify-content: center;
 }
 
 .star {
@@ -50,8 +44,8 @@
 /* text in list */
 .txt {
   text-align: left;
-  width: 17vw;
-  margin-left: 1vw;
+  width: 15vw;
+  /* margin-left: 0.5vw; */
 }
 
 .txt h1 {
@@ -67,36 +61,10 @@
   margin-bottom: 0;
 }
 
-@media only screen and (max-width: 576px) {
-  .element {
-    display: flex;
-    width: 80vw;
-    min-width: fit-content;
-  }
-
-  .txt h1 {
-    font-size: x-large;
-    margin-top: 10px;
-    margin-left: 5px;
-    text-align: left;
-    text-overflow: ellipsis;
-    width: 40vw;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .txt p {
-    font-size: large;
-    font-style: italic;
-    font-weight: 300;
-    margin-left: 6px;
-    margin-bottom: 0;
-    text-align: left;
-    text-overflow: ellipsis;
-    width: 40vw;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+.thumbimg {
+  aspect-ratio: 1 / 1;
+  align-self: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 576px) {
@@ -104,29 +72,39 @@
     display: flex;
     width: 80vw;
     min-width: fit-content;
+    align-items: center;
+    height: 10vh;
   }
 
-  .txt h1 {
-    font-size: x-large;
+  .txt h1,
+  .stxt h1 {
+    font-size: large;
     margin-top: 10px;
     margin-left: 5px;
-    text-align: left;
     text-overflow: ellipsis;
     width: 40vw;
     overflow: hidden;
     white-space: nowrap;
   }
 
-  .txt p {
-    font-size: large;
+  .txt p,
+  .stxt p {
+    font-size: medium;
     font-style: italic;
     font-weight: 300;
     margin-left: 6px;
     margin-bottom: 0;
-    text-align: left;
     text-overflow: ellipsis;
     width: 40vw;
     overflow: hidden;
     white-space: nowrap;
+  }
+
+  .txt {
+    text-align: left;
+  }
+
+  .stxt {
+    text-align: center;
   }
 }

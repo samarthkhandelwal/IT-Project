@@ -20,9 +20,41 @@ import styles from '../../styles/Navbar.module.css';
 // User Authentication
 import { useAuth } from '../../context/authUserContext';
 
-export default function TopNavbar() {
+function NewLink() {
   const router = useRouter();
 
+  const { authUser } = useAuth();
+
+  if (authUser) {
+    if (authUser.role === 0 && router.pathname.includes('exercises')) {
+      return (
+        <Link href="/exercises/create" passHref>
+          <Nav.Link className={styles.item}>New exercise</Nav.Link>
+        </Link>
+      );
+    }
+
+    if (router.pathname.includes('userworkouts')) {
+      return (
+        <Link href="/userworkouts/create" passHref>
+          <Nav.Link className={styles.item}>New user workout</Nav.Link>
+        </Link>
+      );
+    }
+
+    if (authUser.role === 0 && router.pathname.includes('workouts')) {
+      return (
+        <Link href="/workouts/create" passHref>
+          <Nav.Link className={styles.item}>New workout</Nav.Link>
+        </Link>
+      );
+    }
+  }
+
+  return null;
+}
+
+export default function TopNavbar() {
   // State to keep track of whether to show sign in view
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
@@ -55,18 +87,13 @@ export default function TopNavbar() {
           </Nav>
 
           <Nav>
-            {authUser &&
-              (router.pathname.includes('exercises') ? (
-                <Link href="/exercises/create" passHref>
-                  <Nav.Link className={styles.item}>New exercise</Nav.Link>
-                </Link>
-              ) : (
-                <Link href="/workouts/create" passHref>
-                  <Nav.Link className={styles.item}>New workout</Nav.Link>
-                </Link>
-              ))}
+            <NewLink />
             <Nav.Link className={styles.item}>
-              <Nav onClick={handleShow}>Sign in</Nav>
+              {authUser === null ? (
+                <Nav onClick={handleShow}>Sign In</Nav>
+              ) : (
+                <Nav onClick={handleShow}>Profile</Nav>
+              )}
               {profileSignIn()}
             </Nav.Link>
           </Nav>
