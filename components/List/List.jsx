@@ -12,7 +12,7 @@ import styles from '../../styles/List.module.css';
 import SelectedElement from './SelectedElement';
 
 /**
- *
+ * Displays a list of exercises or workouts.
  * @param {*} list A list of either workouts or exercises
  * @param {*} listType Either "radio" or "checkbox".
  * @param {*} selected State of which elements are selected. if checkbox, must be an array.
