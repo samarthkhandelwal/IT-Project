@@ -74,59 +74,35 @@
     min-width: fit-content;
   }
 
-  .txt h1 {
+  .txt h1,
+  .stxt h1 {
     font-size: x-large;
     margin-top: 10px;
     margin-left: 5px;
-    text-align: left;
     text-overflow: ellipsis;
     width: 40vw;
     overflow: hidden;
     white-space: nowrap;
   }
 
-  .txt p {
+  .txt p,
+  .stxt p {
     font-size: large;
     font-style: italic;
     font-weight: 300;
     margin-left: 6px;
     margin-bottom: 0;
-    text-align: left;
-    text-overflow: ellipsis;
-    width: 40vw;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
-
-@media only screen and (max-width: 576px) {
-  .element {
-    display: flex;
-    width: 80vw;
-    min-width: fit-content;
-  }
-
-  .txt h1 {
-    font-size: x-large;
-    margin-top: 10px;
-    margin-left: 5px;
-    text-align: left;
     text-overflow: ellipsis;
     width: 40vw;
     overflow: hidden;
     white-space: nowrap;
   }
 
-  .txt p {
-    font-size: large;
-    font-style: italic;
-    font-weight: 300;
-    margin-left: 6px;
-    margin-bottom: 0;
+  .txt {
     text-align: left;
-    text-overflow: ellipsis;
-    width: 40vw;
-    overflow: hidden;
-    white-space: nowrap;
+  }
+
+  .stxt {
+    text-align: center;
   }
 }
