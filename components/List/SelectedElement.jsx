@@ -147,30 +147,14 @@ export default function Element({ element, type, onDelete }) {
         />
       );
     }
-
-    if (type === 'workouts') {
-      return (
-        <EditButton
-          type="workout"
-          id={element.id}
-          name={element.name}
-          onDelete={onDelete}
-        />
-      );
-    }
-
-    if (type.includes('user')) {
-      return (
-        <EditButton
-          type="user"
-          id={element.id}
-          name={element.name}
-          onDelete={onDelete}
-        />
-      );
-    }
-
-    return null;
+    return (
+      <EditButton
+        type="workout"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
   };
 
   const makeMuscles = () => {
