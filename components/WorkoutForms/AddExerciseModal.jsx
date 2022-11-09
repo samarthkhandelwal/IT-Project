@@ -12,6 +12,7 @@ export default function AddExerciseModal({
   show,
   onClose,
   list,
+  selected,
   setSelectedExercise,
 }) {
   return (
@@ -27,7 +28,8 @@ export default function AddExerciseModal({
           <List
             list={list}
             listType="radio"
-            type="exercises"
+            type="edit"
+            selected={selected}
             setSelected={setSelectedExercise}
           />
         )}

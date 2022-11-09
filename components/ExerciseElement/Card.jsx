@@ -10,6 +10,10 @@ import Video from '../Video/Video';
 // Styles
 import styles from '../../styles/List.module.css';
 
+/**
+ * Card that displays information about the selected exercise.
+ * @param {*} selectedExercise The exercise that is being displayed
+ */
 export default function Card({ selectedExercise }) {
   if (selectedExercise !== undefined) {
     return (

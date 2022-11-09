@@ -31,7 +31,6 @@ export default function Element({ element, type, onDelete, testAuth }) {
 
   /* Authenticate users for favourites */
   const { authUser } = useAuth();
-
   const [currUser, setCurrUser] = useState(null);
   useEffect(() => {
     if (testAuth !== undefined) {
@@ -187,24 +186,25 @@ export default function Element({ element, type, onDelete, testAuth }) {
         <h1>{element.name}</h1>
         <p>{makeMuscles()}</p>
       </div>
+      {type !== 'edit' && (
+        <div className={styles.buttons}>
+          <div className={styles.star}>
+            <form>
+              <input
+                title="favourite"
+                type="image"
+                src={imgPath}
+                alt="star"
+                width={28}
+                height={28}
+                onClick={toggleStar}
+              />
+            </form>
+          </div>
 
-      <div className={styles.buttons}>
-        <div className={styles.star}>
-          <form>
-            <input
-              title="favourite"
-              type="image"
-              src={imgPath}
-              alt="star"
-              width={28}
-              height={28}
-              onClick={toggleStar}
-            />
-          </form>
+          {allowEditing && <div className={styles.star}>{makeButton()}</div>}
         </div>
-
-        {allowEditing && <div className={styles.star}>{makeButton()}</div>}
-      </div>
+      )}
       <SignInView show={show} setShow={setShow} />
     </div>
   );
