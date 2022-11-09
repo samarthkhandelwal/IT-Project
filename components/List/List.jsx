@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // React
 import React, { useState } from 'react';
 
@@ -12,7 +13,7 @@ import styles from '../../styles/List.module.css';
 import SelectedElement from './SelectedElement';
 
 /**
- *
+ * Displays a list of exercises or workouts.
  * @param {*} list A list of either workouts or exercises
  * @param {*} listType Either "radio" or "checkbox".
  * @param {*} selected State of which elements are selected. if checkbox, must be an array.
@@ -37,19 +38,39 @@ export default function List({
   // State to keep track of the search input
   const [searchInput, setSearchInput] = useState('');
 
-  // When searchInput is changed, filteredList updates to only contain elements with names including searchInput
+  // State to keep track of filter input
+  const [filterInput, setFilterInput] = useState('');
+
+  // State to hold which muscle groups are necessary in the filter dropdown
+  const [muscleGroups, setMuscleGroups] = useState([]);
+  muscleGroups.sort();
+
+  // When searchInput is changed, filteredList updates to only contain elements with names including searchInput and musclegroups including filterInput
   const filteredList = list.filter((item) => {
-    if (searchInput === '') {
-      return item;
-    }
-    return item.name.toLowerCase().includes(searchInput);
+    const searchFilter =
+      searchInput === '' ? true : item.name.toLowerCase().includes(searchInput);
+    const muscleGroupFilter =
+      filterInput === '' || filterInput === 'Filter'
+        ? true
+        : item.muscleGroups.includes(filterInput);
+
+    return searchFilter && muscleGroupFilter;
+  });
+
+  filteredList.forEach((element) => {
+    element.muscleGroups.forEach((muscleGroup) => {
+      if (!muscleGroups.includes(muscleGroup)) {
+        setMuscleGroups([...muscleGroups, muscleGroup]);
+      }
+    });
   });
 
   return (
     <div>
       <SearchFilterBar
-        searchInput={searchInput}
         setSearchInput={setSearchInput}
+        setFilterInput={setFilterInput}
+        muscleGroups={muscleGroups}
       />
       <div className={styles.scrollableContainer}>
         <ToggleButtonGroup
@@ -59,8 +80,10 @@ export default function List({
           vertical
           name="button-list"
         >
-          {filteredList.length === 0 ? (
+          {filteredList.length === 0 && type !== 'edit' ? (
             <h3>No {type} available</h3>
+          ) : filteredList.length === 0 && type !== 'edit' ? (
+            <h3>No exercise available</h3>
           ) : (
             filteredList.map((element) => (
               <ToggleButton

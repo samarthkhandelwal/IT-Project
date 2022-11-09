@@ -33,7 +33,6 @@ export default function Element({ element, type, onDelete, testAuth }) {
 
   /* Authenticate users for favourites */
   const { authUser } = useAuth();
-
   const [currUser, setCurrUser] = useState(null);
   useEffect(() => {
     if (testAuth !== undefined) {
@@ -205,8 +204,8 @@ export default function Element({ element, type, onDelete, testAuth }) {
                 type="image"
                 src={imgPath}
                 alt="star"
-                width={50}
-                height={50}
+                width={40}
+                height={40}
                 onClick={toggleStar}
               />
             </form>
