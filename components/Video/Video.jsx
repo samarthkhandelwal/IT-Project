@@ -17,8 +17,6 @@ export default function Video({ videoURL, titleAlt }) {
       <iframe
         width="100%"
         height="100%"
-        objectFit="cover"
-        objectPosition="top"
         src={
           videoURL != null
             ? `https://www.youtube.com/embed/${verifyURL(videoURL)}`

@@ -166,34 +166,34 @@ export default function Element({ element, type, onDelete }) {
 
   return (
     <>
-    <Row className={styles.element}>
-      <Col xs={9}>
-        <div className={styles.stxt}>
-          <h1>{element.name}</h1>
-          <p>{makeMuscles()}</p>
-        </div>
-      </Col>
+      <Row className={styles.element}>
+        <Col xs={9}>
+          <div className={styles.stxt}>
+            <h1>{element.name}</h1>
+            <p>{makeMuscles()}</p>
+          </div>
+        </Col>
 
-      <Col xs={3}>
-        <div className={styles.star}>
-          <form>
-            <input
-              title="favourite"
-              type="image"
-              src={imgPath}
-              alt="star"
-              width={50}
-              height={50}
-              onClick={toggleStar}
-            />
-          </form>
-        </div>
+        <Col xs={3}>
+          <div className={styles.star}>
+            <form>
+              <input
+                title="favourite"
+                type="image"
+                src={imgPath}
+                alt="star"
+                width={50}
+                height={50}
+                onClick={toggleStar}
+              />
+            </form>
+          </div>
 
-        {allowEditing && <div className={styles.star}>{makeButton()}</div>}
-      </Col>
-    </Row>
+          {allowEditing && <div className={styles.star}>{makeButton()}</div>}
+        </Col>
+      </Row>
 
-    <SignInView show={show} setShow={setShow} />
-  </>
+      <SignInView show={show} setShow={setShow} />
+    </>
   );
 }
