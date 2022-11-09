@@ -1,17 +1,11 @@
 /* Contains the image and the text */
 /* Contains the image and the text */
 
-.element,
-.selement {
+.element {
   display: flex;
   height: 115px;
   width: 25vw + 120px + 60px;
   padding: 0.5vw;
-}
-
-.selement {
-  margin: 0 auto;
-  justify-content: center;
 }
 
 .star {

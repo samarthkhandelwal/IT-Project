@@ -166,7 +166,7 @@ export default function Element({ element, type, onDelete }) {
 
   return (
     <>
-    <Row className={styles.selement}>
+    <Row className={styles.element}>
       <Col xs={9}>
         <div className={styles.stxt}>
           <h1>{element.name}</h1>
