@@ -49,6 +49,22 @@ export default function ProfileView({ show, setShow }) {
                 </Link>
               </div>
 
+              {authUser.role === 0 && (
+                <>
+                  <div className={styles.card}>
+                    <Link href="/admin/add" className={styles.card}>
+                      <p>Add admin</p>
+                    </Link>
+                  </div>
+
+                  <div className={styles.card}>
+                    <Link href="/admin/remove" className={styles.card}>
+                      <p>Remove admin</p>
+                    </Link>
+                  </div>
+                </>
+              )}
+
               {/* Waiting for email/pword sign in */}
               {/* <div>
                   <Nav.Link className={styles.card}>
