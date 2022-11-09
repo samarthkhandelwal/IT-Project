@@ -4,7 +4,8 @@
 import React, { useState, useEffect } from 'react';
 
 // Next components
-import Image from 'next/image';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 // Firebase
 import { collection, updateDoc, doc } from 'firebase/firestore';
@@ -172,29 +173,35 @@ export default function Element({ element, type, onDelete }) {
   };
 
   return (
-    <div className={styles.selement}>
-      <div className={styles.stxt}>
-        <h1>{element.name}</h1>
-        <p>{makeMuscles()}</p>
-      </div>
-      {type !== 'edit' && (
-        <div className={styles.buttons}>
+    <>
+      <Row className={styles.element}>
+        <Col xs={9}>
+          <div className={styles.stxt}>
+            <h1>{element.name}</h1>
+            <p>{makeMuscles()}</p>
+          </div>
+        </Col>
+
+        <Col xs={3}>
           <div className={styles.star}>
             <form>
-              <Image
+              <input
+                title="favourite"
+                type="image"
                 src={imgPath}
                 alt="star"
-                width={50}
-                height={50}
+                width={40}
+                height={40}
                 onClick={toggleStar}
               />
             </form>
           </div>
 
           {allowEditing && <div className={styles.star}>{makeButton()}</div>}
-        </div>
-      )}
+        </Col>
+      </Row>
+
       <SignInView show={show} setShow={setShow} />
-    </div>
+    </>
   );
 }
