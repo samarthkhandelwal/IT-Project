@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // React
 import React, { useState } from 'react';
 
@@ -17,7 +18,7 @@ import SelectedElement from './SelectedElement';
  * @param {*} listType Either "radio" or "checkbox".
  * @param {*} selected State of which elements are selected. if checkbox, must be an array.
  * @param {*} setSelected The function that sets the state of selected
- * @param {*} type Either "exercises", "workouts", or "user workouts"
+ * @param {*} type Either "exercises", "workouts", or "user" (for user workouts).
  * @param {*} onDelete The callback function to handle an element being deleted from the list.
  * @returns
  */
@@ -80,7 +81,11 @@ export default function List({
           name="button-list"
         >
           {filteredList.length === 0 ? (
-            <h3>No {type} available</h3>
+            type === 'user' ? (
+              <h3>No user workouts available</h3>
+            ) : (
+              <h3>No {type} available</h3>
+            )
           ) : (
             filteredList.map((element) => (
               <ToggleButton
