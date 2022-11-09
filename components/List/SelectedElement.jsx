@@ -1,8 +1,11 @@
+// istanbul ignore file
+
 // React
 import React, { useState, useEffect } from 'react';
 
 // Next components
-import Image from 'next/image';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 // Firebase
 import { collection, updateDoc, doc } from 'firebase/firestore';
@@ -21,6 +24,12 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
+/**
+ * A special component to display the selected element different to the others
+ * @param {*} element The exercise or a workout to display
+ * @param {*} type The type of element, i.e. exercise or workout
+ * @param {*} onDelete A function that handles how the exercise or workout is deleted from the database
+ */
 export default function Element({ element, type, onDelete }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
@@ -145,14 +154,30 @@ export default function Element({ element, type, onDelete }) {
         />
       );
     }
-    return (
-      <EditButton
-        type="workout"
-        id={element.id}
-        name={element.name}
-        onDelete={onDelete}
-      />
-    );
+
+    if (type === 'workouts') {
+      return (
+        <EditButton
+          type="workout"
+          id={element.id}
+          name={element.name}
+          onDelete={onDelete}
+        />
+      );
+    }
+
+    if (type.includes('user')) {
+      return (
+        <EditButton
+          type="user"
+          id={element.id}
+          name={element.name}
+          onDelete={onDelete}
+        />
+      );
+    }
+
+    return null;
   };
 
   const makeMuscles = () => {
@@ -164,30 +189,35 @@ export default function Element({ element, type, onDelete }) {
   };
 
   return (
-    <div className={styles.selement}>
-      <div className={styles.stxt}>
-        <h1>{element.name}</h1>
-        <p>{makeMuscles()}</p>
-      </div>
+    <>
+      <Row className={styles.element}>
+        <Col xs={9}>
+          <div className={styles.stxt}>
+            <h1>{element.name}</h1>
+            <p>{makeMuscles()}</p>
+          </div>
+        </Col>
 
-      <div className={styles.buttons}>
-        <div className={styles.star}>
-          <form>
-            <Image
-              src={imgPath}
-              alt="star"
-              width={50}
-              height={50}
-              onClick={toggleStar}
-            />
-          </form>
-        </div>
+        <Col xs={3}>
+          <div className={styles.star}>
+            <form>
+              <input
+                title="favourite"
+                type="image"
+                src={imgPath}
+                alt="star"
+                width={40}
+                height={40}
+                onClick={toggleStar}
+              />
+            </form>
+          </div>
 
-        {allowEditing !== undefined && (
-          <div className={styles.star}>{makeButton()}</div>
-        )}
-      </div>
+          {allowEditing && <div className={styles.star}>{makeButton()}</div>}
+        </Col>
+      </Row>
+
       <SignInView show={show} setShow={setShow} />
-    </div>
+    </>
   );
 }

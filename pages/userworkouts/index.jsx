@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Bootstrap components
 import Col from 'react-bootstrap/Col';
@@ -10,10 +10,6 @@ import Button from 'react-bootstrap/Button';
 
 // Next components
 import Image from 'next/image';
-
-// Firebase
-import { getDocs, collection, query, orderBy, limit } from 'firebase/firestore';
-import { db } from '../../firebase-config';
 
 // Custom components
 import List from '../../components/List/List';
@@ -26,9 +22,6 @@ import styles from '../../styles/Workouts/Workouts.module.css';
 // Authentication
 import { useAuth } from '../../context/authUserContext';
 
-// Get reference to workouts collection
-const workoutsCollectionRef = collection(db, 'workouts');
-
 export default function WorkoutsPage({ testData }) {
   const [workoutList, setWorkoutList] = useState([]);
   const { authUser } = useAuth();
@@ -36,50 +29,26 @@ export default function WorkoutsPage({ testData }) {
   const [selectedWorkout, setSelectedWorkout] = useState();
   const [workouts, setWorkouts] = useState([]);
 
-  /* Used to ensure the database is only accessed once */
-  const isFirstLoad = useRef(false);
-
   /* Only render Card if innerWidth > 576px (small breakpoint) */
   const [toRenderCard, setRenderCard] = useState(true);
 
   useEffect(() => {
-    const getWorkouts = async () => {
-      const q = query(workoutsCollectionRef, orderBy('name'), limit(10));
-      const data = await getDocs(q);
-      setWorkouts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
-    if (!isFirstLoad.current && testData === undefined) {
-      getWorkouts();
-      isFirstLoad.current = true;
-    }
-
-    if (!isFirstLoad.current && testData !== undefined) {
+    if (testData !== undefined) {
       setWorkouts(testData);
-      isFirstLoad.current = true;
     }
 
-    if (isFirstLoad.current) {
-      if (authUser) {
-        const favs = workouts.filter((doc) =>
-          authUser.favouriteWorkouts.includes(doc.id)
-        );
-        const unfavs = workouts.filter(
-          (doc) => !authUser.favouriteWorkouts.includes(doc.id)
-        );
-        const finalList = favs.concat(unfavs);
-        setSelectedWorkout(finalList[0]);
-        setWorkoutList(finalList);
-      } else {
-        setSelectedWorkout(workouts[0]);
-        setWorkoutList(workouts);
-      }
+    if (authUser) {
+      const createdWorkouts =
+        authUser.createdWorkouts !== undefined ? authUser.createdWorkouts : [];
+      setWorkouts(createdWorkouts);
+      setSelectedWorkout(createdWorkouts[0]);
+      setWorkoutList(createdWorkouts);
     }
 
     if (window.innerWidth < 576) {
       setRenderCard(false);
     }
-  }, [authUser, workouts, testData]);
+  }, [authUser, testData]);
 
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -105,21 +74,21 @@ export default function WorkoutsPage({ testData }) {
   return (
     <>
       <TopNavbar />
-      <Container fluid className={styles.container}>
+
+      <Container className={styles.container}>
         <Row>
           {toRenderCard && (
-            <Col sm={7}>
+            <Col xs={6}>
               {selectedWorkout != null && (
                 <div className={styles.imgcontainer}>
                   <Image
                     src={selectedWorkout.imgSrc}
                     alt={selectedWorkout.imgAlt}
                     width="100%"
-                    height="66.95vh"
+                    height="70%"
                     layout="responsive"
-                    objectFit="cover"
-                    objectPosition="top"
-                    style={{ aspectRatio: 16 / 9 }}
+                    object-fit="cover"
+                    style={{ width: '100%', height: '48vh' }}
                   />
                   <div className={styles.textblock}>
                     <h1>{selectedWorkout.name}</h1>
@@ -130,21 +99,21 @@ export default function WorkoutsPage({ testData }) {
 
               {selectedWorkout != null && (
                 <div>
-                  <div className={styles.workoutlist}>
+                  <main className={styles.workoutlist}>
                     <WorkoutList exerciseList={selectedWorkout.exercises} />
-                  </div>
+                  </main>
                 </div>
               )}
             </Col>
           )}
 
-          <Col sm={5}>
+          <Col>
             <List
               list={workoutList}
               listType="radio"
               selected={selectedWorkout}
               setSelected={onClick}
-              type="workouts"
+              type="user"
               onDelete={onDelete}
             />
           </Col>

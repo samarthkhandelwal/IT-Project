@@ -16,7 +16,7 @@ export default function Video({ videoURL, titleAlt }) {
     <div className={styles.video}>
       <iframe
         width="100%"
-        height="300vh"
+        height="100%"
         src={
           videoURL != null
             ? `https://www.youtube.com/embed/${verifyURL(videoURL)}`

@@ -1,5 +1,7 @@
 // React
 import React, { useState, useEffect } from 'react';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 // Next components
 import Image from 'next/image';
@@ -31,7 +33,6 @@ export default function Element({ element, type, onDelete, testAuth }) {
 
   /* Authenticate users for favourites */
   const { authUser } = useAuth();
-
   const [currUser, setCurrUser] = useState(null);
   useEffect(() => {
     if (testAuth !== undefined) {
@@ -154,14 +155,30 @@ export default function Element({ element, type, onDelete, testAuth }) {
         />
       );
     }
-    return (
-      <EditButton
-        type="workout"
-        id={element.id}
-        name={element.name}
-        onDelete={onDelete}
-      />
-    );
+
+    if (type === 'workouts') {
+      return (
+        <EditButton
+          type="workout"
+          id={element.id}
+          name={element.name}
+          onDelete={onDelete}
+        />
+      );
+    }
+
+    if (type.includes('user')) {
+      return (
+        <EditButton
+          type="user"
+          id={element.id}
+          name={element.name}
+          onDelete={onDelete}
+        />
+      );
+    }
+
+    return null;
   };
 
   const makeMuscles = () => {
@@ -173,39 +190,48 @@ export default function Element({ element, type, onDelete, testAuth }) {
   };
 
   return (
-    <div className={styles.element}>
-      <Image
-        src={element.imgSrc}
-        alt={element.imgAlt}
-        width={100}
-        height={100}
-        objectFit="cover"
-        objectPosition="top"
-      />
-
-      <div className={styles.txt}>
-        <h1>{element.name}</h1>
-        <p>{makeMuscles()}</p>
-      </div>
-
-      <div className={styles.buttons}>
-        <div className={styles.star}>
-          <form>
-            <input
-              title="favourite"
-              type="image"
-              src={imgPath}
-              alt="star"
-              width={28}
-              height={28}
-              onClick={toggleStar}
+    <>
+      <Row className={styles.element}>
+        <Col xs={3}>
+          <div className={styles.thumbimg}>
+            <Image
+              src={element.imgSrc}
+              alt={element.imgAlt}
+              width="100%"
+              height="100%"
+              objectFit="cover"
+              objectPosition="top"
             />
-          </form>
-        </div>
+          </div>
+        </Col>
 
-        {allowEditing && <div className={styles.star}>{makeButton()}</div>}
-      </div>
+        <Col xs={6}>
+          <div className={styles.txt}>
+            <h1>{element.name}</h1>
+            <p>{makeMuscles()}</p>
+          </div>
+        </Col>
+
+        <Col xs={3}>
+          <div className={styles.star}>
+            <form>
+              <input
+                title="favourite"
+                type="image"
+                src={imgPath}
+                alt="star"
+                width={40}
+                height={40}
+                onClick={toggleStar}
+              />
+            </form>
+          </div>
+
+          {allowEditing && <div className={styles.star}>{makeButton()}</div>}
+        </Col>
+      </Row>
+
       <SignInView show={show} setShow={setShow} />
-    </div>
+    </>
   );
 }
