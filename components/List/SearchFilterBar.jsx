@@ -8,6 +8,12 @@ import InputGroup from 'react-bootstrap/InputGroup';
 // Styles
 import styles from '../../styles/Search.module.css';
 
+/**
+ * A Search and Filter bar to manipulate what the list component shows
+ * @param {*} setFilterInput function to set the state of filterInput
+ * @param {*} setSearchInput function to set the state of searchInput
+ * @param {*} muscleGroups A list of musclegroups to allow the user to filter elements by musclegroup
+ */
 export default function SearchFilterBar({
   setFilterInput,
   setSearchInput,
