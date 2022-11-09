@@ -196,8 +196,8 @@ export default function Element({ element, type, onDelete, testAuth }) {
               type="image"
               src={imgPath}
               alt="star"
-              width={28}
-              height={28}
+              width={50}
+              height={50}
               onClick={toggleStar}
             />
           </form>
