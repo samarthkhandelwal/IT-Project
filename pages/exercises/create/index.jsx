@@ -38,10 +38,6 @@ function ExerciseForm() {
   /* Handles the state of the checkboxes */
   const [checkboxes, setCheckboxes] = useState([]);
 
-  /* Handles state for validation of form */
-  // TODO: Form validation
-  // const [validated, setValidated] = useState(false);
-
   /* Handles state for the alert */
   const [isAlertActive, setAlertActive] = useState({});
   const handleAlertOpen = ({ heading, body, variant }) => {
@@ -52,7 +48,7 @@ function ExerciseForm() {
   };
 
   /* Used to manage the list of chosen muscle groups in the form */
-  const chosenMuscleGroups = useRef([]);
+  const [chosenMuscleGroups, setChosenMuscleGroups] = useState([]);
 
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
@@ -66,13 +62,14 @@ function ExerciseForm() {
     }
 
     const updateChosenMuscles = (ex) => {
-      if (chosenMuscleGroups.current.includes(ex.target.value)) {
-        const filtered = chosenMuscleGroups.current.filter(
+      if (chosenMuscleGroups.includes(ex.target.value)) {
+        const filtered = chosenMuscleGroups.filter(
           (i) => i !== ex.target.value
         );
-        chosenMuscleGroups.current = filtered;
+        setChosenMuscleGroups(filtered);
       } else {
-        chosenMuscleGroups.current.push(ex.target.value);
+        chosenMuscleGroups.push(ex.target.value);
+        setChosenMuscleGroups(chosenMuscleGroups);
       }
     };
 
@@ -90,13 +87,12 @@ function ExerciseForm() {
                 id="exerciseMuscleGroups"
                 value={name}
                 label={name}
-                key={name}
+                key={`${mId}-${name}`}
                 onChange={updateChosenMuscles}
               />
             </div>
           );
         }
-        /* TODO: This is still giving unique key errors, not sure why. */
         checkboxColumns.push(
           <Col key={group}>
             <b>{group}</b>
@@ -111,14 +107,13 @@ function ExerciseForm() {
       setCheckboxes(makeCheckboxes);
       isFirstLoad.current = true;
     }
-  }, [authUser, isFirstLoad, router]);
+  }, [authUser, chosenMuscleGroups, router]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
 
-    /* TODO: Implement image uploading */
     const data = {
       name: event.target.exerciseName.value,
       videoURL: event.target.exerciseURL.value,
@@ -126,7 +121,7 @@ function ExerciseForm() {
       equipment: event.target.exerciseEquipment.value,
       imgSrc: event.target.exerciseImgSrc.value,
       imgAlt: event.target.exerciseImgAlt.value,
-      muscleGroups: chosenMuscleGroups.current,
+      muscleGroups: chosenMuscleGroups,
     };
 
     /* Send the form data to the API and get a response */
@@ -161,7 +156,6 @@ function ExerciseForm() {
   };
 
   const displayAlert = ({ heading, body, variant }) => {
-    // TODO: Check if dismissible on error
     if (heading && body && variant) {
       return (
         <CustomAlert
@@ -257,7 +251,6 @@ export default function CreateExercise() {
   return (
     <>
       <TopNavbar />
-      {/* TODO: Preview of changes on side? */}
       <div className={styles.main}>
         <ExerciseForm />
       </div>

@@ -41,10 +41,6 @@ function ExerciseForm() {
   /* Handles state for the checkboxes */
   const [checkboxes, setCheckboxes] = useState([]);
 
-  /* Handles state for validation of form */
-  // TODO: Form validation
-  // const [validated, setValidated] = useState(false);
-
   /* Handles state for the alert */
   const [isAlertActive, setAlertActive] = useState({});
   const handleAlertOpen = ({ heading, body, variant }) => {
@@ -55,7 +51,7 @@ function ExerciseForm() {
   };
 
   /* Used to manage the list of chosen muscle groups in the form */
-  const chosenMuscleGroups = useRef([]);
+  const [chosenMuscleGroups, setChosenMuscleGroups] = useState([]);
 
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
@@ -69,20 +65,21 @@ function ExerciseForm() {
       if (router.isReady) {
         const exerciseDoc = await getDoc(doc(db, 'exercises', id));
         if (exerciseDoc.exists()) {
-          chosenMuscleGroups.current = exerciseDoc.data().muscleGroups;
+          setChosenMuscleGroups(exerciseDoc.data().muscleGroups);
           setExercise(exerciseDoc.data());
         }
       }
     };
 
     const updateChosenMuscles = (ex) => {
-      if (chosenMuscleGroups.current.includes(ex.target.value)) {
-        const filtered = chosenMuscleGroups.current.filter(
+      if (chosenMuscleGroups.includes(ex.target.value)) {
+        const filtered = chosenMuscleGroups.filter(
           (i) => i !== ex.target.value
         );
-        chosenMuscleGroups.current = filtered;
+        setChosenMuscleGroups(filtered);
       } else {
-        chosenMuscleGroups.current.push(ex.target.value);
+        chosenMuscleGroups.push(ex.target.value);
+        setChosenMuscleGroups(chosenMuscleGroups);
       }
     };
 
@@ -104,7 +101,7 @@ function ExerciseForm() {
                   id="exerciseMuscleGroups"
                   value={name}
                   label={name}
-                  key={name}
+                  key={`${mId}-${name}`}
                   defaultChecked
                   onChange={updateChosenMuscles}
                 />
@@ -118,14 +115,13 @@ function ExerciseForm() {
                   id="exerciseMuscleGroups"
                   value={name}
                   label={name}
-                  key={name}
+                  key={`${mId}-${name}`}
                   onChange={updateChosenMuscles}
                 />
               </div>
             );
           }
         }
-        /* TODO: This is still giving unique key errors, not sure why. */
         checkboxColumns.push(
           <Col key={group}>
             <b>{group}</b>
@@ -136,7 +132,7 @@ function ExerciseForm() {
       return checkboxColumns;
     };
 
-    if (!isFirstLoad.current || exercise !== undefined) {
+    if (!isFirstLoad.current || exercise === undefined) {
       getExercise();
       isFirstLoad.current = true;
     }
@@ -144,14 +140,13 @@ function ExerciseForm() {
     if (isFirstLoad.current) {
       setCheckboxes(makeCheckboxes());
     }
-  }, [authUser, exercise, id, router, router.isReady]);
+  }, [authUser, chosenMuscleGroups, exercise, id, router]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
 
-    /* TODO: Implement image uploading */
     const data = {
       name: event.target.exerciseName.value,
       videoURL: event.target.exerciseURL.value,
@@ -159,7 +154,7 @@ function ExerciseForm() {
       equipment: event.target.exerciseEquipment.value,
       imgSrc: event.target.exerciseImgSrc.value,
       imgAlt: event.target.exerciseImgAlt.value,
-      muscleGroups: chosenMuscleGroups.current,
+      muscleGroups: chosenMuscleGroups,
     };
 
     /* Send the form data to the API and get a response */
@@ -288,7 +283,6 @@ export default function EditExercise() {
   return (
     <>
       <TopNavbar />
-      {/* TODO: Preview of changes on side. */}
       <div className={styles.main}>
         <ExerciseForm />
       </div>
