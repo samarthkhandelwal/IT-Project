@@ -146,6 +146,7 @@ export default function WorkoutsPage({ testData }) {
               setSelected={onClick}
               type="workouts"
               onDelete={onDelete}
+              allowEditing
             />
           </Col>
         </Row>

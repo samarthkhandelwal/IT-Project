@@ -20,6 +20,7 @@ import SelectedElement from './SelectedElement';
  * @param {*} setSelected The function that sets the state of selected
  * @param {*} type Either "exercises", "workouts", or "user" (for user workouts).
  * @param {*} onDelete The callback function to handle an element being deleted from the list.
+ * @param {*} allowEditing Allows for editing (must be an admin to edit).
  * @returns
  */
 export default function List({
@@ -29,6 +30,7 @@ export default function List({
   setSelected,
   type,
   onDelete,
+  allowEditing,
 }) {
   // A function to handle when a new element is selected
   const handleChange = (e) => {
@@ -114,9 +116,15 @@ export default function List({
                     type={type}
                     onDelete={onDelete}
                     onClick={handleChange}
+                    canEdit={allowEditing}
                   />
                 ) : (
-                  <Element element={element} type={type} onDelete={onDelete} />
+                  <Element
+                    element={element}
+                    type={type}
+                    onDelete={onDelete}
+                    canEdit={allowEditing}
+                  />
                 )}
               </ToggleButton>
             ))}
