@@ -52,7 +52,7 @@ function AdminForm() {
   };
 
   useEffect(() => {
-    if (!authUser) {
+    if (!authUser || authUser.role !== 0) {
       router.push('/exercises');
     }
     const getUser = async () => {
