@@ -25,7 +25,7 @@ import CustomAlert from '../../../components/EditButton/CustomAlert';
 import TopNavbar from '../../../components/Navbar/Navbar';
 
 // Styles
-import styles from '../../../styles/EditButton.module.css';
+import styles from '../../../styles/Admin.module.css';
 
 // A form used for both creating and editing exercises
 function AdminForm() {
@@ -147,7 +147,6 @@ export default function RemoveAdminPage() {
   return (
     <>
       <TopNavbar />
-      {/* TODO: Preview of changes on side. */}
       <div className={styles.main}>
         <AdminForm />
       </div>
