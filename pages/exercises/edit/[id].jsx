@@ -106,7 +106,7 @@ function ExerciseForm() {
                   label={name}
                   key={name}
                   defaultChecked
-                  onChange={updateChosenMuscles}
+                  onClick={updateChosenMuscles}
                 />
               </div>
             );
@@ -119,7 +119,7 @@ function ExerciseForm() {
                   value={name}
                   label={name}
                   key={name}
-                  onChange={updateChosenMuscles}
+                  onClick={updateChosenMuscles}
                 />
               </div>
             );
@@ -136,7 +136,7 @@ function ExerciseForm() {
       return checkboxColumns;
     };
 
-    if (!isFirstLoad.current || exercise !== undefined) {
+    if (!isFirstLoad.current) {
       getExercise();
       isFirstLoad.current = true;
     }
