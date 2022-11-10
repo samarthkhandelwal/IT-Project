@@ -27,9 +27,13 @@ import TopNavbar from '../../../components/Navbar/Navbar';
 // Styles
 import styles from '../../../styles/Admin.module.css';
 
+import { useAuth } from '../../../context/authUserContext';
+
 // A form used for both creating and editing exercises
 function AdminForm() {
   const router = useRouter();
+
+  const { authUser } = useAuth();
 
   /* Handles state for the exercise */
   const [account, setAccount] = useState(null);
@@ -48,6 +52,9 @@ function AdminForm() {
   };
 
   useEffect(() => {
+    if (!authUser || authUser.role !== 0) {
+      router.push('/exercises');
+    }
     const getUser = async () => {
       if (email !== null) {
         const q = query(
@@ -64,7 +71,7 @@ function AdminForm() {
     };
 
     getUser();
-  }, [email]);
+  }, [email, authUser, router]);
 
   useEffect(() => {
     if (loaded) {
