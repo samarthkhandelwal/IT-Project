@@ -23,6 +23,42 @@ import { useAuth } from '../../context/authUserContext';
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
 
+function ElementEditButton({ element, onDelete, type }) {
+  if (type === 'exercises') {
+    return (
+      <EditButton
+        type="exercise"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
+  }
+
+  if (type === 'workouts') {
+    return (
+      <EditButton
+        type="workout"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
+  }
+
+  if (type.includes('user')) {
+    return (
+      <EditButton
+        type="user"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
+  }
+  return null;
+}
+
 export default function Element({ element, type, onDelete, testAuth }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
@@ -144,43 +180,6 @@ export default function Element({ element, type, onDelete, testAuth }) {
     }
   };
 
-  const makeButton = () => {
-    if (type === 'exercises') {
-      return (
-        <EditButton
-          type="exercise"
-          id={element.id}
-          name={element.name}
-          onDelete={onDelete}
-        />
-      );
-    }
-
-    if (type === 'workouts') {
-      return (
-        <EditButton
-          type="workout"
-          id={element.id}
-          name={element.name}
-          onDelete={onDelete}
-        />
-      );
-    }
-
-    if (type.includes('user')) {
-      return (
-        <EditButton
-          type="user"
-          id={element.id}
-          name={element.name}
-          onDelete={onDelete}
-        />
-      );
-    }
-
-    return null;
-  };
-
   const makeMuscles = () => {
     let str = '';
     for (let i = 0; i < element.muscleGroups.length; i += 1) {
@@ -205,32 +204,52 @@ export default function Element({ element, type, onDelete, testAuth }) {
           </div>
         </Col>
 
-        <Col xs={6}>
+        <Col xs={7}>
           <div className={styles.txt}>
             <h1>{element.name}</h1>
             <p>{makeMuscles()}</p>
           </div>
         </Col>
 
-        <Col xs={3}>
-          <div className={styles.star}>
-            <form>
-              <input
-                title="favourite"
-                type="image"
-                src={imgPath}
-                alt="star"
-                width={40}
-                height={40}
-                onClick={toggleStar}
+        {allowEditing ? (
+          <Col xs={2} className={styles.buttonsedit}>
+            <div className={styles.star}>
+              <form>
+                <input
+                  title="favourite"
+                  type="image"
+                  src={imgPath}
+                  alt="star"
+                  width={40}
+                  height={40}
+                  onClick={toggleStar}
+                />
+              </form>
+              <ElementEditButton
+                element={element}
+                onDelete={onDelete}
+                type={type}
               />
-            </form>
-          </div>
-
-          {allowEditing && <div className={styles.star}>{makeButton()}</div>}
-        </Col>
+            </div>
+          </Col>
+        ) : (
+          <Col xs={2} className={styles.buttons}>
+            <div className={styles.star}>
+              <form>
+                <input
+                  title="favourite"
+                  type="image"
+                  src={imgPath}
+                  alt="star"
+                  width={40}
+                  height={40}
+                  onClick={toggleStar}
+                />
+              </form>
+            </div>
+          </Col>
+        )}
       </Row>
-
       <SignInView show={show} setShow={setShow} />
     </>
   );

@@ -113,6 +113,7 @@ export default function List({
                     element={element}
                     type={type}
                     onDelete={onDelete}
+                    onClick={handleChange}
                   />
                 ) : (
                   <Element element={element} type={type} onDelete={onDelete} />
