@@ -250,14 +250,14 @@ function WorkoutForm() {
       </div>
 
       <Form onSubmit={handleSubmit} action="/api/workout" method="post">
-        <div className="mt-3 mb-3">
+        <Form.Group className="mt-3 mb-3">
           <Form.Label>Enter workout name:</Form.Label>
           <Form.Control
             id="workoutName"
             type="text"
             placeholder="Enter workout name"
           />
-        </div>
+        </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Enter image URL to display</Form.Label>

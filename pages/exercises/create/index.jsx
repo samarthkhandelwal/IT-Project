@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // Next components
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
@@ -20,7 +21,7 @@ import CustomAlert from '../../../components/EditButton/CustomAlert';
 import TopNavbar from '../../../components/Navbar/Navbar';
 
 // Styles
-import styles from '../../../styles/EditButton.module.css';
+import styles from '../../../styles/ExerciseForm.module.css';
 
 // Get muscle list
 import muscles from '../../../public/muscles.json' assert { type: 'json' };
@@ -174,7 +175,7 @@ function ExerciseForm() {
       <h2>Creating new exercise</h2>
 
       <Form onSubmit={handleSubmit} action="/api/exercise" method="post">
-        <Form.Group>
+        <Form.Group className="mt-3 mb-3">
           <Form.Label>Exercise name</Form.Label>
           <Form.Control
             id="exerciseName"
@@ -183,14 +184,14 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Select targeted areas</Form.Label>
           <Container fluid>
             <Row>{checkboxes}</Row>
           </Container>
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Enter video url to display</Form.Label>
           <Form.Control
             id="exerciseURL"
@@ -199,7 +200,7 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Enter image URL to display</Form.Label>
           <Form.Control
             id="exerciseImgSrc"
@@ -208,7 +209,7 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Enter image alt</Form.Label>
           <Form.Control
             id="exerciseImgAlt"
@@ -217,7 +218,7 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Equipment needed</Form.Label>
           <Form.Control
             id="exerciseEquipment"
@@ -226,7 +227,7 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Exercise instructions</Form.Label>
           <Form.Control
             type="text"
@@ -237,12 +238,19 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+        {displayAlert(isAlertActive)}
 
-      {displayAlert(isAlertActive)}
+        <div className={`mt-3 ${styles.buttongroup}`}>
+          <Link href="/exercises" passHref>
+            <Button variant="secondary" size="lg">
+              Cancel
+            </Button>
+          </Link>
+          <Button variant="primary" type="submit" size="lg">
+            Submit
+          </Button>
+        </div>
+      </Form>
     </div>
   );
 }
