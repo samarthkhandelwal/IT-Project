@@ -4,7 +4,7 @@
 import React from 'react';
 
 // Bootstrap Components
-import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
@@ -42,34 +42,27 @@ export default function ProfileView({ show, setShow }) {
               roundedCircle="true"
             />
 
-            <div className={styles.grid}>
-              <div className={styles.card}>
-                <Link href="/userworkouts" className={styles.card}>
-                  <p>Your created workouts</p>
-                </Link>
-              </div>
-
+            <div style={{ display: 'block', justifyContent: 'center' }}>
+              <Link href="/userworkouts">
+                <Button variant="primary" className="mt-3 mb-3">
+                  Your created workouts
+                </Button>
+              </Link>{' '}
+              <Button onClick={handleSignOut}>Sign out</Button>
               {authUser.role === 0 && (
                 <>
-                  <div className={styles.card}>
-                    <Link href="/admin/add" className={styles.card}>
-                      <p>Add admin</p>
-                    </Link>
-                  </div>
-
-                  <div className={styles.card}>
-                    <Link href="/admin/remove" className={styles.card}>
-                      <p>Remove admin</p>
-                    </Link>
-                  </div>
+                  <Link href="/admin/add" className={styles.card}>
+                    <Button variant="primary" className="mt-3 mb-3">
+                      Add admin
+                    </Button>
+                  </Link>{' '}
+                  <Link href="/admin/remove" className={styles.card}>
+                    <Button variant="primary" className="mt-3 mb-3">
+                      Remove admin
+                    </Button>
+                  </Link>
                 </>
               )}
-
-              <div>
-                <Nav.Link className={styles.card} onClick={handleSignOut}>
-                  <p>Sign out</p>
-                </Nav.Link>
-              </div>
             </div>
           </main>
         </div>
