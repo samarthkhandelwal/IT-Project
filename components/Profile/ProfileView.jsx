@@ -65,15 +65,6 @@ export default function ProfileView({ show, setShow }) {
                 </>
               )}
 
-              {/* Waiting for email/pword sign in */}
-              {/* <div>
-                  <Nav.Link className={styles.card}>
-                    <p>
-                      <SettingsView />
-                    </p>
-                  </Nav.Link>
-                </div> */}
-
               <div>
                 <Nav.Link className={styles.card} onClick={handleSignOut}>
                   <p>Sign out</p>

@@ -1,5 +1,3 @@
-// istanbul ignore file
-
 // React
 import React, { useState, useEffect } from 'react';
 
@@ -23,6 +21,42 @@ import { useAuth } from '../../context/authUserContext';
 
 // Get reference to users collection
 const usersCollectionRef = collection(db, 'users');
+
+function ElementEditButton({ element, onDelete, type }) {
+  if (type === 'exercises') {
+    return (
+      <EditButton
+        type="exercise"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
+  }
+
+  if (type === 'workouts') {
+    return (
+      <EditButton
+        type="workout"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
+  }
+
+  if (type.includes('user')) {
+    return (
+      <EditButton
+        type="user"
+        id={element.id}
+        name={element.name}
+        onDelete={onDelete}
+      />
+    );
+  }
+  return null;
+}
 
 /**
  * A special component to display the selected element different to the others
@@ -144,43 +178,6 @@ export default function Element({ element, type, onDelete, onClick }) {
     }
   };
 
-  const makeButton = () => {
-    if (type === 'exercises') {
-      return (
-        <EditButton
-          type="exercise"
-          id={element.id}
-          name={element.name}
-          onDelete={onDelete}
-        />
-      );
-    }
-
-    if (type === 'workouts') {
-      return (
-        <EditButton
-          type="workout"
-          id={element.id}
-          name={element.name}
-          onDelete={onDelete}
-        />
-      );
-    }
-
-    if (type.includes('user')) {
-      return (
-        <EditButton
-          type="user"
-          id={element.id}
-          name={element.name}
-          onDelete={onDelete}
-        />
-      );
-    }
-
-    return null;
-  };
-
   const makeMuscles = () => {
     let str = '';
     for (let i = 0; i < element.muscleGroups.length; i += 1) {
@@ -192,32 +189,52 @@ export default function Element({ element, type, onDelete, onClick }) {
   return (
     <>
       <Row className={styles.element}>
-        <Col xs={9} onClick={onClick}>
+        <Col xs={10} onClick={onClick}>
           <div className={styles.stxt}>
             <h1>{element.name}</h1>
             <p>{makeMuscles()}</p>
           </div>
         </Col>
 
-        <Col xs={3}>
-          <div className={styles.star}>
-            <form>
-              <input
-                title="favourite"
-                type="image"
-                src={imgPath}
-                alt="star"
-                width={40}
-                height={40}
-                onClick={toggleStar}
+        {allowEditing ? (
+          <Col xs={2} className={styles.buttonsedit}>
+            <div className={styles.star}>
+              <form>
+                <input
+                  title="favourite"
+                  type="image"
+                  src={imgPath}
+                  alt="star"
+                  width={40}
+                  height={40}
+                  onClick={toggleStar}
+                />
+              </form>
+              <ElementEditButton
+                element={element}
+                onDelete={onDelete}
+                type={type}
               />
-            </form>
-          </div>
-
-          {allowEditing && <div className={styles.star}>{makeButton()}</div>}
-        </Col>
+            </div>
+          </Col>
+        ) : (
+          <Col xs={2} className={styles.buttons}>
+            <div className={styles.star}>
+              <form>
+                <input
+                  title="favourite"
+                  type="image"
+                  src={imgPath}
+                  alt="star"
+                  width={40}
+                  height={40}
+                  onClick={toggleStar}
+                />
+              </form>
+            </div>
+          </Col>
+        )}
       </Row>
-
       <SignInView show={show} setShow={setShow} />
     </>
   );
