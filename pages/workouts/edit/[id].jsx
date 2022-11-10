@@ -100,7 +100,7 @@ function WorkoutForm() {
       setExerciseGroups(newGroups);
     };
 
-    if (!isFirstLoad.current || workout !== undefined) {
+    if (!isFirstLoad.current) {
       getExercises();
       getWorkout();
       isFirstLoad.current = true;
