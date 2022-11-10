@@ -44,10 +44,6 @@ function WorkoutForm() {
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
 
-  /* Handles state for validation of form */
-  // TODO: Form validation
-  // const [validated, setValidated] = useState(false);
-
   /* Handles state for the alert */
   const [isAlertActive, setAlertActive] = useState({});
   const handleAlertOpen = ({ heading, body, variant }) => {

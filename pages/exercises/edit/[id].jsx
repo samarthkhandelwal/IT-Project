@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // Next components
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 // Bootstrap components
 import Button from 'react-bootstrap/Button';
@@ -20,7 +21,7 @@ import CustomAlert from '../../../components/EditButton/CustomAlert';
 import TopNavbar from '../../../components/Navbar/Navbar';
 
 // Styles
-import styles from '../../../styles/EditButton.module.css';
+import styles from '../../../styles/ExerciseForm.module.css';
 
 // Authentication
 import { useAuth } from '../../../context/authUserContext';
@@ -41,10 +42,6 @@ function ExerciseForm() {
   /* Handles state for the checkboxes */
   const [checkboxes, setCheckboxes] = useState([]);
 
-  /* Handles state for validation of form */
-  // TODO: Form validation
-  // const [validated, setValidated] = useState(false);
-
   /* Handles state for the alert */
   const [isAlertActive, setAlertActive] = useState({});
   const handleAlertOpen = ({ heading, body, variant }) => {
@@ -55,7 +52,7 @@ function ExerciseForm() {
   };
 
   /* Used to manage the list of chosen muscle groups in the form */
-  const chosenMuscleGroups = useRef([]);
+  const [chosenMuscleGroups, setChosenMuscleGroups] = useState([]);
 
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
@@ -69,20 +66,21 @@ function ExerciseForm() {
       if (router.isReady) {
         const exerciseDoc = await getDoc(doc(db, 'exercises', id));
         if (exerciseDoc.exists()) {
-          chosenMuscleGroups.current = exerciseDoc.data().muscleGroups;
+          setChosenMuscleGroups(exerciseDoc.data().muscleGroups);
           setExercise(exerciseDoc.data());
         }
       }
     };
 
     const updateChosenMuscles = (ex) => {
-      if (chosenMuscleGroups.current.includes(ex.target.value)) {
-        const filtered = chosenMuscleGroups.current.filter(
+      if (chosenMuscleGroups.includes(ex.target.value)) {
+        const filtered = chosenMuscleGroups.filter(
           (i) => i !== ex.target.value
         );
-        chosenMuscleGroups.current = filtered;
+        setChosenMuscleGroups(filtered);
       } else {
-        chosenMuscleGroups.current.push(ex.target.value);
+        chosenMuscleGroups.push(ex.target.value);
+        setChosenMuscleGroups(chosenMuscleGroups);
       }
     };
 
@@ -104,7 +102,7 @@ function ExerciseForm() {
                   id="exerciseMuscleGroups"
                   value={name}
                   label={name}
-                  key={name}
+                  key={`${mId}-${name}`}
                   defaultChecked
                   onClick={updateChosenMuscles}
                 />
@@ -125,7 +123,6 @@ function ExerciseForm() {
             );
           }
         }
-        /* TODO: This is still giving unique key errors, not sure why. */
         checkboxColumns.push(
           <Col key={group}>
             <b>{group}</b>
@@ -144,14 +141,13 @@ function ExerciseForm() {
     if (isFirstLoad.current) {
       setCheckboxes(makeCheckboxes());
     }
-  }, [authUser, exercise, id, router, router.isReady]);
+  }, [authUser, chosenMuscleGroups, exercise, id, router]);
 
   /* Handles the submission of forms. */
   const handleSubmit = async (event) => {
     /* Prevent automatic submission and refreshing of the page. */
     event.preventDefault();
 
-    /* TODO: Implement image uploading */
     const data = {
       name: event.target.exerciseName.value,
       videoURL: event.target.exerciseURL.value,
@@ -159,7 +155,7 @@ function ExerciseForm() {
       equipment: event.target.exerciseEquipment.value,
       imgSrc: event.target.exerciseImgSrc.value,
       imgAlt: event.target.exerciseImgAlt.value,
-      muscleGroups: chosenMuscleGroups.current,
+      muscleGroups: chosenMuscleGroups,
     };
 
     /* Send the form data to the API and get a response */
@@ -212,7 +208,7 @@ function ExerciseForm() {
       <h2>Editing {exercise.name}</h2>
 
       <Form onSubmit={handleSubmit} action="/api/exercise" method="post">
-        <Form.Group>
+        <Form.Group className="mt-3 mb-3">
           <Form.Label>Exercise name</Form.Label>
           <Form.Control
             id="exerciseName"
@@ -221,14 +217,14 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Select targeted areas</Form.Label>
           <Container fluid>
             <Row>{checkboxes}</Row>
           </Container>
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Enter video url to display</Form.Label>
           <Form.Control
             id="exerciseURL"
@@ -237,7 +233,7 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Enter image URL to display</Form.Label>
           <Form.Control
             id="exerciseImgSrc"
@@ -246,7 +242,7 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Enter image alt</Form.Label>
           <Form.Control
             id="exerciseImgAlt"
@@ -254,7 +250,8 @@ function ExerciseForm() {
             defaultValue={exercise.imgAlt}
           />
         </Form.Group>
-        <Form.Group>
+
+        <Form.Group className="mb-3">
           <Form.Label>Equipment needed</Form.Label>
           <Form.Control
             id="exerciseEquipment"
@@ -263,7 +260,7 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Exercise instructions</Form.Label>
           <Form.Control
             type="text"
@@ -274,12 +271,19 @@ function ExerciseForm() {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+        {displayAlert(isAlertActive)}
 
-      {displayAlert(isAlertActive)}
+        <div className={`mt-3 ${styles.buttongroup}`}>
+          <Link href="/exercises" passHref>
+            <Button variant="secondary" size="lg">
+              Cancel
+            </Button>
+          </Link>
+          <Button variant="primary" type="submit" size="lg">
+            Submit
+          </Button>
+        </div>
+      </Form>
     </div>
   );
 }
@@ -288,7 +292,6 @@ export default function EditExercise() {
   return (
     <>
       <TopNavbar />
-      {/* TODO: Preview of changes on side. */}
       <div className={styles.main}>
         <ExerciseForm />
       </div>

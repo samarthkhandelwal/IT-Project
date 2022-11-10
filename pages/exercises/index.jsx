@@ -180,6 +180,7 @@ export default function ExercisesPage({ testData }) {
               setSelected={onClick}
               type="exercises"
               onDelete={onDelete}
+              allowEditing
             />
           </Col>
         </Row>

@@ -43,10 +43,6 @@ function WorkoutForm() {
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
 
-  /* Handles state for validation of form */
-  // TODO: Form validation
-  // const [validated, setValidated] = useState(false);
-
   /* Handles state for the alert */
   const [isAlertActive, setAlertActive] = useState({});
   const handleAlertOpen = ({ heading, body, variant }) => {
@@ -177,7 +173,6 @@ function WorkoutForm() {
 
     const [exercisesList, muscleGroups] = getRepsSetsMuscles(event.target);
 
-    /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
       imgSrc: event.target.workoutImgSrc.value,
@@ -227,7 +222,6 @@ function WorkoutForm() {
   };
 
   const displayAlert = ({ heading, body, variant }) => {
-    // TODO: Check if dismissible on error
     if (heading && body && variant) {
       return (
         <CustomAlert
@@ -256,14 +250,14 @@ function WorkoutForm() {
       </div>
 
       <Form onSubmit={handleSubmit} action="/api/workout" method="post">
-        <div className="mt-3 mb-3">
+        <Form.Group className="mt-3 mb-3">
           <Form.Label>Enter workout name:</Form.Label>
           <Form.Control
             id="workoutName"
             type="text"
             placeholder="Enter workout name"
           />
-        </div>
+        </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Enter image URL to display</Form.Label>

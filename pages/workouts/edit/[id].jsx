@@ -45,10 +45,6 @@ function WorkoutForm() {
   /* Ensures that the database is only queried once for data */
   const isFirstLoad = useRef(false);
 
-  /* Handles state for validation of form */
-  // TODO: Form validation
-  // const [validated, setValidated] = useState(false);
-
   /* Handles state for the alert */
   const [isAlertActive, setAlertActive] = useState({});
   const handleAlertOpen = ({ heading, body, variant }) => {
@@ -104,7 +100,7 @@ function WorkoutForm() {
       setExerciseGroups(newGroups);
     };
 
-    if (!isFirstLoad.current || workout !== undefined) {
+    if (!isFirstLoad.current) {
       getExercises();
       getWorkout();
       isFirstLoad.current = true;
@@ -207,7 +203,6 @@ function WorkoutForm() {
 
     const [exercisesList, muscleGroups] = getRepsSetsMuscles();
 
-    /* TODO: Implement muscleGroups and image uploading */
     const data = {
       name: event.target.workoutName.value,
       imgSrc: event.target.workoutImgSrc.value,

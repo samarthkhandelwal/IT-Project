@@ -25,7 +25,7 @@ import CustomAlert from '../../../components/EditButton/CustomAlert';
 import TopNavbar from '../../../components/Navbar/Navbar';
 
 // Styles
-import styles from '../../../styles/EditButton.module.css';
+import styles from '../../../styles/Admin.module.css';
 
 import { useAuth } from '../../../context/authUserContext';
 
@@ -154,7 +154,6 @@ export default function AddAdminPage() {
   return (
     <>
       <TopNavbar />
-      {/* TODO: Preview of changes on side. */}
       <div className={styles.main}>
         <AdminForm />
       </div>

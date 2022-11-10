@@ -64,8 +64,9 @@ function ElementEditButton({ element, onDelete, type }) {
  * @param {*} type The type of element, i.e. exercise or workout
  * @param {*} onDelete A function that handles how the exercise or workout is deleted from the database
  * @param {*} onClick A function that handles when the element is clicked
+ * @param {*} canEdit Allows for editing (must be an admin to edit).
  */
-export default function Element({ element, type, onDelete, onClick }) {
+export default function Element({ element, type, onDelete, onClick, canEdit }) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
   const starFilled = '/images/starFilled.png';
@@ -79,11 +80,11 @@ export default function Element({ element, type, onDelete, onClick }) {
   const [allowEditing, setAllowEditing] = useState(false);
   useEffect(() => {
     if (authUser) {
-      if (authUser.role === 0) {
+      if (authUser.role === 0 && canEdit) {
         setAllowEditing(true);
       }
     }
-  }, [authUser]);
+  }, [authUser, canEdit]);
 
   useEffect(() => {
     /* Set the state of the favourite button based on the user's favourites */

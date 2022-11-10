@@ -107,16 +107,24 @@ export default function WorkoutsPage({ testData }) {
             </Col>
           )}
 
-          <Col>
-            <List
-              list={workoutList}
-              listType="radio"
-              selected={selectedWorkout}
-              setSelected={onClick}
-              type="user"
-              onDelete={onDelete}
-            />
-          </Col>
+          {workoutList.length === 0 ? (
+            <h2>
+              Create your first personal workout by clicking on &apos;New user
+              workout&apos; at the top of the page!
+            </h2>
+          ) : (
+            <Col>
+              <List
+                list={workoutList}
+                listType="radio"
+                selected={selectedWorkout}
+                setSelected={onClick}
+                type="user"
+                onDelete={onDelete}
+                allowEditing
+              />
+            </Col>
+          )}
         </Row>
       </Container>
 

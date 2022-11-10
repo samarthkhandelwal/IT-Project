@@ -1,0 +1,34 @@
+.btncenter {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.form {
+  padding: 10vh 10vw;
+  position: relative;
+}
+
+.form h2,
+.form label,
+.form button:hover {
+  color: #0d47a1;
+}
+
+.form h2 {
+  margin-bottom: 10vh;
+  text-align: center;
+}
+
+.form input[type='text'] {
+  border: 2px solid #2196f3;
+  border-radius: 4px;
+}
+
+.form button {
+  margin-top: 3vh;
+  background-color: #2196f3;
+  padding: 1vh 1vw;
+}
