@@ -59,7 +59,13 @@ function ElementEditButton({ element, onDelete, type }) {
   return null;
 }
 
-export default function Element({ element, type, onDelete, testAuth }) {
+export default function Element({
+  element,
+  type,
+  onDelete,
+  testAuth,
+  canEdit,
+}) {
   /* Paths of the images of the favourite button */
   const star = '/images/star.png';
   const starFilled = '/images/starFilled.png';
@@ -81,11 +87,11 @@ export default function Element({ element, type, onDelete, testAuth }) {
   const [allowEditing, setAllowEditing] = useState(false);
   useEffect(() => {
     if (currUser) {
-      if (currUser.role === 0) {
+      if (currUser.role === 0 && canEdit) {
         setAllowEditing(true);
       }
     }
-  }, [currUser]);
+  }, [canEdit, currUser]);
 
   useEffect(() => {
     /* Set the state of the favourite button based on the user's favourites */

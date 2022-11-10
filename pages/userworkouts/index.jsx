@@ -115,6 +115,7 @@ export default function WorkoutsPage({ testData }) {
               setSelected={onClick}
               type="user"
               onDelete={onDelete}
+              allowEditing
             />
           </Col>
         </Row>
