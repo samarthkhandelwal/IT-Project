@@ -67,6 +67,16 @@
   align-items: center;
 }
 
+.buttons {
+  padding: 0;
+  position: relative;
+  top: 25%;
+}
+
+.buttonsedit {
+  padding: 0;
+}
+
 @media only screen and (max-width: 576px) {
   .element {
     display: flex;
@@ -106,5 +116,9 @@
 
   .stxt {
     text-align: center;
+  }
+
+  .buttons {
+    position: inherit;
   }
 }

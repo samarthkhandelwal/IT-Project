@@ -24,7 +24,7 @@ import { useAuth } from '../../context/authUserContext';
 function AButton({ type, name, id, handleModalOpen }) {
   if (type === 'user') {
     return (
-      <DropdownButton title="...">
+      <DropdownButton title="..." drop="start">
         <Link href={`/userworkouts/edit/${id}`} passHref>
           <Dropdown.Item>Edit {name}</Dropdown.Item>
         </Link>
@@ -35,7 +35,7 @@ function AButton({ type, name, id, handleModalOpen }) {
 
   if (type === 'exercise') {
     return (
-      <DropdownButton title="...">
+      <DropdownButton title="..." drop="start">
         <Link href={`/exercises/edit/${id}`} passHref>
           <Dropdown.Item>Edit {name}</Dropdown.Item>
         </Link>
@@ -46,7 +46,7 @@ function AButton({ type, name, id, handleModalOpen }) {
 
   if (type === 'workout') {
     return (
-      <DropdownButton title="...">
+      <DropdownButton title="..." drop="start">
         <Link href={`/workouts/edit/${id}`} passHref>
           <Dropdown.Item>Edit {name}</Dropdown.Item>
         </Link>
