@@ -1,0 +1,37 @@
+.main {
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  padding: 0 10vw;
+  margin-bottom: 5vh;
+  width: 80%;
+}
+
+.form h2 {
+  text-align: start;
+}
+
+.buttongroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 576px) {
+  .main {
+    margin-top: 0;
+    display: block;
+  }
+
+  .form {
+    padding: 10vh 2vw;
+    margin: 1vh;
+    width: auto;
+  }
+
+  .form h2 {
+    text-align: center;
+  }
+}
